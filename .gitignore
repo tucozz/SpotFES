@@ -1,2 +1,10 @@
+
+# Arquivos gerados pelo deploy 
 build/
 main
+
+# Diretório com os dados dos artistas e músicas
+data/
+
+# Diretório gerido pelo repositório
+db/

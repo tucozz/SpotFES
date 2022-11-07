@@ -1,16 +1,18 @@
 # Makefile que percorre todo o projeto, procurando todos os códigos fontes .c para compilar
 
-# CCompiler - é o compilador usado
-# CFLAGS - são as flags dadas ao compilador durante a compilação
-CC = gcc
-override CFLAGS += -lm -Wall -ggdb3
-
+# INCLUDE - é o diretório que contém os headers
 # BUILDIR - é o diretório onde estarão os binários
 # SRCS - lista com os caminhos para todos .c
 # OBJS - lista com os caminhos para todos .o
+INCLUDE = headers/
 BUILDIR = build
 SRCS = $(shell find . -type f -name '*.c' | sed 's|^./||')
 OBJS = $(patsubst %.c, $(BUILDIR)/%.o, $(notdir $(SRCS)))
+
+# CCompiler - é o compilador usado
+# CFLAGS - são as flags dadas ao compilador durante a compilação
+CC = gcc
+override CFLAGS += -lm -Wall -ggdb3 -I $(INCLUDE)
 
 # vpath diretiva que adiciona todos os diretórios com códigos fontes para busca com o padrão %.c
 #   - https://www.gnu.org/software/make/manual/html_node/Selective-Search.html
