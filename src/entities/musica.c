@@ -9,7 +9,7 @@ struct tMusica {
     int popularity;
     int duration_ms;
     bool explicit;
-    Lista *artists;    // Lista<Artista>
+    Lista *artists;    // Lista<string>
     Lista *id_artists; // Lista<string>
     char *release_date;
     float danceability;
@@ -62,7 +62,7 @@ Musica *InicializaMusica(char *id, char *name, int popularity, int duration_ms,
 void LiberaMusica(Musica *msc) {
     free(msc->id);
     free(msc->name);
-    LiberaLista(msc->artists, &LiberaArtista);
+    LiberaLista(msc->artists, &free);
     LiberaLista(msc->id_artists, &free);
     free(msc->release_date);
     

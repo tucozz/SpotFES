@@ -1,7 +1,8 @@
-#include "artista.h"
 #include <stdlib.h>
 
-struct tArtista{
+#include "artista.h"
+
+struct tArtista {
     char *id;
     int seguidores;
     Lista *generos;
@@ -9,8 +10,8 @@ struct tArtista{
     int popularity;
 };
 
-Musica *InicializaArtista(char *id, int seguidores, char **generos,
-                          char *name, int popularity) {
+Artista *InicializaArtista(char *id, int seguidores, Lista *generos, char *name,
+                           int popularity) {
     Artista *art = malloc(sizeof *art);
 
     art->id = id;
@@ -19,14 +20,13 @@ Musica *InicializaArtista(char *id, int seguidores, char **generos,
     art->name = name;
     art->popularity = popularity;
 
-    return msc;
+    return art;
 }
 
 void LiberaArtista(Artista *art) {
     free(art->id);
     free(art->name);
     LiberaLista(art->generos, &free);
-    
-    free(msc);
-}
 
+    free(art);
+}
