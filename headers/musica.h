@@ -55,4 +55,44 @@ Musica *InicializaMusica(char *id, char *name, int popularity, int duration_ms,
  */
 void LiberaMusica(Musica *msc);
 
+char *GetMscId(tMusica msc);
+
+char *GetMscName(tMusica msc);
+
+int GetMscPopularity(tMusica msc);
+
+int GetMscDuration(tMusica msc);
+
+bool IsExplicit(tMusica msc);
+
+Lista *GetMscArtists(tMusica msc);
+
+Lista *GetMscArtistsId(tMusica msc);
+
+char *GetMscReleaseDate(tMusica msc);
+
+float GetMscDanceability(tMusica msc);
+
+float GetMscEnergy(tMusica msc);
+
+int GetMscKey(tMusica msc);
+
+float GetMscLoudness(tMusica msc);
+
+bool GetMscMode(tMusica msc);
+
+float GetMscSpeechiness(tMusica msc);
+
+float GetMscAcousticness(tMusica msc);
+
+float GetMscInstrumentalness(tMusica msc);
+
+float GetMscLiveness(tMusica msc);
+
+float GetMscValence(tMusica msc);
+
+float GetMscTempo(tMusica msc);
+
+int GetMscTimeSig(tMusica msc);
+
 #endif

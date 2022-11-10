@@ -68,3 +68,64 @@ void LiberaMusica(Musica *msc) {
     
     free(msc);
 }
+
+char *GetMscId(tMusica msc)
+    return msc.id;
+
+char *GetMscName(tMusica msc)
+    return msc.name;
+
+int GetMscPopularity(tMusica msc)
+    return msc.popularity;
+
+int GetMscDuration(tMusica msc)
+    return msc.duration_ms;
+
+bool IsExplicit(tMusica msc)
+    return msc.explicit;
+
+Lista *GetMscArtists(tMusica msc)
+    return msc.artists;
+
+Lista *GetMscArtistsId(tMusica msc)
+    return msc.id_artists;
+
+char *GetMscReleaseDate(tMusica msc)
+    return msc.release_date;
+
+float GetMscDanceability(tMusica msc)
+    return msc.danceability;
+
+float GetMscEnergy(tMusica msc)
+    return msc.energy;
+
+int GetMscKey(tMusica msc)
+    return msc.key;
+
+float GetMscLoudness(tMusica msc)
+    return msc.loudness;
+
+bool GetMscMode(tMusica msc)
+    return msc.mode;
+
+float GetMscSpeechiness(tMusica msc)
+    return msc.speechiness;
+
+float GetMscAcousticness(tMusica msc)
+    return msc.acousticness;
+
+float GetMscInstrumentalness(tMusica msc)
+    return msc.intrumentalness;
+
+float GetMscLiveness(tMusica msc)
+    return msc.liveness;
+
+float GetMscValence(tMusica msc)
+    return msc.valence;
+
+float GetMscTempo(tMusica msc)
+    return msc.tempo;
+
+int GetMscTimeSig(tMusica msc)
+    return msc.time_signature;
+

@@ -30,3 +30,20 @@ void LiberaArtista(Artista *art) {
 
     free(art);
 }
+
+char *GetArtId(tArtista art)
+    return art.id;
+
+int GetArtSeguidores(tArtista art)
+    return art.seguidores;
+
+Lista *GetArtGeneros(tArtista art)
+    return art.generos;
+
+char *GetArtName(tArtista art)
+    return art.name;
+
+int GetArtPopularity(tArtista art)
+    return art.popularity;
+
+

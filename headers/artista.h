@@ -30,4 +30,11 @@ Artista *InicializaArtista(char *id, int seguidores, Lista *generos, char *name,
  */
 void LiberaArtista(Artista *artista);
 
+char *GetArtId(tArtista art);
+int GetArtSeguidores(tArtista art);
+Lista *GetArtGeneros(tArtista art);
+char *GetArtName(tArtista art);
+int GetArtPopularity(tArtista art);
+
+
 #endif

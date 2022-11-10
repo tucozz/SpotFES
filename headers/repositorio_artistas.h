@@ -7,4 +7,6 @@ RepoArtistas *InicializaRepoArtistas(const char *artistas_csv);
 
 void LiberaRepoArtistas(RepoArtistas *repo);
 
+Artista *CarregaArtistaCsvRepo(FILE *csv);
+
 #endif
