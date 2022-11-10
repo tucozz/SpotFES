@@ -1,6 +1,8 @@
 #ifndef _REPOSITORIO_BASE_
 #define _REPOSITORIO_BASE_
 
+#define REPO_CSV_DELIM ";"
+
 #include "lista.h"
 
 /**
