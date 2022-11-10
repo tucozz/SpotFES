@@ -77,10 +77,9 @@ Musica *CarregaMusicaCsvRepo(FILE *csv) {
                 break;
         } else if (i == 5) {
             int tmp_explicit;
-            if (!tryParseInt(token, &tmp_explicit) || (tmp_explicit != 1 && tmp_explicit != 0)) {
-                printf("Oiputo");
+            if (!tryParseInt(token, &tmp_explicit) ||
+                (tmp_explicit != 1 && tmp_explicit != 0))
                 break;
-            }
 
             msc_explicit = tmp_explicit;
         } else if (i == 6) {
