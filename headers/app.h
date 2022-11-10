@@ -3,7 +3,7 @@
 
 typedef struct tApp App;
 
-App *InicializaApp(char *artistascsv, char *musicascsv);
+App *InicializaApp(const char *artistascsv, const char *musicascsv);
 
 void *LiberaApp(App *app);
 

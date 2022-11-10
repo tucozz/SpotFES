@@ -2,7 +2,10 @@
 #include <stdlib.h>
 
 #include "app.h"
-#include "repositorio.h"
+
+#include "repositorio_artistas.h"
+#include "repositorio_musicas.h"
+#include "repositorio_playlists.h"
 
 /** Funcao de Buscar Musicas */
 #define APP_FUNC_BUSCMUSC 1
@@ -26,22 +29,22 @@
 #define APP_ACTN_INTERAGE 0
 
 struct tApp {
-    Repositorio *repo;
+    RepoMusicas *repoMsc;
 };
 
-App *InicializaApp(char *artistascsv, char *musicascsv) {
+App *InicializaApp(const char *artistascsv, const char *musicascsv) {
     App *app = malloc(sizeof *app);
 
-    app->repo = InicializaRepositorio(artistascsv, musicascsv);
+    app->repoMsc = InicializaRepoMusicas(musicascsv);
 
     return app;
 }
 
 void *LiberaApp(App *app) {
-    LiberaRepositorio(app->repo);
-    
+    LiberaRepoMusicas(app->repoMsc);
+
     free(app);
-    
+
     return NULL;
 }
 
@@ -56,7 +59,7 @@ void RodaApp() {
         case APP_FUNC_BUSCMUSC:;
 
             break;
-            
+
         case APP_FUNC_LISTMUSC:;
             break;
 
