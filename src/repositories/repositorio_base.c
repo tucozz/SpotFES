@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 #include "repositorio_base.h"
 
@@ -16,4 +17,8 @@ Lista *CarregaListaStringRepo(char *str) {
     }
 
     return lista;
+}
+
+void NormalizaString(char *str) {
+    for ( ; *str; ++str) *str = tolower(*str);
 }

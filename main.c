@@ -17,7 +17,8 @@ int main(int argc, char *argv[]) {
 
     RepoMusicas *repo = InicializaRepoMusicas(argv[1]);
 
-    Lista *lista = EncontraPeloNomeRepoMusica(repo, "baby");
+    char str[] = "baby";
+    Lista *lista = EncontraPeloNomeRepoMusica(repo, str);
 
     LiberaLista(lista, &LiberaMusica);
     LiberaRepoMusicas(repo);

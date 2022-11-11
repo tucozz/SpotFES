@@ -14,4 +14,12 @@
  */
 Lista *CarregaListaStringRepo(char *str);
 
+/**
+ * @brief Normaliza uma string @p str tornando todos os seus caracteres
+ * minusculos para fins de consulta
+ *
+ * @param str A string a ser normalizada
+ */
+void NormalizaString(char *str);
+
 #endif
