@@ -55,44 +55,44 @@ Musica *InicializaMusica(char *id, char *name, int popularity, int duration_ms,
  */
 void LiberaMusica(Musica *msc);
 
-char *GetMscId(tMusica msc);
+char *GetMscId(Musica *msc);
 
-char *GetMscName(tMusica msc);
+char *GetMscName(Musica *msc);
 
-int GetMscPopularity(tMusica msc);
+int GetMscPopularity(Musica *msc);
 
-int GetMscDuration(tMusica msc);
+int GetMscDuration(Musica *msc);
 
-bool IsExplicit(tMusica msc);
+bool IsExplicit(Musica *msc);
 
-Lista *GetMscArtists(tMusica msc);
+Lista *GetMscArtists(Musica *msc);
 
-Lista *GetMscArtistsId(tMusica msc);
+Lista *GetMscArtistsId(Musica *msc);
 
-char *GetMscReleaseDate(tMusica msc);
+char *GetMscReleaseDate(Musica *msc);
 
-float GetMscDanceability(tMusica msc);
+float GetMscDanceability(Musica *msc);
 
-float GetMscEnergy(tMusica msc);
+float GetMscEnergy(Musica *msc);
 
-int GetMscKey(tMusica msc);
+int GetMscKey(Musica *msc);
 
-float GetMscLoudness(tMusica msc);
+float GetMscLoudness(Musica *msc);
 
-bool GetMscMode(tMusica msc);
+bool GetMscMode(Musica *msc);
 
-float GetMscSpeechiness(tMusica msc);
+float GetMscSpeechiness(Musica *msc);
 
-float GetMscAcousticness(tMusica msc);
+float GetMscAcousticness(Musica *msc);
 
-float GetMscInstrumentalness(tMusica msc);
+float GetMscInstrumentalness(Musica *msc);
 
-float GetMscLiveness(tMusica msc);
+float GetMscLiveness(Musica *msc);
 
-float GetMscValence(tMusica msc);
+float GetMscValence(Musica *msc);
 
-float GetMscTempo(tMusica msc);
+float GetMscTempo(Musica *msc);
 
-int GetMscTimeSig(tMusica msc);
+int GetMscTimeSig(Musica *msc);
 
 #endif

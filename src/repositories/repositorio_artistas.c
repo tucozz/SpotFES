@@ -1,15 +1,18 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "repositorio_artistas.h"
 
 #include "lista.h"
+#include "parser.h"
+#include "repositorio_base.h"
 
 struct tRepoArtistas {
     char *artistasCsv;
 };
 
-RepoArtistas *InicializaRepositorio(const char *artistas_csv) {
+RepoArtistas *InicializaRepoArtistas(const char *artistas_csv) {
     RepoArtistas *repo = malloc(sizeof *repo);
 
     repo->artistasCsv = strdup(artistas_csv);
@@ -17,12 +20,20 @@ RepoArtistas *InicializaRepositorio(const char *artistas_csv) {
     return repo;
 }
 
-void LiberaRepositorio(RepoArtistas *repo) {
+void LiberaRepoArtistas(RepoArtistas *repo) {
     free(repo->artistasCsv);
 
     free(repo);
 }
 
+/**
+ * @brief Carrega um @ref Artista do arquivo @p csv
+ *
+ * @param csv Ponteiro para o inicio da secao do arquivo com um padrao
+ * representando um @ref Artista
+ * @return Artista* Se valido, retorna um ponteiro para uma nova instancia do
+ * @ref Artista ali representada; do contrario, retorna NULL
+ */
 Artista *CarregaArtistaCsvRepo(FILE *csv) {
     char *buffer = NULL;
     size_t len = 0;
@@ -65,10 +76,11 @@ Artista *CarregaArtistaCsvRepo(FILE *csv) {
 
     if (i != 6) {
         free(buffer);
-        return msc;
+        return NULL;
     }
 
-    art = Artista *InicializaArtista(art_id, art_seguidores, art_generos, art_name, art_popularity);
+    art = InicializaArtista(art_id, art_seguidores, art_generos, art_name,
+                            art_popularity);
 
     free(buffer);
     return art;

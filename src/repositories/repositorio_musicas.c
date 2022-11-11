@@ -135,7 +135,7 @@ Musica *CarregaMusicaCsvRepo(FILE *csv) {
 
     if (i != 21) {
         free(buffer);
-        return msc;
+        return NULL;
     }
 
     msc = InicializaMusica(msc_id, msc_name, msc_popularity, msc_duration_ms,
