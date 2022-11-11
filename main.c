@@ -3,8 +3,6 @@
 
 #include "app.h"
 
-#include "repositorio_musicas.h"
-
 int main(int argc, char *argv[]) {
     if (argc != 3)
         return EXIT_FAILURE;
