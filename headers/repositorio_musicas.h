@@ -49,13 +49,13 @@ RepoMusicas *InicializaRepoMusicas(const char *musicas_csv);
 void LiberaRepoMusicas(RepoMusicas *repo);
 
 /**
- * @brief Carrega uma @ref Musica do arquivo @p csv
+ * @brief Busca na fonte todas as musicas que contem @p query como uma substring
+ * do seu nome
  *
- * @param csv Ponteiro para o inicio da secao do arquivo com um padrao
- * representando uma @ref Musica
- * @return Musica* Se valido, retorna um ponteiro para uma nova instancia da
- * @ref Musica ali representada; do contrario, retorna NULL
+ * @param repo O @ref RepoMusicas
+ * @param query A substring de consulta a ser procurada no nome das musicas
+ * @return Lista*
  */
-Musica *CarregaMusicaCsvRepo(FILE *csv);
+Lista *EncontraPeloNomeRepoMusica(RepoMusicas *repo, char *query);
 
 #endif

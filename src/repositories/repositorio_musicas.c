@@ -25,7 +25,15 @@ void LiberaRepoMusicas(RepoMusicas *repo) {
     free(repo);
 }
 
-Musica *CarregaMusicaCsvRepo(FILE *csv) {
+/**
+ * @brief Carrega uma @ref Musica do arquivo @p csv
+ *
+ * @param csv Ponteiro para o inicio da secao do arquivo com um padrao
+ * representando uma @ref Musica
+ * @return Musica* Se valido, retorna um ponteiro para uma nova instancia da
+ * @ref Musica ali representada; do contrario, retorna NULL
+ */
+static Musica *CarregaMusicaCsvRepo(FILE *csv) {
     char *buffer = NULL;
     size_t len = 0;
 
@@ -77,10 +85,9 @@ Musica *CarregaMusicaCsvRepo(FILE *csv) {
                 break;
         } else if (i == 5) {
             int tmp_explicit;
-            if (!tryParseInt(token, &tmp_explicit) || (tmp_explicit != 1 && tmp_explicit != 0)) {
-                printf("Oiputo");
+            if (!tryParseInt(token, &tmp_explicit) ||
+                (tmp_explicit != 1 && tmp_explicit != 0))
                 break;
-            }
 
             msc_explicit = tmp_explicit;
         } else if (i == 6) {
@@ -147,4 +154,45 @@ Musica *CarregaMusicaCsvRepo(FILE *csv) {
 
     free(buffer);
     return msc;
+}
+
+Lista *EncontraPeloNomeRepoMusica(RepoMusicas *repo, char *query) {
+    FILE *fcsv = fopen(repo->musicasCsv, "r");
+    Lista *lista = InicializaLista();
+
+    char *tmpMsc = NULL;
+    size_t lenTmpMsc = 0;
+    long int lastCsvPos;
+    for (lastCsvPos = ftell(fcsv); getline(&tmpMsc, &lenTmpMsc, fcsv) != -1;
+         lastCsvPos = ftell(fcsv)) {
+
+        /*
+         * Primeiro adquire o nome e verifica se contem a query;
+         * se sim, so entao carrega a musica e adiciona na lista
+         */
+
+        // primeiro strtok retorna o hash (id) e o segundo retorna o nome
+        char *saveptr = NULL;
+        char *token = strtok_r(tmpMsc, REPO_CSV_DELIM, &saveptr);
+        token = strtok_r(NULL, REPO_CSV_DELIM, &saveptr);
+        
+        NormalizaString(token);
+        NormalizaString(query);
+
+        int hasFound = strstr(token, query) != NULL;
+
+        // se nao encontrou, pula
+        if (!hasFound)
+            continue;
+
+        fseek(fcsv, lastCsvPos, SEEK_SET);
+        Musica *msc = CarregaMusicaCsvRepo(fcsv);
+        printf("%s\n", token);
+        AdicionaElementoLista(lista, msc);
+    }
+
+    free(tmpMsc);
+    fclose(fcsv);
+
+    return lista;
 }
