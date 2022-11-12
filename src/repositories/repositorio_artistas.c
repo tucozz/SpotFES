@@ -34,7 +34,7 @@ void LiberaRepoArtistas(RepoArtistas *repo) {
  * @return Artista* Se valido, retorna um ponteiro para uma nova instancia do
  * @ref Artista ali representada; do contrario, retorna NULL
  */
-Artista *CarregaArtistaCsvRepo(FILE *csv) {
+static Artista *CarregaArtistaCsvRepo(FILE *csv) {
     char *buffer = NULL;
     size_t len = 0;
 
