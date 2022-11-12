@@ -39,12 +39,12 @@ typedef struct tMusica Musica;
  * @return Musica* Ponteiro para uma nova instancia de @ref Musica
  */
 Musica *InicializaMusica(char *id, char *name, int popularity, int duration_ms,
-                         bool explicit, Lista *artists, Lista *id_artists,
-                         char *release_date, float danceability, float energy,
-                         int key, float loudness, enum Mode mode,
-                         float speechiness, float acousticness,
-                         float instrumentalness, float liveness, float valence,
-                         float tempo, int time_signature);
+                         bool explicit, Lista *id_artists, char *release_date,
+                         float danceability, float energy, int key,
+                         float loudness, enum Mode mode, float speechiness,
+                         float acousticness, float instrumentalness,
+                         float liveness, float valence, float tempo,
+                         int time_signature);
 
 /**
  * @brief Libera a @ref Musica dinamicamente alocada
@@ -64,8 +64,6 @@ int GetMscPopularity(Musica *msc);
 int GetMscDuration(Musica *msc);
 
 bool IsExplicit(Musica *msc);
-
-Lista *GetMscArtists(Musica *msc);
 
 Lista *GetMscArtistsId(Musica *msc);
 

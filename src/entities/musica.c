@@ -10,7 +10,6 @@ struct tMusica {
     int popularity;
     int duration_ms;
     bool explicit;
-    Lista *artists;    // Lista<string>
     Lista *id_artists; // Lista<string>
     char *release_date;
     float danceability;
@@ -28,12 +27,12 @@ struct tMusica {
 };
 
 Musica *InicializaMusica(char *id, char *name, int popularity, int duration_ms,
-                         bool explicit, Lista *artists, Lista *id_artists,
-                         char *release_date, float danceability, float energy,
-                         int key, float loudness, enum Mode mode,
-                         float speechiness, float acousticness,
-                         float instrumentalness, float liveness, float valence,
-                         float tempo, int time_signature) {
+                         bool explicit, Lista *id_artists, char *release_date,
+                         float danceability, float energy, int key,
+                         float loudness, enum Mode mode, float speechiness,
+                         float acousticness, float instrumentalness,
+                         float liveness, float valence, float tempo,
+                         int time_signature) {
     Musica *msc = malloc(sizeof *msc);
 
     msc->id = id;
@@ -41,7 +40,6 @@ Musica *InicializaMusica(char *id, char *name, int popularity, int duration_ms,
     msc->popularity = popularity;
     msc->duration_ms = duration_ms;
     msc->explicit = explicit;
-    msc->artists = artists;
     msc->id_artists = id_artists;
     msc->release_date = release_date;
     msc->danceability = danceability;
@@ -63,7 +61,6 @@ Musica *InicializaMusica(char *id, char *name, int popularity, int duration_ms,
 void LiberaMusica(Musica *msc) {
     free(msc->id);
     free(msc->name);
-    LiberaLista(msc->artists, &free);
     LiberaLista(msc->id_artists, &free);
     free(msc->release_date);
 
@@ -79,8 +76,6 @@ int GetMscPopularity(Musica *msc) { return msc->popularity; }
 int GetMscDuration(Musica *msc) { return msc->duration_ms; }
 
 bool IsExplicit(Musica *msc) { return msc->explicit; }
-
-Lista *GetMscArtists(Musica *msc) { return msc->artists; }
 
 Lista *GetMscArtistsId(Musica *msc) { return msc->id_artists; }
 
