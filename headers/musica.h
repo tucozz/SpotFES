@@ -39,12 +39,12 @@ typedef struct tMusica Musica;
  * @return Musica* Ponteiro para uma nova instancia de @ref Musica
  */
 Musica *InicializaMusica(char *id, char *name, int popularity, int duration_ms,
-                         bool explicit, Lista *artists, Lista *id_artists,
-                         char *release_date, float danceability, float energy,
-                         int key, float loudness, enum Mode mode,
-                         float speechiness, float acousticness,
-                         float instrumentalness, float liveness, float valence,
-                         float tempo, int time_signature);
+                         bool explicit, Lista *id_artists, char *release_date,
+                         float danceability, float energy, int key,
+                         float loudness, enum Mode mode, float speechiness,
+                         float acousticness, float instrumentalness,
+                         float liveness, float valence, float tempo,
+                         int time_signature);
 
 /**
  * @brief Libera a @ref Musica dinamicamente alocada
@@ -55,44 +55,42 @@ Musica *InicializaMusica(char *id, char *name, int popularity, int duration_ms,
  */
 void LiberaMusica(Musica *msc);
 
-char *GetMscId(tMusica msc);
+char *GetMscId(Musica *msc);
 
-char *GetMscName(tMusica msc);
+char *GetMscName(Musica *msc);
 
-int GetMscPopularity(tMusica msc);
+int GetMscPopularity(Musica *msc);
 
-int GetMscDuration(tMusica msc);
+int GetMscDuration(Musica *msc);
 
-bool IsExplicit(tMusica msc);
+bool IsExplicit(Musica *msc);
 
-Lista *GetMscArtists(tMusica msc);
+Lista *GetMscArtistsId(Musica *msc);
 
-Lista *GetMscArtistsId(tMusica msc);
+char *GetMscReleaseDate(Musica *msc);
 
-char *GetMscReleaseDate(tMusica msc);
+float GetMscDanceability(Musica *msc);
 
-float GetMscDanceability(tMusica msc);
+float GetMscEnergy(Musica *msc);
 
-float GetMscEnergy(tMusica msc);
+int GetMscKey(Musica *msc);
 
-int GetMscKey(tMusica msc);
+float GetMscLoudness(Musica *msc);
 
-float GetMscLoudness(tMusica msc);
+bool GetMscMode(Musica *msc);
 
-bool GetMscMode(tMusica msc);
+float GetMscSpeechiness(Musica *msc);
 
-float GetMscSpeechiness(tMusica msc);
+float GetMscAcousticness(Musica *msc);
 
-float GetMscAcousticness(tMusica msc);
+float GetMscInstrumentalness(Musica *msc);
 
-float GetMscInstrumentalness(tMusica msc);
+float GetMscLiveness(Musica *msc);
 
-float GetMscLiveness(tMusica msc);
+float GetMscValence(Musica *msc);
 
-float GetMscValence(tMusica msc);
+float GetMscTempo(Musica *msc);
 
-float GetMscTempo(tMusica msc);
-
-int GetMscTimeSig(tMusica msc);
+int GetMscTimeSig(Musica *msc);
 
 #endif

@@ -48,7 +48,6 @@ static Musica *CarregaMusicaCsvRepo(FILE *csv) {
     int msc_popularity;
     int msc_duration_ms;
     bool msc_explicit;
-    Lista *msc_artists;
     Lista *msc_id_artists;
     char *msc_release_date;
     float msc_danceability;
@@ -91,7 +90,7 @@ static Musica *CarregaMusicaCsvRepo(FILE *csv) {
 
             msc_explicit = tmp_explicit;
         } else if (i == 6) {
-            msc_artists = CarregaListaStringRepo(token);
+            // ignora os nomes, pois sao irrelevantes
         } else if (i == 7) {
             msc_id_artists = CarregaListaStringRepo(token);
         } else if (i == 8) {
@@ -142,11 +141,11 @@ static Musica *CarregaMusicaCsvRepo(FILE *csv) {
 
     if (i != 21) {
         free(buffer);
-        return msc;
+        return NULL;
     }
 
     msc = InicializaMusica(msc_id, msc_name, msc_popularity, msc_duration_ms,
-                           msc_explicit, msc_artists, msc_id_artists,
+                           msc_explicit, msc_id_artists,
                            msc_release_date, msc_danceability, msc_energy,
                            msc_key, msc_loudness, msc_mode, msc_speechiness,
                            msc_acousticness, msc_instrumentalness, msc_liveness,

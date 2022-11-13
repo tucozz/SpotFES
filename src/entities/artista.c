@@ -31,19 +31,12 @@ void LiberaArtista(Artista *art) {
     free(art);
 }
 
-char *GetArtId(tArtista art)
-    return art.id;
+char *GetArtId(Artista *art) { return art->id; }
 
-int GetArtSeguidores(tArtista art)
-    return art.seguidores;
+int GetArtSeguidores(Artista *art) { return art->seguidores; }
 
-Lista *GetArtGeneros(tArtista art)
-    return art.generos;
+Lista *GetArtGeneros(Artista *art) { return art->generos; }
 
-char *GetArtName(tArtista art)
-    return art.name;
+char *GetArtName(Artista *art) { return art->name; }
 
-int GetArtPopularity(tArtista art)
-    return art.popularity;
-
-
+int GetArtPopularity(Artista *art) { return art->popularity; }

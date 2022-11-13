@@ -1,6 +1,7 @@
 #include <stdlib.h>
 
 #include "musica.h"
+
 #include "artista.h"
 
 struct tMusica {
@@ -9,7 +10,6 @@ struct tMusica {
     int popularity;
     int duration_ms;
     bool explicit;
-    Lista *artists;    // Lista<string>
     Lista *id_artists; // Lista<string>
     char *release_date;
     float danceability;
@@ -27,12 +27,12 @@ struct tMusica {
 };
 
 Musica *InicializaMusica(char *id, char *name, int popularity, int duration_ms,
-                         bool explicit, Lista *artists, Lista *id_artists,
-                         char *release_date, float danceability, float energy,
-                         int key, float loudness, enum Mode mode,
-                         float speechiness, float acousticness,
-                         float instrumentalness, float liveness, float valence,
-                         float tempo, int time_signature) {
+                         bool explicit, Lista *id_artists, char *release_date,
+                         float danceability, float energy, int key,
+                         float loudness, enum Mode mode, float speechiness,
+                         float acousticness, float instrumentalness,
+                         float liveness, float valence, float tempo,
+                         int time_signature) {
     Musica *msc = malloc(sizeof *msc);
 
     msc->id = id;
@@ -40,7 +40,6 @@ Musica *InicializaMusica(char *id, char *name, int popularity, int duration_ms,
     msc->popularity = popularity;
     msc->duration_ms = duration_ms;
     msc->explicit = explicit;
-    msc->artists = artists;
     msc->id_artists = id_artists;
     msc->release_date = release_date;
     msc->danceability = danceability;
@@ -62,70 +61,46 @@ Musica *InicializaMusica(char *id, char *name, int popularity, int duration_ms,
 void LiberaMusica(Musica *msc) {
     free(msc->id);
     free(msc->name);
-    LiberaLista(msc->artists, &free);
     LiberaLista(msc->id_artists, &free);
     free(msc->release_date);
-    
+
     free(msc);
 }
 
-char *GetMscId(tMusica msc)
-    return msc.id;
+char *GetMscId(Musica *msc) { return msc->id; }
 
-char *GetMscName(tMusica msc)
-    return msc.name;
+char *GetMscName(Musica *msc) { return msc->name; }
 
-int GetMscPopularity(tMusica msc)
-    return msc.popularity;
+int GetMscPopularity(Musica *msc) { return msc->popularity; }
 
-int GetMscDuration(tMusica msc)
-    return msc.duration_ms;
+int GetMscDuration(Musica *msc) { return msc->duration_ms; }
 
-bool IsExplicit(tMusica msc)
-    return msc.explicit;
+bool IsExplicit(Musica *msc) { return msc->explicit; }
 
-Lista *GetMscArtists(tMusica msc)
-    return msc.artists;
+Lista *GetMscArtistsId(Musica *msc) { return msc->id_artists; }
 
-Lista *GetMscArtistsId(tMusica msc)
-    return msc.id_artists;
+char *GetMscReleaseDate(Musica *msc) { return msc->release_date; }
 
-char *GetMscReleaseDate(tMusica msc)
-    return msc.release_date;
+float GetMscDanceability(Musica *msc) { return msc->danceability; }
 
-float GetMscDanceability(tMusica msc)
-    return msc.danceability;
+float GetMscEnergy(Musica *msc) { return msc->energy; }
 
-float GetMscEnergy(tMusica msc)
-    return msc.energy;
+int GetMscKey(Musica *msc) { return msc->key; }
 
-int GetMscKey(tMusica msc)
-    return msc.key;
+float GetMscLoudness(Musica *msc) { return msc->loudness; }
 
-float GetMscLoudness(tMusica msc)
-    return msc.loudness;
+bool GetMscMode(Musica *msc) { return msc->mode; }
 
-bool GetMscMode(tMusica msc)
-    return msc.mode;
+float GetMscSpeechiness(Musica *msc) { return msc->speechiness; }
 
-float GetMscSpeechiness(tMusica msc)
-    return msc.speechiness;
+float GetMscAcousticness(Musica *msc) { return msc->acousticness; }
 
-float GetMscAcousticness(tMusica msc)
-    return msc.acousticness;
+float GetMscInstrumentalness(Musica *msc) { return msc->instrumentalness; }
 
-float GetMscInstrumentalness(tMusica msc)
-    return msc.intrumentalness;
+float GetMscLiveness(Musica *msc) { return msc->liveness; }
 
-float GetMscLiveness(tMusica msc)
-    return msc.liveness;
+float GetMscValence(Musica *msc) { return msc->valence; }
 
-float GetMscValence(tMusica msc)
-    return msc.valence;
+float GetMscTempo(Musica *msc) { return msc->tempo; }
 
-float GetMscTempo(tMusica msc)
-    return msc.tempo;
-
-int GetMscTimeSig(tMusica msc)
-    return msc.time_signature;
-
+int GetMscTimeSig(Musica *msc) { return msc->time_signature; }
