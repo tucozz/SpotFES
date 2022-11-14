@@ -58,7 +58,17 @@ void *LiberaApp(App *app) {
 void RodaApp() {
     while (1) {
         system("@cls||clear");
-        printf("// TODO: Menu com as funcionalidades e interacoes de 1 a 9");
+        printf("Digite o numero relacionado a funcionalidade desejada\n
+        \n
+        1. Encontrar Musica\n
+        2. Listar Musica\n
+        3. Criar Playlist\n
+        4. Listar Playlists\n
+        5. Listar Musicas da Playlist\n
+        6. Adicionar Musica a Playlist\n
+        7. Recomendar Musicas\n
+        8. Gerar Relatorios\n
+        9. Voltar\n");
 
         int curr;
         scanf("%d", &curr);
@@ -92,7 +102,7 @@ void RodaApp() {
             return;
 
         default:
-            printf("Ops! // TODO: Adicionar mensagem de error ou algo assim");
+            printf("Ops! Acao invalida. Favor especificar funcionalidade desejada\n");
             continue;
         }
     }
