@@ -9,4 +9,6 @@ void *LiberaApp(App *app);
 
 void RodaApp();
 
+void SairApp();
+
 #endif
