@@ -3,6 +3,8 @@
 
 #define REPO_CSV_DELIM ";"
 
+#define REPO_PLAYLISTS_DEFAULT_PATH_SAVE "./playlists.bin"
+
 #include "lista.h"
 
 /**

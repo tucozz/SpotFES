@@ -31,6 +31,15 @@ void LiberaLista(Lista *lista, void (*liberaElem)(void *)) {
     free(lista);
 }
 
+int GetQuantidadeLista(const Lista *lista) { return lista->qtd; }
+
+void *AdquireElementoLista(Lista *lista, int i) {
+    if (i < 0 || i >= lista->qtd)
+        return NULL;
+
+    return lista->arr[i];
+}
+
 void AdicionaElementoLista(Lista *lista, void *elem) {
     if (lista->qtd == lista->capacidade) {
         lista->capacidade += ritmo_crescimento_lista;
@@ -53,4 +62,14 @@ void *PopLista(Lista *lista) {
     lista->qtd--;
 
     return r;
+}
+
+Lista *CopiaLista(const Lista * lista, void *(*cpyelem)(const void *)) {
+    Lista *cpy = InicializaLista();
+
+    int i;
+    for (i = 0; i < lista->qtd; i++)
+        AdicionaElementoLista(cpy, cpyelem(lista->arr[i]));
+
+    return cpy;
 }

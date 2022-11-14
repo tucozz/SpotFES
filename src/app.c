@@ -30,18 +30,25 @@
 
 struct tApp {
     RepoMusicas *repoMsc;
+    RepoArtistas *repoArt;
+    Lista* playlists; // Lista<playlist>
 };
 
 App *InicializaApp(const char *artistascsv, const char *musicascsv) {
     App *app = malloc(sizeof *app);
 
     app->repoMsc = InicializaRepoMusicas(musicascsv);
+    app->repoArt = InicializaRepoArtistas(musicascsv);
+    app->playlists = CarregaTodasPlaylistsRepo();
 
     return app;
 }
 
 void *LiberaApp(App *app) {
     LiberaRepoMusicas(app->repoMsc);
+    LiberaRepoArtistas(app->repoArt);
+
+    LiberaLista(app->playlists, &LiberaPLaylist);
 
     free(app);
 
@@ -89,4 +96,8 @@ void RodaApp() {
             continue;
         }
     }
+}
+
+void SairApp(App *app) {
+    SalvaTodasPlaylistsRepo(app->playlists);
 }

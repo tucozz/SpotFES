@@ -3,7 +3,7 @@
     {
       "label": "build",
       "type": "shell",
-      "command": "make clean && make",
+      "command": "cd ${workspaceFolder} && make clean && make",
       "options": {
         "cwd": "${fileDirname}"
       },

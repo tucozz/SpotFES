@@ -6,5 +6,8 @@ main
 # Diretório com os dados dos artistas e músicas
 data/
 
-# Diretório gerido pelo repositório
-db/
+# Arquivos gerados pelo repositório
+playlists.bin
+
+# Saida do valgrind gerada por meio do Makefile
+valgrind-out.txt

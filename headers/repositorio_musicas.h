@@ -51,10 +51,12 @@ void LiberaRepoMusicas(RepoMusicas *repo);
 /**
  * @brief Busca na fonte todas as musicas que contem @p query como uma substring
  * do seu nome
+ * 
+ * @warning Normaliza a @p query
  *
  * @param repo O @ref RepoMusicas
  * @param query A substring de consulta a ser procurada no nome das musicas
- * @return Lista*
+ * @return Lista* Uma @ref Lista* de @ref Musica* encontradas
  */
 Lista *EncontraPeloNomeRepoMusica(RepoMusicas *repo, char *query);
 

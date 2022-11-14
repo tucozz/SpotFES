@@ -38,13 +38,15 @@ typedef struct tMusica Musica;
  * @param time_signature Campo interno
  * @return Musica* Ponteiro para uma nova instancia de @ref Musica
  */
-Musica *InicializaMusica(char *id, char *name, int popularity, int duration_ms,
-                         bool explicit, Lista *id_artists, char *release_date,
-                         float danceability, float energy, int key,
-                         float loudness, enum Mode mode, float speechiness,
-                         float acousticness, float instrumentalness,
-                         float liveness, float valence, float tempo,
-                         int time_signature);
+Musica *InicializaMusica(const char *id, const char *name, const int popularity,
+                         const int duration_ms, const bool explicit,
+                         const Lista *id_artists, const char *release_date,
+                         const float danceability, const float energy,
+                         const int key, const float loudness,
+                         const enum Mode mode, const float speechiness,
+                         const float acousticness, const float instrumentalness,
+                         const float liveness, const float valence,
+                         const float tempo, const int time_signature);
 
 /**
  * @brief Libera a @ref Musica dinamicamente alocada
@@ -59,38 +61,61 @@ char *GetMscId(Musica *msc);
 
 char *GetMscName(Musica *msc);
 
-int GetMscPopularity(Musica *msc);
+int GetMscPopularity(const Musica *msc);
 
-int GetMscDuration(Musica *msc);
+int GetMscDuration(const Musica *msc);
 
-bool IsExplicit(Musica *msc);
+bool IsExplicit(const Musica *msc);
+
+Lista *GetMscArtists(Musica *msc);
 
 Lista *GetMscArtistsId(Musica *msc);
 
 char *GetMscReleaseDate(Musica *msc);
 
-float GetMscDanceability(Musica *msc);
+float GetMscDanceability(const Musica *msc);
 
-float GetMscEnergy(Musica *msc);
+float GetMscEnergy(const Musica *msc);
 
-int GetMscKey(Musica *msc);
+int GetMscKey(const Musica *msc);
 
-float GetMscLoudness(Musica *msc);
+float GetMscLoudness(const Musica *msc);
 
-bool GetMscMode(Musica *msc);
+bool GetMscMode(const Musica *msc);
 
-float GetMscSpeechiness(Musica *msc);
+float GetMscSpeechiness(const Musica *msc);
 
-float GetMscAcousticness(Musica *msc);
+float GetMscAcousticness(const Musica *msc);
 
-float GetMscInstrumentalness(Musica *msc);
+float GetMscInstrumentalness(const Musica *msc);
 
-float GetMscLiveness(Musica *msc);
+float GetMscLiveness(const Musica *msc);
 
-float GetMscValence(Musica *msc);
+float GetMscValence(const Musica *msc);
 
-float GetMscTempo(Musica *msc);
+float GetMscTempo(const Musica *msc);
 
-int GetMscTimeSig(Musica *msc);
+int GetMscTimeSig(const Musica *msc);
+
+/**
+ * @brief Inclui uma @ref Lista* de @ref Artista* em @ref Musica* @p msc , caso
+ * nao haja nenhuma
+ *
+ * @warning A @ref Lista* @p listart SERA COPIADA; atencao ao liberar o ponteiro
+ * enviado pelos parametros
+ *
+ * @param msc A @ref Musica*
+ * @param listart A @ref Lista* de @ref Artista*
+ * @return int
+ */
+bool IncluiMscArtistas(Musica *msc, const Lista *listart);
+
+/**
+ * @brief Efetua uma copia da @ref Musica* @p msc
+ *
+ * @param msc A @ref Musica*
+ * @return Musica* Uma nova instancia de @ref Musica* identica a original
+ */
+Musica *CopiaMusica(const Musica *msc);
 
 #endif

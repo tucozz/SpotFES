@@ -37,17 +37,15 @@ void LiberaRepoArtistas(RepoArtistas *repo) {
 static Artista *CarregaArtistaCsvRepo(FILE *csv) {
     char *buffer = NULL;
     size_t len = 0;
-
-    Artista *art = NULL;
     if (getline(&buffer, &len, csv) == -1) {
         free(buffer);
         return NULL;
     }
 
-    char *art_id;
+    char *art_id = NULL;
     int art_seguidores;
-    Lista *art_generos;
-    char *art_name;
+    Lista *art_generos = NULL; // Lista<string>
+    char *art_name = NULL;
     int art_popularity;
 
     char *saveptr = NULL, *token = NULL;
@@ -73,15 +71,24 @@ static Artista *CarregaArtistaCsvRepo(FILE *csv) {
                 break;
         }
     }
+    free(buffer);
 
     if (i != 6) {
-        free(buffer);
+        free(art_id);
+        free(art_name);
+        if (art_generos != NULL)
+            LiberaLista(art_generos, &free);
+
         return NULL;
     }
 
+    Artista *art = NULL;
     art = InicializaArtista(art_id, art_seguidores, art_generos, art_name,
                             art_popularity);
 
-    free(buffer);
+    free(art_id);
+    free(art_name);
+    LiberaLista(art_generos, &free);
+
     return art;
 }
