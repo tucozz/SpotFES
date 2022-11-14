@@ -36,20 +36,18 @@ void LiberaRepoMusicas(RepoMusicas *repo) {
 static Musica *CarregaMusicaCsvRepo(FILE *csv) {
     char *buffer = NULL;
     size_t len = 0;
-
-    Musica *msc = NULL;
     if (getline(&buffer, &len, csv) == -1) {
         free(buffer);
         return NULL;
     }
 
-    char *msc_id;
-    char *msc_name;
+    char *msc_id = NULL;
+    char *msc_name = NULL;
     int msc_popularity;
     int msc_duration_ms;
     bool msc_explicit;
-    Lista *msc_id_artists;
-    char *msc_release_date;
+    Lista *msc_id_artists = NULL; // Lista<string>
+    char *msc_release_date = NULL;
     float msc_danceability;
     float msc_energy;
     int msc_key;
@@ -138,20 +136,31 @@ static Musica *CarregaMusicaCsvRepo(FILE *csv) {
                 break;
         }
     }
+    free(buffer);
 
     if (i != 21) {
-        free(buffer);
+        free(msc_id);
+        free(msc_name);
+        free(msc_release_date);
+        if (msc_id_artists != NULL)
+            LiberaLista(msc_id_artists, &free);
+
         return NULL;
     }
 
+    Musica *msc = NULL;
     msc = InicializaMusica(msc_id, msc_name, msc_popularity, msc_duration_ms,
-                           msc_explicit, msc_id_artists,
-                           msc_release_date, msc_danceability, msc_energy,
-                           msc_key, msc_loudness, msc_mode, msc_speechiness,
-                           msc_acousticness, msc_instrumentalness, msc_liveness,
-                           msc_valence, msc_tempo, msc_time_signature);
+                           msc_explicit, msc_id_artists, msc_release_date,
+                           msc_danceability, msc_energy, msc_key, msc_loudness,
+                           msc_mode, msc_speechiness, msc_acousticness,
+                           msc_instrumentalness, msc_liveness, msc_valence,
+                           msc_tempo, msc_time_signature);
 
-    free(buffer);
+    free(msc_id);
+    free(msc_name);
+    free(msc_release_date);
+    LiberaLista(msc_id_artists, &free);
+
     return msc;
 }
 
@@ -159,11 +168,11 @@ Lista *EncontraPeloNomeRepoMusica(RepoMusicas *repo, char *query) {
     FILE *fcsv = fopen(repo->musicasCsv, "r");
     Lista *lista = InicializaLista();
 
-    char *tmpMsc = NULL;
-    size_t lenTmpMsc = 0;
-    long int lastCsvPos;
-    for (lastCsvPos = ftell(fcsv); getline(&tmpMsc, &lenTmpMsc, fcsv) != -1;
-         lastCsvPos = ftell(fcsv)) {
+    char *buffermsc = NULL;
+    size_t len = 0;
+    long int lastfPosition;
+    for (lastfPosition = ftell(fcsv); getline(&buffermsc, &len, fcsv) != -1;
+         lastfPosition = ftell(fcsv)) {
 
         /*
          * Primeiro adquire o nome e verifica se contem a query;
@@ -172,9 +181,9 @@ Lista *EncontraPeloNomeRepoMusica(RepoMusicas *repo, char *query) {
 
         // primeiro strtok retorna o hash (id) e o segundo retorna o nome
         char *saveptr = NULL;
-        char *token = strtok_r(tmpMsc, REPO_CSV_DELIM, &saveptr);
+        char *token = strtok_r(buffermsc, REPO_CSV_DELIM, &saveptr);
         token = strtok_r(NULL, REPO_CSV_DELIM, &saveptr);
-        
+
         NormalizaString(token);
         NormalizaString(query);
 
@@ -184,13 +193,12 @@ Lista *EncontraPeloNomeRepoMusica(RepoMusicas *repo, char *query) {
         if (!hasFound)
             continue;
 
-        fseek(fcsv, lastCsvPos, SEEK_SET);
+        fseek(fcsv, lastfPosition, SEEK_SET);
         Musica *msc = CarregaMusicaCsvRepo(fcsv);
-        printf("%s\n", token);
         AdicionaElementoLista(lista, msc);
     }
 
-    free(tmpMsc);
+    free(buffermsc);
     fclose(fcsv);
 
     return lista;

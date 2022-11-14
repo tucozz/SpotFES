@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 
 #include "musica.h"
 
@@ -10,6 +11,7 @@ struct tMusica {
     int popularity;
     int duration_ms;
     bool explicit;
+    Lista *artists;    // Lista<artista>
     Lista *id_artists; // Lista<string>
     char *release_date;
     float danceability;
@@ -26,22 +28,25 @@ struct tMusica {
     int time_signature;
 };
 
-Musica *InicializaMusica(char *id, char *name, int popularity, int duration_ms,
-                         bool explicit, Lista *id_artists, char *release_date,
-                         float danceability, float energy, int key,
-                         float loudness, enum Mode mode, float speechiness,
-                         float acousticness, float instrumentalness,
-                         float liveness, float valence, float tempo,
-                         int time_signature) {
+Musica *InicializaMusica(const char *id, const char *name, const int popularity,
+                         const int duration_ms, const bool explicit,
+                         const Lista *id_artists, const char *release_date,
+                         const float danceability, const float energy,
+                         const int key, const float loudness,
+                         const enum Mode mode, const float speechiness,
+                         const float acousticness, const float instrumentalness,
+                         const float liveness, const float valence,
+                         const float tempo, const int time_signature) {
     Musica *msc = malloc(sizeof *msc);
 
-    msc->id = id;
-    msc->name = name;
+    msc->id = strdup(id);
+    msc->name = strdup(name);
     msc->popularity = popularity;
     msc->duration_ms = duration_ms;
     msc->explicit = explicit;
-    msc->id_artists = id_artists;
-    msc->release_date = release_date;
+    msc->artists = NULL;
+    msc->id_artists = CopiaLista(id_artists, &strdup);
+    msc->release_date = strdup(release_date);
     msc->danceability = danceability;
     msc->energy = energy;
     msc->key = key;
@@ -61,6 +66,9 @@ Musica *InicializaMusica(char *id, char *name, int popularity, int duration_ms,
 void LiberaMusica(Musica *msc) {
     free(msc->id);
     free(msc->name);
+    if (msc->artists != NULL)
+        LiberaLista(msc->artists, &LiberaArtista);
+
     LiberaLista(msc->id_artists, &free);
     free(msc->release_date);
 
@@ -71,36 +79,62 @@ char *GetMscId(Musica *msc) { return msc->id; }
 
 char *GetMscName(Musica *msc) { return msc->name; }
 
-int GetMscPopularity(Musica *msc) { return msc->popularity; }
+int GetMscPopularity(const Musica *msc) { return msc->popularity; }
 
-int GetMscDuration(Musica *msc) { return msc->duration_ms; }
+int GetMscDuration(const Musica *msc) { return msc->duration_ms; }
 
-bool IsExplicit(Musica *msc) { return msc->explicit; }
+bool IsExplicit(const Musica *msc) { return msc->explicit; }
+
+Lista *GetMscArtists(Musica *msc) { return msc->artists; }
 
 Lista *GetMscArtistsId(Musica *msc) { return msc->id_artists; }
 
 char *GetMscReleaseDate(Musica *msc) { return msc->release_date; }
 
-float GetMscDanceability(Musica *msc) { return msc->danceability; }
+float GetMscDanceability(const Musica *msc) { return msc->danceability; }
 
-float GetMscEnergy(Musica *msc) { return msc->energy; }
+float GetMscEnergy(const Musica *msc) { return msc->energy; }
 
-int GetMscKey(Musica *msc) { return msc->key; }
+int GetMscKey(const Musica *msc) { return msc->key; }
 
-float GetMscLoudness(Musica *msc) { return msc->loudness; }
+float GetMscLoudness(const Musica *msc) { return msc->loudness; }
 
-bool GetMscMode(Musica *msc) { return msc->mode; }
+bool GetMscMode(const Musica *msc) { return msc->mode; }
 
-float GetMscSpeechiness(Musica *msc) { return msc->speechiness; }
+float GetMscSpeechiness(const Musica *msc) { return msc->speechiness; }
 
-float GetMscAcousticness(Musica *msc) { return msc->acousticness; }
+float GetMscAcousticness(const Musica *msc) { return msc->acousticness; }
 
-float GetMscInstrumentalness(Musica *msc) { return msc->instrumentalness; }
+float GetMscInstrumentalness(const Musica *msc) {
+    return msc->instrumentalness;
+}
 
-float GetMscLiveness(Musica *msc) { return msc->liveness; }
+float GetMscLiveness(const Musica *msc) { return msc->liveness; }
 
-float GetMscValence(Musica *msc) { return msc->valence; }
+float GetMscValence(const Musica *msc) { return msc->valence; }
 
-float GetMscTempo(Musica *msc) { return msc->tempo; }
+float GetMscTempo(const Musica *msc) { return msc->tempo; }
 
-int GetMscTimeSig(Musica *msc) { return msc->time_signature; }
+int GetMscTimeSig(const Musica *msc) { return msc->time_signature; }
+
+bool IncluiMscArtistas(Musica *msc, const Lista *listart) {
+    if (msc->artists != NULL || listart == NULL)
+        return true;
+
+    msc->artists = CopiaLista(listart, &CopiaArtista);
+
+    return false;
+}
+
+Musica *CopiaMusica(const Musica *msc) {
+    Musica *cpy = InicializaMusica(
+        msc->id, msc->name, msc->popularity, msc->duration_ms, msc->explicit,
+        msc->id_artists, msc->release_date, msc->danceability, msc->energy,
+        msc->key, msc->loudness, msc->mode, msc->speechiness, msc->acousticness,
+        msc->instrumentalness, msc->liveness, msc->valence, msc->tempo,
+        msc->time_signature);
+
+    IncluiMscArtistas(cpy, msc->artists);
+
+    return cpy;
+}

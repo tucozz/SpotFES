@@ -35,4 +35,16 @@ main : $(OBJS)
 
 # Rode make clean para remover tudo que é gerado pelo deploy
 clean:
-	@rm -rf $(BUILDIR)/ main
+	rm -rf $(BUILDIR)/ main
+
+valgrind: all
+	- rm valgrind-out.txt
+
+	valgrind --leak-check=full \
+			 --show-leak-kinds=all \
+			 --track-origins=yes \
+			 --verbose \
+			 --log-file=valgrind-out.txt \
+			 ./main "data/tracks_full.csv" "data/artists_full.csv"
+
+	@echo "Head to valgrind-out.txt"

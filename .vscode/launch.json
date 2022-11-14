@@ -9,7 +9,7 @@
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceFolder}/main",
-      "args": ["data/artists_2.csv"],
+      "args": ["data/tracks_full.csv", "data/artists_full.csv"],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",
       "environment": [],
@@ -21,7 +21,8 @@
           "text": "-enable-pretty-printing",
           "ignoreFailures": true
         }
-      ]
+      ],
+      "preLaunchTask": "build"
     }
   ]
 }
