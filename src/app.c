@@ -46,7 +46,7 @@ App *InicializaApp(const char *artistascsv, const char *musicascsv) {
 
 void *LiberaApp(App *app) {
     LiberaRepoMusicas(app->repoMsc);
-    LiberaRepoMusicas(app->repoArt);
+    LiberaRepoArtistas(app->repoArt);
 
     LiberaLista(app->playlists, &LiberaPLaylist);
 
