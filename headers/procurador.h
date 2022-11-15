@@ -1,6 +1,7 @@
 #ifndef _PROCURADOR_
 #define _PROCURADOR_
 
+#include "playlist.h"
 #include "repositorio_artistas.h"
 #include "repositorio_musicas.h"
 
@@ -14,7 +15,7 @@
  * @param msc A @ref Musica* a ser completada
  * @param repo O @ref RepoArtistas* com os dados dos artistas
  */
-void CompletaMusica(Musica *msc, const RepoArtistas *repo);
+void CompletaMusica(Musica *msc, RepoArtistas *repo);
 
 /**
  * @brief Completa uma @ref Playlist* com sua @ref Lista* de @ref Musica*
@@ -26,6 +27,6 @@ void CompletaMusica(Musica *msc, const RepoArtistas *repo);
  * @param msc A @ref Playlist* a ser completada
  * @param repo O @ref RepoMusicas* com os dados das musicas
  */
-void CompletaPlaylist(Playlist *playlist, const RepoMusicas *repo);
+void CompletaPlaylist(Playlist *playlist, RepoMusicas *repo);
 
 #endif

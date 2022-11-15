@@ -207,7 +207,7 @@ Lista *EncontraPeloNomeRepoMusica(RepoMusicas *repo, char *query) {
 
 Musica *EncontraPeloHashRepoMusica(RepoMusicas *repo, const char *hash) {
     FILE *fcsv = fopen(repo->musicasCsv, "r");
-    
+
     Musica *msc = NULL;
 
     char *buffermsc = NULL;
@@ -233,9 +233,10 @@ Musica *EncontraPeloHashRepoMusica(RepoMusicas *repo, const char *hash) {
 
         fseek(fcsv, lastfPosition, SEEK_SET);
         Musica *found = CarregaMusicaCsvRepo(fcsv);
-        if (found != NULL)
+        if (found != NULL) {
             msc = found;
             break;
+        }
     }
 
     free(buffermsc);
