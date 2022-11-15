@@ -195,11 +195,51 @@ Lista *EncontraPeloNomeRepoMusica(RepoMusicas *repo, char *query) {
 
         fseek(fcsv, lastfPosition, SEEK_SET);
         Musica *msc = CarregaMusicaCsvRepo(fcsv);
-        AdicionaElementoLista(lista, msc);
+        if (msc != NULL)
+            AdicionaElementoLista(lista, msc);
     }
 
     free(buffermsc);
     fclose(fcsv);
 
     return lista;
+}
+
+Musica *EncontraPeloHashRepoMusica(RepoMusicas *repo, const char *hash) {
+    FILE *fcsv = fopen(repo->musicasCsv, "r");
+    
+    Musica *msc = NULL;
+
+    char *buffermsc = NULL;
+    size_t len = 0;
+    long int lastfPosition;
+    for (lastfPosition = ftell(fcsv); getline(&buffermsc, &len, fcsv) != -1;
+         lastfPosition = ftell(fcsv)) {
+
+        /*
+         * Primeiro adquire o nome e verifica se contem o hash procurado;
+         * se sim, so entao carrega a musica e retorna
+         */
+
+        // primeiro strtok retorna o hash (id)
+        char *saveptr = NULL;
+        char *token = strtok_r(buffermsc, REPO_CSV_DELIM, &saveptr);
+
+        int hasFound = strcmp(token, hash) == 0;
+
+        // se nao encontrou, pula
+        if (!hasFound)
+            continue;
+
+        fseek(fcsv, lastfPosition, SEEK_SET);
+        Musica *found = CarregaMusicaCsvRepo(fcsv);
+        if (found != NULL)
+            msc = found;
+            break;
+    }
+
+    free(buffermsc);
+    fclose(fcsv);
+
+    return msc;
 }

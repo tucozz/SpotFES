@@ -60,4 +60,13 @@ void LiberaRepoMusicas(RepoMusicas *repo);
  */
 Lista *EncontraPeloNomeRepoMusica(RepoMusicas *repo, char *query);
 
+/**
+ * @brief Busca na fonte a @ref Musica* com o hash igual a @p hash
+ * 
+ * @param repo O @ref RepoMusicas*
+ * @param hash O hash pelo qual procurar
+ * @return Musica* A @ref Musica* encontrada; NULL caso nao ache
+ */
+Musica *EncontraPeloHashRepoMusica(RepoMusicas *repo, const char *hash);
+
 #endif
