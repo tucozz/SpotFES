@@ -31,7 +31,7 @@ pre-main:
 
 # Linka todos os .o no executável main
 main : $(OBJS)
-	$(CC) $(CFLAGS) -o $@ $^
+	$(CC) -o $@ $^ $(CFLAGS)
 
 # Rode make clean para remover tudo que é gerado pelo deploy
 clean:

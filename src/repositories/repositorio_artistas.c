@@ -92,3 +92,43 @@ static Artista *CarregaArtistaCsvRepo(FILE *csv) {
 
     return art;
 }
+
+Artista *EncontraPeloHashRepoArtistas(RepoArtistas *repo, const char *hash) {
+    FILE *fcsv = fopen(repo->artistasCsv, "r");
+
+    Artista *art = NULL;
+
+    char *bufferart = NULL;
+    size_t len = 0;
+    long int lastfPosition;
+    for (lastfPosition = ftell(fcsv); getline(&bufferart, &len, fcsv) != -1;
+         lastfPosition = ftell(fcsv)) {
+
+        /*
+         * Primeiro adquire o hash e verifica se e o procurado;
+         * se sim, so entao carrega o artista e retorna
+         */
+
+        // primeiro strtok retorna o hash (id)
+        char *saveptr = NULL;
+        char *token = strtok_r(bufferart, REPO_CSV_DELIM, &saveptr);
+
+        int hasFound = strcmp(token, hash) == 0;
+
+        // se nao encontrou, pula
+        if (!hasFound)
+            continue;
+
+        fseek(fcsv, lastfPosition, SEEK_SET);
+        Artista *found = CarregaArtistaCsvRepo(fcsv);
+        if (found != NULL) {
+            art = found;
+            break;
+        }
+    }
+
+    free(bufferart);
+    fclose(fcsv);
+
+    return art;
+}

@@ -1,6 +1,6 @@
+#include <math.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
 
 #include "musica.h"
 
@@ -76,16 +76,16 @@ void LiberaMusica(Musica *msc) {
     free(msc);
 }
 
-float SemelhancaMusicas(Musica msc1, Musica msc2) {
-    float SomaMedia = pow((msc1.danceability - msc2.danceability), 2);
-    SomaMedia+= pow((msc1.energy - msc2.energy), 2);
-    SomaMedia+= pow((msc1.loudness - msc2.loudness), 2);
-    SomaMedia+= pow((msc1.speechiness - msc2.speechiness), 2);
-    SomaMedia+= pow((msc1.acousticness - msc2.acousticness), 2);
-    SomaMedia+= pow((msc1.instrumentalness - msc2.instrumentalness), 2);
-    SomaMedia+= pow((msc1.liveness - msc2.liveness), 2);
-    SomaMedia+= pow((msc1.valence - msc2.valence), 2);
-    SomaMedia+= pow((msc1.tempo - msc2.tempo), 2);
+float SemelhancaMusicas(Musica *msc1, Musica *msc2) {
+    float SomaMedia = pow((msc1->danceability - msc2->danceability), 2);
+    SomaMedia += pow((msc1->energy - msc2->energy), 2);
+    SomaMedia += pow((msc1->loudness - msc2->loudness), 2);
+    SomaMedia += pow((msc1->speechiness - msc2->speechiness), 2);
+    SomaMedia += pow((msc1->acousticness - msc2->acousticness), 2);
+    SomaMedia += pow((msc1->instrumentalness - msc2->instrumentalness), 2);
+    SomaMedia += pow((msc1->liveness - msc2->liveness), 2);
+    SomaMedia += pow((msc1->valence - msc2->valence), 2);
+    SomaMedia += pow((msc1->tempo - msc2->tempo), 2);
 
     return sqrt(SomaMedia);
 }
