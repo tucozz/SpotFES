@@ -8,6 +8,8 @@ data/
 
 # Arquivos gerados pelo repositório
 playlists.bin
+relatorio_artistas.csv
+relatorio_musicas.csv
 
 # Saida do valgrind gerada por meio do Makefile
 valgrind-out.txt

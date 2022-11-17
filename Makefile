@@ -12,7 +12,7 @@ OBJS = $(patsubst %.c, $(BUILDIR)/%.o, $(notdir $(SRCS)))
 # CCompiler - é o compilador usado
 # CFLAGS - são as flags dadas ao compilador durante a compilação
 CC = gcc
-override CFLAGS += -lm -Wall -ggdb3 -I $(INCLUDE)
+override CFLAGS += -lm -Wall -pedantic -ggdb3 -I $(INCLUDE)
 
 # vpath diretiva que adiciona todos os diretórios com códigos fontes para busca com o padrão %.c
 #   - https://www.gnu.org/software/make/manual/html_node/Selective-Search.html

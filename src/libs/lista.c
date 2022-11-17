@@ -64,6 +64,10 @@ void *PopLista(Lista *lista) {
     return r;
 }
 
+void OrdenaLista(Lista *lista, int (*cmpElem)(const void **, const void **)) {
+    qsort(lista->arr, lista->qtd, __SIZEOF_POINTER__, cmpElem);
+}
+
 Lista *CopiaLista(const Lista * lista, void *(*cpyelem)(const void *)) {
     Lista *cpy = InicializaLista();
 
