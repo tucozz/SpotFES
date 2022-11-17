@@ -5,15 +5,15 @@
 
 typedef struct tDicionario Dicionario;
 
-Dicionario *InicializaDicionario(int (*comparador)(void *, void *));
+Dicionario *InicializaDicionario(int (*comparadorChaves)(void *, void *),
+                                 void (*liberaChaves)(void *),
+                                 void (*liberaValores)(void *));
 
-void LiberaDicionario(Dicionario *dicio, void (*liberaChaves)(void *),
-                      void (*liberaValores)(void *));
+void LiberaDicionario(Dicionario *dicio);
 
-void *GetValor(Dicionario *dicio, void *hash);
+void **GetValorDicionario(Dicionario *dicio, const void *chave,
+                          void *(*copiaChave)(void *));
 
-Lista *GetTodosValores(Dicionario *dicio);
-
-Lista *GetTodasChaves(Dicionario *dicio);
+Lista *GetTodosParesDicionario(Dicionario *dicio);
 
 #endif
