@@ -17,7 +17,7 @@ Dicionario *InicializaDicionario(int (*comparadorChaves)(void *, void *),
                                  void (*liberaValores)(void *)) {
     Dicionario *dicio = malloc(sizeof *dicio);
 
-    InicializaLista(dicio->pares);
+    dicio->pares = InicializaLista(dicio->pares);
     dicio->comparadorChaves = comparadorChaves;
     dicio->liberaChaves = liberaChaves;
     dicio->liberaValores = liberaValores;
@@ -39,7 +39,7 @@ void **GetValorDicionario(Dicionario *dicio, const void *chave,
     bool hasFound = false;
 
     int i;
-    for (i = 0; i < n; i++) {
+    for (i = 0; i < n && !hasFound; i++) {
         ParChaveValor *curr = AdquireElementoLista(
             dicio->pares, i); // ParChaveValor<void*, void*>
         void *currChave = GetChaveParCV(curr);

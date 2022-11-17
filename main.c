@@ -5,7 +5,7 @@
 #include "app.h"
 
 #include "repositorio_artistas.h"
-
+#include "relatorio.h"
 #include "repositorio_musicas.h"
 #include "repositorio_playlists.h"
 
@@ -22,6 +22,7 @@ int main(int argc, char *argv[]) {
     return EXIT_SUCCESS; */
 
     RepoMusicas *repomscs = InicializaRepoMusicas(argv[1]);
+    RepoArtistas *repoarts = InicializaRepoArtistas(argv[2]);
     char query[] = "baby";
     Lista *mscs = EncontraPeloNomeRepoMusica(repomscs, query); // Lista<musica>
 
@@ -71,7 +72,10 @@ int main(int argc, char *argv[]) {
 
     Lista *plscarr = CarregaTodasPlaylistsRepo(); // Lista<playlist>
 
+    GerarRelatorio(repomscs, repoarts, plscarr);
+
     LiberaLista(plscarr, &LiberaPLaylist);
 
     LiberaRepoMusicas(repomscs);
+    LiberaRepoArtistas(repoarts);
 }

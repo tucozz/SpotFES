@@ -12,16 +12,57 @@
 #define RELAT_ART_FILE "./relatorio_artistas.csv"
 
 static void SalvaMusicaCsv(FILE *fcsv, Musica *msc) {
-    // TODO: fazer
+    fprintf(fcsv, "%s;%s;%d;%d;%d;", GetMscId(msc), GetMscName(msc),
+            GetMscPopularity(msc), GetMscDuration(msc), IsExplicit(msc));
+
+    Lista *artistas = GetMscArtists(msc); // Lista<Artista *>
+    int n = GetQuantidadeLista(artistas);
+
+    for (int i = 0; i < n; i++) {
+        Artista *curr = AdquireElementoLista(artistas, i);
+        char *currNome = GetArtName(curr);
+        fprintf(fcsv, "%s", currNome);
+        if ((i + 1) < n)
+            fprintf(fcsv, "%c", '|');
+    }
+    fprintf(fcsv, "%c", ';');
+
+    for (int i = 0; i < n; i++) {
+        Artista *curr = AdquireElementoLista(artistas, i);
+        char *currId = GetArtId(curr);
+        fprintf(fcsv, "%s", currId);
+        if ((i + 1) < n)
+            fprintf(fcsv, "%c", '|');
+    }
+
+    fprintf(fcsv, ";%s;%g;%g;%d;%g;%d;%g;%g;%g;%g;%g;%g;%d\n",
+            GetMscReleaseDate(msc), GetMscDanceability(msc), GetMscEnergy(msc),
+            GetMscKey(msc), GetMscLoudness(msc), GetMscMode(msc),
+            GetMscSpeechiness(msc), GetMscAcousticness(msc),
+            GetMscInstrumentalness(msc), GetMscLiveness(msc),
+            GetMscValence(msc), GetMscTempo(msc), GetMscTimeSig(msc));
 }
 
-static void SalvaArtistaCsv(FILE *fcsv, Musica *msc) {
-    // TODO: fazer
+static void SalvaArtistaCsv(FILE *fcsv, Artista *art) {
+    fprintf(fcsv, "%s;%d.0;", GetArtId(art), GetArtSeguidores(art));
+    Lista *generos = GetArtGeneros(art); // Lista<string>
+    int n = GetQuantidadeLista(generos);
+    for (int i = 0; i < n; i++) {
+        char *curr = AdquireElementoLista(generos, i);
+        fprintf(fcsv, "%s", curr);
+        if ((i + 1) < n)
+            fprintf(fcsv, "%c", '|');
+    }
+    fprintf(fcsv, ";%s;%d\n", GetArtName(art), GetArtPopularity(art));
 }
 
-static int OrdenaDescListaPCVPorValor(const ParChaveValor *a,
-                                      const ParChaveValor *b) {
-    return *(int *)GetValorParCV(b) - *(int *)GetValorParCV(a);
+static int OrdenaDescListaPCVPorValor(const void **a, const void **b) {
+    ParChaveValor *l = *a;
+    ParChaveValor *r = *b;
+    int lV = *(int *)GetValorParCV(l);
+    int rV = *(int *)GetValorParCV(r);
+
+    return rV - lV;
 }
 
 void GerarRelatorio(RepoMusicas *repoMsc, RepoArtistas *repoArt,
@@ -61,7 +102,8 @@ void GerarRelatorio(RepoMusicas *repoMsc, RepoArtistas *repoArt,
             void **dicValMsc =
                 GetValorDicionario(musicas, currMscHash, &strdup);
             if (*dicValMsc == NULL) {
-                *dicValQtd = CopiaMusica(currMsc);
+                CompletaMusica(currMsc, repoArt);
+                *dicValMsc = CopiaMusica(currMsc);
             }
         }
     }
@@ -69,7 +111,7 @@ void GerarRelatorio(RepoMusicas *repoMsc, RepoArtistas *repoArt,
     // Lista<ParChaveValor<string, int>>
     Lista *paresMscQtd = GetTodosParesDicionario(musicasQtd);
 
-    OrdenaLista(paresMscQtd, SizeofParCV(), &OrdenaDescListaPCVPorValor);
+    OrdenaLista(paresMscQtd, &OrdenaDescListaPCVPorValor);
 
     FILE *fcsv = fopen(RELAT_MSC_FILE, "w");
 
@@ -92,8 +134,8 @@ void GerarRelatorio(RepoMusicas *repoMsc, RepoArtistas *repoArt,
     Dicionario *artistas = InicializaDicionario(&strcmp, &free, &LiberaArtista);
 
     for (int i = 0; i < n; i++) {
-        Musica *currMsc = GetValorParCV(AdquireElementoLista(paresMscQtd, i));
-        CompletaMusica(currMsc, repoArt);
+        Musica *currMsc = GetValorParCV(
+            AdquireElementoLista(GetTodosParesDicionario(musicas), i));
 
         Lista *currMscArts = GetMscArtists(currMsc); // Lista<Artista *>
         int m = GetQuantidadeLista(currMscArts);
@@ -114,10 +156,10 @@ void GerarRelatorio(RepoMusicas *repoMsc, RepoArtistas *repoArt,
                 *((int *)*dicValQtd) += 1;
             }
 
-            void **dicValMsc =
+            void **dicValArt =
                 GetValorDicionario(artistas, currArtHash, &strdup);
-            if (*dicValMsc == NULL) {
-                *dicValQtd = CopiaArtista(currArt);
+            if (*dicValArt == NULL) {
+                *dicValArt = CopiaArtista(currArt);
             }
         }
     }
@@ -125,7 +167,7 @@ void GerarRelatorio(RepoMusicas *repoMsc, RepoArtistas *repoArt,
     // Lista<ParChaveValor<string, int>>
     Lista *paresArtQtd = GetTodosParesDicionario(artistasQtd);
 
-    OrdenaLista(paresArtQtd, SizeofParCV(), &OrdenaDescListaPCVPorValor);
+    OrdenaLista(paresArtQtd, &OrdenaDescListaPCVPorValor);
 
     fcsv = fopen(RELAT_ART_FILE, "w");
 
