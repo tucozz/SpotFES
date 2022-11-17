@@ -98,6 +98,17 @@ void AdicionaElementoLista(Lista *lista, void *elem);
 void *PopLista(Lista *lista);
 
 /**
+ * @brief Ordena em todos os elementos em ordem @p crescence da @ref Lista* @p lista com base na ordem
+ * de precedencia dada por @p cmpElem
+ *
+ * @param lista A @ref Lista*
+ * @param sizeElem O tamanho do elemento da lista
+ * @param cmpElem A funcao comparadora que definira a forma de ordenacao da lista
+ */
+void OrdenaLista(Lista *lista, size_t sizeElem,
+                 int (*cmpElem)(const void *, const void *));
+
+/**
  * @brief Efetua uma copia da @ref Lista* @p lista e de seus elementos
  *
  * @param lista A @ref Lista*

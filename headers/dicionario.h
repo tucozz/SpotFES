@@ -1,7 +1,7 @@
 #ifndef _DICIONARIO_
 #define _DICIONARIO_
 
-#include "lista.h";
+#include "lista.h"
 
 typedef struct tDicionario Dicionario;
 

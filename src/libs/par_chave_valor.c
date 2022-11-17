@@ -34,3 +34,5 @@ void *GetChaveParCV(ParChaveValor *par) { return par->chave; }
 void *GetValorParCV(ParChaveValor *par) { return par->valor; }
 
 void **GetPtrValorParCV(ParChaveValor *par) { return &(par->valor); }
+
+size_t SizeofParCV() { return sizeof(ParChaveValor); }

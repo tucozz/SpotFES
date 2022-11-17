@@ -6,6 +6,6 @@
 #include "repositorio_musicas.h"
 
 void GerarRelatorio(RepoMusicas *repoMsc, RepoArtistas *repoArt,
-                    Playlist *repoPlay);
+                    Lista *playlists);
 
 #endif

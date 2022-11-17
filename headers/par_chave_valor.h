@@ -17,4 +17,6 @@ void *SetValorParCV(ParChaveValor *par, void *val);
 
 void **GetPtrValorParCV(ParChaveValor *par);
 
+size_t SizeofParCV();
+
 #endif
