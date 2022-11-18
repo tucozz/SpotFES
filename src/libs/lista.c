@@ -2,6 +2,8 @@
 
 #include "lista.h"
 
+#include "cpylib.h"
+
 static const int ritmo_crescimento_lista = 5;
 
 struct tLista {
@@ -85,7 +87,7 @@ int EncontraLista(Lista *lista, void *alvo,
 
 void OrdenaLista(Lista *lista, int (*cmpElem)(const void *, const void *)) {
     gcmpval = cmpElem;
-    qsort(lista->arr, lista->qtd, __SIZEOF_POINTER__, &ptrvalcmp);
+    qsortcpy(lista->arr, lista->qtd, __SIZEOF_POINTER__, &ptrvalcmp);
     gcmpval = NULL;
 }
 
