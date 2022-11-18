@@ -43,6 +43,8 @@ void CompletaPlaylist(Playlist *playlist, RepoMusicas *repo) {
     LiberaLista(musicas, &LiberaMusica);
 }
 
+static int intcmp(const int *a, const int *b) { return *a - *b; }
+
 Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
     CompletaPlaylist(playlist, repo);
 
@@ -94,7 +96,7 @@ Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
             else
                 LiberaMusica(msc);
 
-            // TODO: ordena hashDistanciaLista
+            OrdenaLista(hashDistanciaLista, &intcmp);
 
             break;
         }
@@ -117,7 +119,7 @@ Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
                 continue;
             }
 
-            // TODO: ordena hashDistanciaLista
+            OrdenaLista(hashDistanciaLista, &intcmp);
 
             void **hshMscVal = GetValorDicionario(hashMusica, hash, &strdup);
             if (*hshMscVal == NULL)

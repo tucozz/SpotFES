@@ -31,6 +31,15 @@ void LiberaLista(Lista *lista, void (*liberaElem)(void *)) {
     free(lista);
 }
 
+static int (*gcmpval)(const void *, const void *) = NULL;
+
+static inline ptrvalcmp(const void **ptr1, const void **ptr2) {
+    if (gcmpval == NULL)
+        return 0;
+
+    return gcmpval(*ptr1, *ptr2);
+}
+
 int GetQuantidadeLista(const Lista *lista) { return lista->qtd; }
 
 void *AdquireElementoLista(Lista *lista, int i) {
@@ -74,8 +83,10 @@ int EncontraLista(Lista *lista, void *alvo,
     return -1;
 }
 
-void OrdenaLista(Lista *lista, int (*cmpElem)(const void **, const void **)) {
-    qsort(lista->arr, lista->qtd, __SIZEOF_POINTER__, cmpElem);
+void OrdenaLista(Lista *lista, int (*cmpElem)(const void *, const void *)) {
+    gcmpval = cmpElem;
+    qsort(lista->arr, lista->qtd, __SIZEOF_POINTER__, &ptrvalcmp);
+    gcmpval = NULL;
 }
 
 Lista *CopiaLista(const Lista *lista, void *(*cpyelem)(const void *)) {
