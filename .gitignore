@@ -2,6 +2,7 @@
 # Arquivos gerados pelo deploy 
 build/
 main
+libspotfes.a
 
 # Diretório com os dados dos artistas e músicas
 data/
