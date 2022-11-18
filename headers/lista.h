@@ -98,6 +98,17 @@ void AdicionaElementoLista(Lista *lista, void *elem);
 void *PopLista(Lista *lista);
 
 /**
+ * @brief Procura pelo elemento @p alvo dentro da @p lista
+ *
+ * @param lista A @ref Lista*
+ * @param alvo Elemento que deseja encontrar
+ * @param cmpElem Funcao comparadora de elementos da lista
+ * @return void* Indice do elemento encontrado; -1, caso nao ache
+ */
+int EncontraLista(Lista *lista, void *alvo,
+                  int (*cmpElem)(const void *, const void *));
+
+/**
  * @brief Ordena em todos os ponteiros para elementos em ordem @p crescence da
  * @ref Lista* @p lista com base na ordem de precedencia dada por @p cmpElem
  *
@@ -105,7 +116,7 @@ void *PopLista(Lista *lista);
  * @param cmpElem A funcao comparadora que definira a forma de ordenacao da
  * lista
  */
-void OrdenaLista(Lista *lista, int (*cmpElem)(const void **, const void **));
+void OrdenaLista(Lista *lista, int (*cmpElem)(const void *, const void *));
 
 /**
  * @brief Efetua uma copia da @ref Lista* @p lista e de seus elementos

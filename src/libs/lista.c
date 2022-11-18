@@ -2,6 +2,8 @@
 
 #include "lista.h"
 
+#include "cpylib.h"
+
 static const int ritmo_crescimento_lista = 5;
 
 struct tLista {
@@ -29,6 +31,15 @@ void LiberaLista(Lista *lista, void (*liberaElem)(void *)) {
     free(lista->arr);
 
     free(lista);
+}
+
+static int (*gcmpval)(const void *, const void *) = NULL;
+
+static inline ptrvalcmp(const void **ptr1, const void **ptr2) {
+    if (gcmpval == NULL)
+        return 0;
+
+    return gcmpval(*ptr1, *ptr2);
 }
 
 int GetQuantidadeLista(const Lista *lista) { return lista->qtd; }
@@ -64,11 +75,23 @@ void *PopLista(Lista *lista) {
     return r;
 }
 
-void OrdenaLista(Lista *lista, int (*cmpElem)(const void **, const void **)) {
-    qsort(lista->arr, lista->qtd, __SIZEOF_POINTER__, cmpElem);
+int EncontraLista(Lista *lista, void *alvo,
+                  int (*cmpElem)(const void *, const void *)) {
+    int n = GetQuantidadeLista(lista);
+    for (int i = 0; i < n; i++)
+        if (cmpElem(lista->arr[i], alvo) == 0)
+            return i;
+
+    return -1;
 }
 
-Lista *CopiaLista(const Lista * lista, void *(*cpyelem)(const void *)) {
+void OrdenaLista(Lista *lista, int (*cmpElem)(const void *, const void *)) {
+    gcmpval = cmpElem;
+    qsortcpy(lista->arr, lista->qtd, __SIZEOF_POINTER__, &ptrvalcmp);
+    gcmpval = NULL;
+}
+
+Lista *CopiaLista(const Lista *lista, void *(*cpyelem)(const void *)) {
     Lista *cpy = InicializaLista();
 
     int i;

@@ -56,11 +56,9 @@ static void SalvaArtistaCsv(FILE *fcsv, Artista *art) {
     fprintf(fcsv, ";%s;%d\n", GetArtName(art), GetArtPopularity(art));
 }
 
-static int OrdenaDescListaPCVPorValor(const void **a, const void **b) {
-    ParChaveValor *l = *a;
-    ParChaveValor *r = *b;
-    int lV = *(int *)GetValorParCV(l);
-    int rV = *(int *)GetValorParCV(r);
+static int OrdenaDescListaPCVPorValor(const ParChaveValor *a, const ParChaveValor *b) {
+    int lV = *(int *)GetValorParCV(a);
+    int rV = *(int *)GetValorParCV(b);
 
     return rV - lV;
 }
