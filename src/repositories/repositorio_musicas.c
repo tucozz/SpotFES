@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -243,4 +242,26 @@ Musica *EncontraPeloHashRepoMusica(RepoMusicas *repo, const char *hash) {
     fclose(fcsv);
 
     return msc;
+}
+
+FILE *InicioIteradorRepoMsc(RepoMusicas *repo) {
+    FILE *itr = fopen(repo->musicasCsv, "r");
+    return itr;
+}
+
+Musica *ProximoIteradorRepoMsc(FILE *itr) {
+    Musica *msc = NULL;
+    while (!(msc = CarregaMusicaCsvRepo(itr) || feof(itr))) {
+    };
+
+    return msc;
+}
+
+bool FimIteradorRepoMsc(FILE *itr) {
+    if (feof(itr)) {
+        fclose(itr);
+        return true;
+    }
+
+    return false;
 }

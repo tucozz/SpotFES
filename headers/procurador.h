@@ -29,4 +29,16 @@ void CompletaMusica(Musica *msc, RepoArtistas *repo);
  */
 void CompletaPlaylist(Playlist *playlist, RepoMusicas *repo);
 
+/**
+ * @brief Gera uma @ref Lista* de @p k @ref Musica* semelhantes a aquelas que
+ * fazem parte da @p playlist
+ *
+ * @param playlist A @ref Playlist* para a qual recomendar musicas
+ * @param k Quantidade de musicas para recomendar
+ * @param repo O @ref RepoMusicas* onde está a fonte de musicas
+ * @return Lista* Uma @ref Lista* de @ref Musica* com tamanho maximo igual a
+ * @p k
+ */
+Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo);
+
 #endif

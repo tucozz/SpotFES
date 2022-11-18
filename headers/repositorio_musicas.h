@@ -28,6 +28,9 @@
 #ifndef _REPOSITORIO_MUSICAS_
 #define _REPOSITORIO_MUSICAS_
 
+#include <stdio.h>
+#include <stdbool.h>
+
 #include "musica.h"
 
 typedef struct tRepoMusicas RepoMusicas;
@@ -51,7 +54,7 @@ void LiberaRepoMusicas(RepoMusicas *repo);
 /**
  * @brief Busca na fonte todas as musicas que contem @p query como uma substring
  * do seu nome
- * 
+ *
  * @warning Normaliza a @p query
  *
  * @param repo O @ref RepoMusicas
@@ -62,11 +65,17 @@ Lista *EncontraPeloNomeRepoMusica(RepoMusicas *repo, char *query);
 
 /**
  * @brief Busca na fonte a @ref Musica* com o hash igual a @p hash
- * 
+ *
  * @param repo O @ref RepoMusicas*
  * @param hash O hash pelo qual procurar
  * @return Musica* A @ref Musica* encontrada; NULL caso nao ache
  */
 Musica *EncontraPeloHashRepoMusica(RepoMusicas *repo, const char *hash);
+
+FILE *InicioIteradorRepoMsc(RepoMusicas *repo);
+
+Musica *ProximoIteradorRepoMsc(FILE *itr);
+
+bool FimIteradorRepoMsc(FILE *itr);
 
 #endif

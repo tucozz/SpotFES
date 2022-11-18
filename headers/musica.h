@@ -98,6 +98,15 @@ float GetMscTempo(const Musica *msc);
 int GetMscTimeSig(const Musica *msc);
 
 /**
+ * @brief 
+ * 
+ * @param msc1 
+ * @param msc2 
+ * @return float 
+ */
+float SemelhancaMusicas(Musica *msc1, Musica *msc2);
+
+/**
  * @brief Inclui uma @ref Lista* de @ref Artista* em @ref Musica* @p msc , caso
  * nao haja nenhuma
  *

@@ -64,11 +64,21 @@ void *PopLista(Lista *lista) {
     return r;
 }
 
+int EncontraLista(Lista *lista, void *alvo,
+                  int (*cmpElem)(const void *, const void *)) {
+    int n = GetQuantidadeLista(lista);
+    for (int i = 0; i < n; i++)
+        if (cmpElem(lista->arr[i], alvo) == 0)
+            return i;
+
+    return -1;
+}
+
 void OrdenaLista(Lista *lista, int (*cmpElem)(const void **, const void **)) {
     qsort(lista->arr, lista->qtd, __SIZEOF_POINTER__, cmpElem);
 }
 
-Lista *CopiaLista(const Lista * lista, void *(*cpyelem)(const void *)) {
+Lista *CopiaLista(const Lista *lista, void *(*cpyelem)(const void *)) {
     Lista *cpy = InicializaLista();
 
     int i;
