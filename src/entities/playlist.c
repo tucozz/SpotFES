@@ -62,3 +62,43 @@ Playlist *CopiaPlaylist(const Playlist *playlist) {
 
     return cpy;
 }
+
+Musica *CriaMusicaMedia(const Playlist *play){
+    int i;
+
+    float danceabilityM = 0;
+    float energyM = 0;
+    float loudnessM = 0;
+    float speechinessM = 0;
+    float acousticnessM = 0;
+    float instrumentalnessM = 0;
+    float livenessM = 0;
+    float valenceM = 0;
+    float tempoM = 0;
+
+    for(i=0;i<GetQuantidadeLista(GetMusicasPlaylist(play));i++){
+        danceabilityM += GetMscDanceability(AdquireElementoLista(play, i));
+        energyM += GetMscEnergy(AdquireElementoLista(play, i));
+        loudnessM += GetMscLoudness(AdquireElementoLista(play, i));
+        speechinessM += GetMscSpeechiness(AdquireElementoLista(play, i));
+        acousticnessM += GetMscAcousticness(AdquireElementoLista(play, i));
+        instrumentalnessM += GetMscInstrumentalness(AdquireElementoLista(play, i));
+        livenessM += GetMscLiveness(AdquireElementoLista(play, i));
+        valenceM += GetMscValence(AdquireElementoLista(play, i));
+        tempoM += GetMscTempo(AdquireElementoLista(play, i));
+    }
+
+    danceabilityM = danceabilityM/GetQuantidadeLista(GetMusicasPlaylist(play));
+    energyM = energyM/GetQuantidadeLista(GetMusicasPlaylist(play));
+    loudnessM = loudnessM/GetQuantidadeLista(GetMusicasPlaylist(play));
+    speechinessM = speechinessM/GetQuantidadeLista(GetMusicasPlaylist(play));
+    acousticnessM = acousticnessM/GetQuantidadeLista(GetMusicasPlaylist(play));
+    instrumentalnessM = instrumentalnessM/GetQuantidadeLista(GetMusicasPlaylist(play));
+    livenessM = livenessM/GetQuantidadeLista(GetMusicasPlaylist(play));
+    valenceM = valenceM/GetQuantidadeLista(GetMusicasPlaylist(play));
+    tempoM = tempoM/GetQuantidadeLista(GetMusicasPlaylist(play));
+
+    Musica *msc = InicializaMusica(NULL, "media", 0, 0, 0, NULL, NULL, danceabilityM, energyM, 0, loudnessM, 0, speechinessM, acousticnessM, instrumentalnessM, livenessM, valenceM, tempoM, 0);
+
+    return msc;
+}

@@ -50,4 +50,5 @@ bool AdicionaMusicaPlaylist(Playlist *playlist, const Musica *msc);
  */
 Playlist *CopiaPlaylist(const Playlist *playlist);
 
+Musica *CriaMusicaMedia(const Playlist *playlist);
 #endif
