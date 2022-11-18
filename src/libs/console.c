@@ -14,9 +14,14 @@ void ListarMusica(Musica *msc, int i){
     printf(" | %17s", GetMscName(msc));
     if(strlen(GetMscName(msc)) > 17) printf("...");
     printf(" | ");
-    for(j=0;j<(GetQuantidadeLista(GetMscArtists(msc))); j++){
-        printf("%s, ", GetArtName(AdquireElementoLista(GetMscArtists(msc), j)));
-    }
+    if (GetMscArtistsName(msc) == NULL)
+        for(j=0;j<(GetQuantidadeLista(GetMscArtists(msc))); j++)
+            printf("%s, ", GetArtName(AdquireElementoLista(GetMscArtists(msc), j)));
+
+    else
+        for(j=0;j<(GetQuantidadeLista(GetMscArtistsName(msc))); j++)
+            printf("%s, ", (char *)AdquireElementoLista(GetMscArtistsName(msc), j));
+
     printf("\n");
 }
 
@@ -72,7 +77,7 @@ void DetalharMusica(Musica *msc){
 
         printf("Generos: ");
         for(j=0;j<GetQuantidadeLista(GetArtGeneros(AdquireElementoLista(GetMscArtists(msc), i)));j++){
-            printf("%s, ", AdquireElementoLista(GetArtGeneros(AdquireElementoLista(GetMscArtists(msc), i)), j));
+            printf("%s, ", (char *)AdquireElementoLista(GetArtGeneros(AdquireElementoLista(GetMscArtists(msc), i)), j));
         }
         printf("\n\n");
     }
