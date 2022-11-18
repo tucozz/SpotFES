@@ -2,10 +2,14 @@
 
 # INCLUDE - é o diretório que contém os headers
 # BUILDIR - é o diretório onde estarão os binários
+# LIBDIR - é o diretório onde estara a biblioteca do projeto
+# LIB - nome base da biblioteca do projeto
 # SRCS - lista com os caminhos para todos .c
 # OBJS - lista com os caminhos para todos .o
 INCLUDE = headers/
 BUILDIR = build
+LIBDIR = .
+LIB = spotfes
 SRCS = $(shell find . -type f -name '*.c' | sed 's|^./||')
 OBJS = $(patsubst %.c, $(BUILDIR)/%.o, $(notdir $(SRCS)))
 
@@ -25,17 +29,20 @@ all : pre-main main
 $(BUILDIR)/%.o : %.c
 	$(CC) -o $@ -c $< $(CFLAGS)
 
+archive: $(OBJS)
+	ar rcs $(LIBDIR)/lib$(LIB).a $^
+
 # Preparativos para o build; Garante que o diretório build/ existe
 pre-main:
 	@mkdir -p $(BUILDIR)/
 
 # Linka todos os .o no executável main
-main : $(OBJS)
-	$(CC) -o $@ $^ $(CFLAGS)
+main : archive
+	$(CC) -o $@ -L . -l$(LIB) $(CFLAGS)
 
 # Rode make clean para remover tudo que é gerado pelo deploy
 clean:
-	rm -rf $(BUILDIR)/ main
+	rm -rf $(BUILDIR)/ main $(LIBDIR)/lib$(LIB).a
 
 valgrind: all
 	- rm valgrind-out.txt
