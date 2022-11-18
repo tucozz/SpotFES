@@ -12,8 +12,9 @@ struct tMusica {
     int popularity;
     int duration_ms;
     bool explicit;
-    Lista *artists;    // Lista<artista>
-    Lista *id_artists; // Lista<string>
+    Lista *artists;      // Lista<artista>
+    Lista *name_artists; // Lista<string>
+    Lista *id_artists;   // Lista<string>
     char *release_date;
     float danceability;
     float energy;
@@ -31,13 +32,14 @@ struct tMusica {
 
 Musica *InicializaMusica(const char *id, const char *name, const int popularity,
                          const int duration_ms, const bool explicit,
-                         const Lista *id_artists, const char *release_date,
-                         const float danceability, const float energy,
-                         const int key, const float loudness,
-                         const enum Mode mode, const float speechiness,
-                         const float acousticness, const float instrumentalness,
-                         const float liveness, const float valence,
-                         const float tempo, const int time_signature) {
+                         const Lista *name_artists, const Lista *id_artists,
+                         const char *release_date, const float danceability,
+                         const float energy, const int key,
+                         const float loudness, const enum Mode mode,
+                         const float speechiness, const float acousticness,
+                         const float instrumentalness, const float liveness,
+                         const float valence, const float tempo,
+                         const int time_signature) {
     Musica *msc = malloc(sizeof *msc);
 
     msc->id = strdup(id);
@@ -46,6 +48,7 @@ Musica *InicializaMusica(const char *id, const char *name, const int popularity,
     msc->duration_ms = duration_ms;
     msc->explicit = explicit;
     msc->artists = NULL;
+    msc->name_artists = CopiaLista(name_artists, &strdup);
     msc->id_artists = CopiaLista(id_artists, &strdup);
     msc->release_date = strdup(release_date);
     msc->danceability = danceability;
@@ -70,6 +73,7 @@ void LiberaMusica(Musica *msc) {
     if (msc->artists != NULL)
         LiberaLista(msc->artists, &LiberaArtista);
 
+    LiberaLista(msc->name_artists, &free);
     LiberaLista(msc->id_artists, &free);
     free(msc->release_date);
 
@@ -101,6 +105,8 @@ int GetMscDuration(const Musica *msc) { return msc->duration_ms; }
 bool IsExplicit(const Musica *msc) { return msc->explicit; }
 
 Lista *GetMscArtists(Musica *msc) { return msc->artists; }
+
+Lista *GetMscArtistsName(Musica *msc) { return msc->name_artists; }
 
 Lista *GetMscArtistsId(Musica *msc) { return msc->id_artists; }
 
@@ -144,10 +150,10 @@ bool IncluiMscArtistas(Musica *msc, const Lista *listart) {
 Musica *CopiaMusica(const Musica *msc) {
     Musica *cpy = InicializaMusica(
         msc->id, msc->name, msc->popularity, msc->duration_ms, msc->explicit,
-        msc->id_artists, msc->release_date, msc->danceability, msc->energy,
-        msc->key, msc->loudness, msc->mode, msc->speechiness, msc->acousticness,
-        msc->instrumentalness, msc->liveness, msc->valence, msc->tempo,
-        msc->time_signature);
+        msc->name_artists, msc->id_artists, msc->release_date,
+        msc->danceability, msc->energy, msc->key, msc->loudness, msc->mode,
+        msc->speechiness, msc->acousticness, msc->instrumentalness,
+        msc->liveness, msc->valence, msc->tempo, msc->time_signature);
 
     IncluiMscArtistas(cpy, msc->artists);
 

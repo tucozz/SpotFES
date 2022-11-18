@@ -46,7 +46,8 @@ static Musica *CarregaMusicaCsvRepo(FILE *csv) {
     int msc_popularity;
     int msc_duration_ms;
     bool msc_explicit;
-    Lista *msc_id_artists = NULL; // Lista<string>
+    Lista *msc_name_artists = NULL; // Lista<string>
+    Lista *msc_id_artists = NULL;   // Lista<string>
     char *msc_release_date = NULL;
     float msc_danceability;
     float msc_energy;
@@ -88,7 +89,7 @@ static Musica *CarregaMusicaCsvRepo(FILE *csv) {
 
             msc_explicit = tmp_explicit;
         } else if (i == 6) {
-            // ignora os nomes, pois sao irrelevantes
+            msc_name_artists = CarregaListaStringRepo(token);
         } else if (i == 7) {
             msc_id_artists = CarregaListaStringRepo(token);
         } else if (i == 8) {
@@ -142,6 +143,8 @@ static Musica *CarregaMusicaCsvRepo(FILE *csv) {
         free(msc_id);
         free(msc_name);
         free(msc_release_date);
+        if (msc_name_artists != NULL)
+            LiberaLista(msc_name_artists, &free);
         if (msc_id_artists != NULL)
             LiberaLista(msc_id_artists, &free);
 
@@ -150,15 +153,16 @@ static Musica *CarregaMusicaCsvRepo(FILE *csv) {
 
     Musica *msc = NULL;
     msc = InicializaMusica(msc_id, msc_name, msc_popularity, msc_duration_ms,
-                           msc_explicit, msc_id_artists, msc_release_date,
-                           msc_danceability, msc_energy, msc_key, msc_loudness,
-                           msc_mode, msc_speechiness, msc_acousticness,
-                           msc_instrumentalness, msc_liveness, msc_valence,
-                           msc_tempo, msc_time_signature);
+                           msc_explicit, msc_name_artists, msc_id_artists,
+                           msc_release_date, msc_danceability, msc_energy,
+                           msc_key, msc_loudness, msc_mode, msc_speechiness,
+                           msc_acousticness, msc_instrumentalness, msc_liveness,
+                           msc_valence, msc_tempo, msc_time_signature);
 
     free(msc_id);
     free(msc_name);
     free(msc_release_date);
+    LiberaLista(msc_name_artists, &free);
     LiberaLista(msc_id_artists, &free);
 
     return msc;
