@@ -40,13 +40,14 @@ typedef struct tMusica Musica;
  */
 Musica *InicializaMusica(const char *id, const char *name, const int popularity,
                          const int duration_ms, const bool explicit,
-                         const Lista *id_artists, const char *release_date,
-                         const float danceability, const float energy,
-                         const int key, const float loudness,
-                         const enum Mode mode, const float speechiness,
-                         const float acousticness, const float instrumentalness,
-                         const float liveness, const float valence,
-                         const float tempo, const int time_signature);
+                         const Lista *name_artists, const Lista *id_artists,
+                         const char *release_date, const float danceability,
+                         const float energy, const int key,
+                         const float loudness, const enum Mode mode,
+                         const float speechiness, const float acousticness,
+                         const float instrumentalness, const float liveness,
+                         const float valence, const float tempo,
+                         const int time_signature);
 
 /**
  * @brief Libera a @ref Musica dinamicamente alocada
@@ -68,6 +69,8 @@ int GetMscDuration(const Musica *msc);
 bool IsExplicit(const Musica *msc);
 
 Lista *GetMscArtists(Musica *msc);
+
+Lista *GetMscArtistsName(Musica *msc);
 
 Lista *GetMscArtistsId(Musica *msc);
 
