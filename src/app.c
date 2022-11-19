@@ -4,6 +4,7 @@
 
 #include "app.h"
 
+#include "procurador.h"
 #include "console.h"
 #include "exception.h"
 #include "repositorio_artistas.h"
@@ -71,9 +72,7 @@ static void ListarTodasPlaylistsMenu(App *app, Musica *mscOrig) {
 
         system("@cls||clear");
 
-        for(i=0;i<GetQuantidadeLista(app->playlists);i++){
-            ListarPlaylist(app->playlists, i);
-        }
+        ListarTodasPlaylists(app->playlists, 0, GetQuantidadeLista(app->playlists));
 
         printf("[c] Criar Playlist\n"
                "[d] Detalhar Playlist\n"
@@ -105,24 +104,34 @@ static void ListarTodasPlaylistsMenu(App *app, Musica *mscOrig) {
                    "[a] Adicionar Musica na Playlist\n"
                    "[q] Sair\n");
             
-            char k;
-            scanf("%c%*c", &k);
+            char option;
+            scanf("%c%*c", &option);
 
-            switch (k) {
-            case 'f':;
-                EncontraMusicaMenu(app, NULL);
-                break;
-
-            case 'g':;
-                ListarTodasPlaylistsMenu(app, NULL);
-                break;
-
+            switch (option) {
             case 'r':;
-                GerarRelatorioMenu(app);
+                printf("Quantas musicas recomendadas deseja?\n");
+                char k;
+                scanf("%c%*c", &k);
+
+                Lista *recomendadas = InicializaLista;
+                recomendadas = RecomendaMusicas(AdquireElementoLista(app->playlists, indice), k, app->repoMsc);
+
+                for(i=0;i<k;i++){
+                    ListarMusica(AdquireElementoLista(recomendadas, i), i);
+                }
+                break;
+
+            case 'a':;
+                 if(mscOrig != NULL){
+                    AdicionaElementoLista(AdquireElementoLista(app->playlists, indice), mscOrig);
+                    printf("Musica Adicionada!\n");
+                    break;
+                }
+
+                EncontraMusicaMenu(app, AdquireElementoLista(app->playlists, indice));
                 break;
 
             case 'q':;
-                SairAppMenu(app);
                 return;
 
             default:
