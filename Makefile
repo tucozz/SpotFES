@@ -52,7 +52,7 @@ clean:
 	rm -rf $(BUILDIR)/ main $(LIBDIR)/lib$(LIB).a
 
 valgrind: all
-	- rm valgrind-out.txt
+	rm -f valgrind-out.txt
 
 	valgrind --leak-check=full \
 			 --show-leak-kinds=all \
