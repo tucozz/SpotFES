@@ -3,6 +3,7 @@
 
 #include "app.h"
 
+#include "console.h"
 #include "exception.h"
 #include "repositorio_artistas.h"
 #include "repositorio_musicas.h"
@@ -43,8 +44,50 @@ static void EncontraMusicaMenu(App *app) {
 }
 
 static void ListarTodasPlaylistsMenu(App *app) {
-    system("@cls||clear");
-    // TODO: isso
+    while(true){
+        int indice, i;
+
+        system("@cls||clear");
+
+        for(i=0;i<GetQuantidadeLista(app->playlists);i++){
+            ListarPlaylist(app->playlists, i);
+        }
+
+        printf("[c] Criar Playlist\n"
+               "[d] Detalhar Playlist\n"
+               "[q] Sair\n");
+
+        char curr;
+        scanf("%c%*c", &curr);
+
+        switch (curr) {
+        case 'c':;
+            char *nome;
+
+            printf("Digite um nome para a playlist:\n");
+            scanf("%s", nome);
+
+            Playlist *play = InicializaPlaylist(nome, NULL);
+            AdicionaElementoLista(app->playlists, play);
+
+            printf("Playlist %s Criada!\n");
+            break;
+
+        case 'd':;
+            printf("Digite o Indice da playlist desejada:\n");
+            scanf("%c%*c", &indice);
+            break;
+
+        case 'q':;
+            SairAppMenu(app);
+            return;
+
+        default:
+            printf("Ops! Acao invalida. Favor especificar funcionalidade "
+                   "desejada\n");
+            continue;
+        }
+    }
 }
 
 static void GerarRelatorioMenu(App *app) {
