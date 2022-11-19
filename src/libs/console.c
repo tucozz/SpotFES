@@ -30,8 +30,8 @@ void ListarTodasMusicas(Lista *lista, int n, int m){
 
     printf("Indice: | Id:                 | Nome:             | Artistas:\n");
 
-    for(i=n; i<=m; i++){
-        ListarMusica(AdquireElementoLista(lista, i), i);
+    for(i=n; i<m; i++){
+        ListarMusica(AdquireElementoLista(lista, i), i + 1);
         printf("\n");
     }
     printf("\n");
@@ -96,8 +96,8 @@ void ListarTodasPlaylists(Lista *lista, int n, int m){
 
     printf("Indice: | Nome:               | Numero de Musicas:\n");
 
-    for(i=n; i<=m; i++){
-        ListarPlaylist(AdquireElementoLista(lista, i), i);
+    for(i=n; i<m; i++){
+        ListarPlaylist(AdquireElementoLista(lista, i), i + 1);
         printf("\n");
     }
     printf("\n");
