@@ -8,6 +8,12 @@
 #include "repositorio_musicas.h"
 #include "repositorio_playlists.h"
 
+static void EncontraMusicaMenu(App *app);
+
+static void ListarTodasPlaylistsMenu(App *app);
+
+static void GerarRelatorioMenu(App *app);
+
 struct tApp {
     RepoMusicas *repoMsc;
     RepoArtistas *repoArt;
@@ -35,21 +41,6 @@ void *LiberaApp(App *app) {
     free(app);
 
     return NULL;
-}
-
-static void EncontraMusicaMenu(App *app) {
-    system("@cls||clear");
-    // TODO: isso
-}
-
-static void ListarTodasPlaylistsMenu(App *app) {
-    system("@cls||clear");
-    // TODO: isso
-}
-
-static void GerarRelatorioMenu(App *app) {
-    system("@cls||clear");
-    // TODO: isso
 }
 
 static void SairAppMenu(App *app) {
@@ -91,4 +82,19 @@ void RodaApp(App *app) {
             continue;
         }
     }
+}
+
+static void EncontraMusicaMenu(App *app) {
+    system("@cls||clear");
+    // TODO: isso
+}
+
+static void ListarTodasPlaylistsMenu(App *app) {
+    system("@cls||clear");
+    
+}
+
+static void GerarRelatorioMenu(App *app) {
+    system("@cls||clear");
+    // TODO: isso
 }
