@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "app.h"
 
@@ -17,6 +18,10 @@
  * procura de uma musica para adicionar nela
  */
 static void EncontraMusicaMenu(App *app, Playlist *playlistOrig);
+
+static int TabelaMusicasMenu(App *app, Lista *musicas, int *n, int *m);
+
+static void DetalhaMusicaMenu(App *app, Musica *msc, Playlist *playlistOrig);
 
 /**
  * @brief Lista todas as playlists do usuário
@@ -96,9 +101,38 @@ void RodaApp(App *app) {
 }
 
 static void EncontraMusicaMenu(App *app, Playlist *playlistOrig) {
-    system("@cls||clear");
-    // TODO: isso
+    char *buffer = NULL;
+    do {
+        system("@cls||clear");
+        printf("(submeter uma entrada vazia abandona a busca e volta para o "
+               "último menu)\n"
+               "Digite o nome da música pela qual quer procurar: ");
+
+    } while (getline(&buffer, NULL, stdin) == -1);
+    if (strlen(buffer) <= 1) {
+        free(buffer);
+        return;
+    }
+
+    Lista *resultado =
+        EncontraPeloNomeRepoMusica(app->repoMsc, buffer); // Lista<Musica *>
+    free(buffer);
+
+    // Salva os range ao entre DetalhaMusicaMenu's
+    int n = 0, m = 50;
+    while (true) {
+        int i = TabelaMusicasMenu(resultado, resultado, &n, &m);
+        if (i == -1)
+            break;
+
+        DetalhaMusicaMenu(app, AdquireElementoLista(resultado, i),
+                          playlistOrig);
+    }
 }
+
+static int TabelaMusicasMenu(App *app, Lista *musicas, int *n, int *m) {}
+
+static void DetalhaMusicaMenu(App *app, Musica *msc, Playlist *playlistOrig) {}
 
 static void ListarTodasPlaylistsMenu(App *app, Musica *mscOrig) {
     system("@cls||clear");
