@@ -7,6 +7,7 @@
 #include "repositorio_artistas.h"
 #include "repositorio_musicas.h"
 #include "repositorio_playlists.h"
+#include "console.h"
 
 static void EncontraMusicaMenu(App *app);
 
