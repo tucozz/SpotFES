@@ -96,7 +96,7 @@ void ListarPlaylist(Playlist *play, int i) {
     printf("%5d   | %17s", i, GetNomePlaylist(play));
     if (strlen(GetNomePlaylist(play)) > 17)
         printf("...");
-    printf(" | %5d", GetQuantidadeLista(GetMusicasPlaylist(play)));
+    printf(" | %5d", GetQuantidadeLista(GetMusicasIdPlaylist(play)));
     printf("\n");
 }
 

@@ -75,9 +75,8 @@ static void ListarTodasPlaylistsMenu(App *app, Musica *mscOrig) {
 
         system("@cls||clear");
 
-        for (i = 0; i < GetQuantidadeLista(app->playlists); i++) {
-            ListarPlaylist(app->playlists, i);
-        }
+        ListarTodasPlaylists(app->playlists, 0,
+                             GetQuantidadeLista(app->playlists));
 
         printf("[c] Criar Playlist\n"
                "[d] Detalhar Playlist\n"
