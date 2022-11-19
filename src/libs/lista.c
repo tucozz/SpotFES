@@ -61,7 +61,7 @@ void AdicionaElementoLista(Lista *lista, void *elem) {
         lista->capacidade += ritmo_crescimento_lista;
         lista->arr =
             realloc(lista->arr, lista->capacidade * __SIZEOF_POINTER__);
-        if (lista->arr)
+        if (lista->arr == NULL)
             throwOutOfMemoryException("Lista internal arr up realloc failed");
     }
 
