@@ -8,27 +8,6 @@
 #include "repositorio_musicas.h"
 #include "repositorio_playlists.h"
 
-/** Funcao de Buscar Musicas */
-#define APP_FUNC_BUSCMUSC 1
-/** Funcao de Listar Musica */
-#define APP_FUNC_LISTMUSC 2
-/** Funcao de Criar Playlist */
-#define APP_FUNC_CRIAPLAY 3
-/** Funcao de Listar todas as Playlists */
-#define APP_FUNC_LSPLAYLS 4
-/** Funcao de Listar Playlist */
-#define APP_FUNC_LISTPLAY 5
-/** Funcao de Adicionar Musica a Playlist */
-#define APP_FUNC_ADDMSCPL 6
-/** Funcao de Recomendar Musicas dada uma Playlist */
-#define APP_FUNC_RECOPLAY 7
-/** Funcao de Gerar Relatorios */
-#define APP_FUNC_GENRELAT 8
-/** Acao de Voltar a Tras na Interface */
-#define APP_ACTN_VOOOLTAR 9
-/** Acao de Interagir com o contexto da interface */
-#define APP_ACTN_INTERAGE 0
-
 struct tApp {
     RepoMusicas *repoMsc;
     RepoArtistas *repoArt;
@@ -58,49 +37,52 @@ void *LiberaApp(App *app) {
     return NULL;
 }
 
-void RodaApp() {
-    while (1) {
+static void EncontraMusicaMenu(App *app) {
+    system("@cls||clear");
+    // TODO: isso
+}
+
+static void ListarTodasPlaylistsMenu(App *app) {
+    system("@cls||clear");
+    // TODO: isso
+}
+
+static void GerarRelatorioMenu(App *app) {
+    system("@cls||clear");
+    // TODO: isso
+}
+
+static void SairAppMenu(App *app) {
+    system("@cls||clear");
+    printf("Volte sempre!\n");
+    SalvaTodasPlaylistsRepo(app->playlists);
+}
+
+void RodaApp(App *app) {
+    while (true) {
         system("@cls||clear");
-        printf("Digite o numero relacionado a funcionalidade desejada\n\n"
-               "1. Encontrar Musica\n"
-               "2. Listar Musica\n"
-               "3. Criar Playlist\n"
-               "4. Listar Playlists\n"
-               "5. Listar Musicas da Playlist\n"
-               "6. Adicionar Musica a Playlist\n"
-               "7. Recomendar Musicas\n"
-               "8. Gerar Relatorios\n"
-               "9. Voltar\n");
+        printf("[f] Encontrar Música\n"
+               "[g] Listar suas Playlists\n"
+               "[r] Gerar Relatório\n"
+               "[q] Sair\n");
 
-        int curr;
-        scanf("%d", &curr);
+        char curr;
+        scanf("%c%*c", &curr);
         switch (curr) {
-        case APP_FUNC_BUSCMUSC:;
-
+        case 'f':;
+            EncontraMusicaMenu(app);
             break;
 
-        case APP_FUNC_LISTMUSC:;
+        case 'g':;
+            ListarTodasPlaylistsMenu(app);
             break;
 
-        case APP_FUNC_CRIAPLAY:;
+        case 'r':;
+            ListarTodasPlaylistsMenu(app);
             break;
 
-        case APP_FUNC_LSPLAYLS:;
-            break;
-
-        case APP_FUNC_LISTPLAY:;
-            break;
-
-        case APP_FUNC_ADDMSCPL:;
-            break;
-
-        case APP_FUNC_RECOPLAY:;
-            break;
-
-        case APP_FUNC_GENRELAT:;
-            break;
-
-        case APP_ACTN_VOOOLTAR:;
+        case 'q':;
+            SairAppMenu(app);
             return;
 
         default:
@@ -110,5 +92,3 @@ void RodaApp() {
         }
     }
 }
-
-void SairApp(App *app) { SalvaTodasPlaylistsRepo(app->playlists); }

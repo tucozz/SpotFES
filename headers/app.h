@@ -7,8 +7,6 @@ App *InicializaApp(const char *artistascsv, const char *musicascsv);
 
 void *LiberaApp(App *app);
 
-void RodaApp();
-
-void SairApp();
+void RodaApp(App *app);
 
 #endif
