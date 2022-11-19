@@ -6,6 +6,7 @@
 
 #include "console.h"
 #include "exception.h"
+#include "procurador.h"
 #include "repositorio_artistas.h"
 #include "repositorio_musicas.h"
 #include "repositorio_playlists.h"
@@ -19,7 +20,8 @@
  */
 static void EncontraMusicaMenu(App *app, Playlist *playlistOrig);
 
-static int TabelaMusicasMenu(Lista *musicas, int *n, int *m);
+static void ListarTodasMusicasMenu(App *app, Lista *musicas,
+                                   Playlist *playlistOrig);
 
 static void DetalhaMusicaMenu(App *app, Musica *msc, Playlist *playlistOrig);
 
@@ -35,6 +37,8 @@ static void ListarTodasPlaylistsMenu(App *app, Musica *mscOrig);
 static void GerarRelatorioMenu(App *app);
 
 static void SairAppMenu(App *app);
+
+static void AbrirMusicaNoNavegador(const Musica *msc);
 
 struct tApp {
     RepoMusicas *repoMsc;
@@ -66,12 +70,12 @@ void *LiberaApp(App *app) {
 }
 
 static void ListarTodasPlaylistsMenu(App *app, Musica *mscOrig) {
-    while(true){
+    while (true) {
         int indice, i;
 
         system("@cls||clear");
 
-        for(i=0;i<GetQuantidadeLista(app->playlists);i++){
+        for (i = 0; i < GetQuantidadeLista(app->playlists); i++) {
             ListarPlaylist(app->playlists, i);
         }
 
@@ -141,7 +145,8 @@ void RodaApp(App *app) {
 
         default:
             printf("Ops! Acao invalida. Favor especificar funcionalidade "
-                   "desejada\n");
+                   "desejada\npressione ENTER para continuar");
+            scanf("%*c");
             continue;
         }
     }
@@ -161,25 +166,122 @@ static void EncontraMusicaMenu(App *app, Playlist *playlistOrig) {
         return;
     }
 
-    Lista *resultado =
-        EncontraPeloNomeRepoMusica(app->repoMsc, buffer); // Lista<Musica *>
+    // Lista<Musica *>
+    Lista *resultado = EncontraPeloNomeRepoMusica(app->repoMsc, buffer);
     free(buffer);
 
-    // Salva os range ao entre DetalhaMusicaMenu's
-    int n = 0, m = 50;
-    while (true) {
-        int i = TabelaMusicasMenu(resultado, &n, &m);
-        if (i == -1)
-            break;
+    ListarTodasMusicasMenu(app, resultado, playlistOrig);
+}
 
-        DetalhaMusicaMenu(app, AdquireElementoLista(resultado, i),
-                          playlistOrig);
+static void ListarTodasMusicasMenu(App *app, Lista *musicas,
+                                   Playlist *playlistOrig) {
+    const int ritmoPaginacao = 30;
+    int n = 0, m = ritmoPaginacao <= GetQuantidadeLista(musicas)
+                       ? ritmoPaginacao
+                       : GetQuantidadeLista(musicas);
+    while (true) {
+        bool primeiraPagina = n == 0;
+        bool ultimaPagina = m == GetQuantidadeLista(musicas);
+
+        system("@cls||clear");
+        ListarTodasMusicas(musicas, n, m);
+
+        printf("[f] Ver Detalhes de Música\n");
+        if (!primeiraPagina)
+            printf("[k] Voltar Página\n");
+
+        if (!ultimaPagina)
+            printf("[l] Próxima Página\n");
+
+        printf("[q] Voltar Menu\n");
+
+        char curr;
+        scanf("%c%*c", &curr);
+        if (curr == 'f') {
+            int i = 0;
+            do {
+                system("@cls||clear");
+                printf("\nInforme o indice da musica: ");
+
+                while (scanf("%d%*c", &i) != 1) {
+                }
+
+                if (i < 1 || i > GetQuantidadeLista(musicas)) {
+                    printf("Indice (%d) inválido.\npressione ENTER para "
+                           "continuar");
+                    scanf("%*c");
+                } else
+                    break;
+            } while (true);
+
+            DetalhaMusicaMenu(app, AdquireElementoLista(musicas, i - 1),
+                              playlistOrig);
+        } else if (!primeiraPagina && curr == 'k') {
+            m = n;
+            n -= ritmoPaginacao;
+        } else if (!ultimaPagina && curr == 'l') {
+            n = m;
+            m = m + ritmoPaginacao <= GetQuantidadeLista(musicas)
+                    ? m + ritmoPaginacao
+                    : GetQuantidadeLista(musicas);
+        } else if (curr == 'q') {
+            return;
+        } else {
+            printf("Ops! Acao invalida. Favor especificar funcionalidade "
+                   "desejada\npressione ENTER para continuar");
+            scanf("%*c");
+        }
     }
 }
 
-static int TabelaMusicasMenu(Lista *musicas, int *n, int *m) {}
+static void DetalhaMusicaMenu(App *app, Musica *msc, Playlist *playlistOrig) {
+    CompletaMusica(msc, app->repoArt);
 
-static void DetalhaMusicaMenu(App *app, Musica *msc, Playlist *playlistOrig) {}
+    system("@cls||clear");
+    DetalharMusica(msc);
+
+    printf("[f] Escutar Música\n"
+           "[a] Adicionar Música à Playlist\n"
+           "[q] Voltar Menu\n");
+
+    char curr;
+    scanf("%c%*c", &curr);
+    switch (curr) {
+    case 'f':;
+        AbrirMusicaNoNavegador(msc);
+        printf("Abrindo música no navegador...\npressione ENTER para voltar ao "
+               "SpotFES");
+        scanf("%*c");
+        break;
+
+    case 'a':;
+        if (playlistOrig != NULL) {
+            bool status = AdicionaMusicaPlaylist(playlistOrig, msc);
+            if (status) {
+                printf("Música adicionada\npressione ENTER para continuar");
+                scanf("%*c");
+                return;
+            }
+
+            printf("Essa música já está na sua playlist\npressione ENTER "
+                   "para continuar");
+            scanf("%*c");
+            break;
+        }
+
+        ListarTodasPlaylistsMenu(app, msc);
+        break;
+
+    case 'q':;
+        return;
+
+    default:
+        printf("Ops! Acao invalida. Favor especificar funcionalidade "
+               "desejada\npressione ENTER para continuar");
+        scanf("%*c");
+        break;
+    }
+}
 
 static void GerarRelatorioMenu(App *app) {
     system("@cls||clear");
@@ -190,4 +292,10 @@ static void SairAppMenu(App *app) {
     system("@cls||clear");
     printf("Volte sempre!\n");
     SalvaTodasPlaylistsRepo(app->playlists);
+}
+
+static void AbrirMusicaNoNavegador(const Musica *msc) {
+    char command[256] = "xdg-open https://open.spotify.com/track/";
+    strcat(command, GetMscId(msc));
+    system(command);
 }

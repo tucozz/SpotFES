@@ -56,6 +56,9 @@ bool AdicionaMusicaPlaylist(Playlist *playlist, const Musica *msc) {
     if (msc == NULL)
         return false;
 
+    if (EncontraLista(playlist->musicas_id, GetMscId(msc), &strcmp) != NULL)
+        return false;
+
     if (playlist->musicas != NULL)
         AdicionaElementoLista(playlist->musicas, CopiaMusica(msc));
 
