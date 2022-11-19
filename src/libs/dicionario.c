@@ -3,6 +3,7 @@
 
 #include "dicionario.h"
 
+#include "exception.h"
 #include "par_chave_valor.h"
 
 struct tDicionario {
@@ -16,6 +17,8 @@ Dicionario *InicializaDicionario(int (*comparadorChaves)(void *, void *),
                                  void (*liberaChaves)(void *),
                                  void (*liberaValores)(void *)) {
     Dicionario *dicio = malloc(sizeof *dicio);
+    if (dicio == NULL)
+        throwOutOfMemoryException("Dicionario malloc failed");
 
     dicio->pares = InicializaLista(dicio->pares);
     dicio->comparadorChaves = comparadorChaves;
@@ -50,9 +53,13 @@ void **GetValorDicionario(Dicionario *dicio, const void *chave,
     }
 
     if (!hasFound) {
-        ParChaveValor *novo =
-            InicializaParCV((*copiaChave)(chave), NULL, dicio->liberaChaves,
-                            dicio->liberaValores);
+        char *cpy_chave = (*copiaChave)(chave);
+        if (cpy_chave == NULL)
+            throwOutOfMemoryException(
+                "Dicionario internal GetValorDicionario chave copy failed");
+
+        ParChaveValor *novo = InicializaParCV(
+            cpy_chave, NULL, dicio->liberaChaves, dicio->liberaValores);
 
         AdicionaElementoLista(dicio->pares, novo);
 

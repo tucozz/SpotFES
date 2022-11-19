@@ -3,6 +3,7 @@
 #include "lista.h"
 
 #include "cpylib.h"
+#include "exception.h"
 
 static const int ritmo_crescimento_lista = 5;
 
@@ -14,12 +15,16 @@ struct tLista {
 
 Lista *InicializaLista() {
     Lista *lista = malloc(sizeof *lista);
+    if (lista == NULL)
+        throwOutOfMemoryException("Lista malloc failed");
 
     const int capacidade_inicial = 5;
 
     lista->capacidade = capacidade_inicial;
     lista->qtd = 0;
     lista->arr = malloc(lista->capacidade * __SIZEOF_POINTER__);
+    if (lista->arr == NULL)
+        throwOutOfMemoryException("Lista internal arr malloc failed");
 
     return lista;
 }
@@ -35,7 +40,7 @@ void LiberaLista(Lista *lista, void (*liberaElem)(void *)) {
 
 static int (*gcmpval)(const void *, const void *) = NULL;
 
-static inline ptrvalcmp(const void **ptr1, const void **ptr2) {
+static inline int ptrvalcmp(const void **ptr1, const void **ptr2) {
     if (gcmpval == NULL)
         return 0;
 
@@ -56,6 +61,8 @@ void AdicionaElementoLista(Lista *lista, void *elem) {
         lista->capacidade += ritmo_crescimento_lista;
         lista->arr =
             realloc(lista->arr, lista->capacidade * __SIZEOF_POINTER__);
+        if (lista->arr)
+            throwOutOfMemoryException("Lista internal arr up realloc failed");
     }
 
     lista->arr[lista->qtd++] = elem;
@@ -66,6 +73,8 @@ void *PopLista(Lista *lista) {
         lista->capacidade -= ritmo_crescimento_lista;
         lista->arr =
             realloc(lista->arr, lista->capacidade * __SIZEOF_POINTER__);
+        if (lista->arr)
+            throwOutOfMemoryException("Lista internal arr down realloc failed");
     }
 
     void *r = lista->arr[lista->qtd - 1];
@@ -95,8 +104,14 @@ Lista *CopiaLista(const Lista *lista, void *(*cpyelem)(const void *)) {
     Lista *cpy = InicializaLista();
 
     int i;
-    for (i = 0; i < lista->qtd; i++)
-        AdicionaElementoLista(cpy, cpyelem(lista->arr[i]));
+    for (i = 0; i < lista->qtd; i++) {
+        void *cpye = cpyelem(lista->arr[i]);
+        if (cpye == NULL)
+            throwOutOfMemoryException(
+                "Lista internal CopiaLista cpyelem failed");
+
+        AdicionaElementoLista(cpy, cpye);
+    }
 
     return cpy;
 }

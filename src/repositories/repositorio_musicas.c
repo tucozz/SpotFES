@@ -3,6 +3,7 @@
 
 #include "repositorio_musicas.h"
 
+#include "exception.h"
 #include "parser.h"
 #include "repositorio_base.h"
 
@@ -12,8 +13,13 @@ struct tRepoMusicas {
 
 RepoMusicas *InicializaRepoMusicas(const char *musicas_csv) {
     RepoMusicas *repo = malloc(sizeof *repo);
+    if (repo == NULL)
+        throwOutOfMemoryException("RepoMusicas malloc failed");
 
     repo->musicasCsv = strdup(musicas_csv);
+    if (repo->musicasCsv == NULL)
+        throwOutOfMemoryException(
+            "RepoMusicas internal musicasCsv strdup failed");
 
     return repo;
 }
@@ -169,6 +175,12 @@ static Musica *CarregaMusicaCsvRepo(FILE *csv) {
 
 Lista *EncontraPeloNomeRepoMusica(RepoMusicas *repo, char *query) {
     FILE *fcsv = fopen(repo->musicasCsv, "r");
+    if (fcsv == NULL)
+        throwException("IOException",
+                       "RepositorioMusicas EncontraPeloNomeRepoMusica "
+                       "musicasCsv file opening failed",
+                       EXIT_FAILURE);
+
     Lista *lista = InicializaLista();
 
     char *buffermsc = NULL;
@@ -210,6 +222,11 @@ Lista *EncontraPeloNomeRepoMusica(RepoMusicas *repo, char *query) {
 
 Musica *EncontraPeloHashRepoMusica(RepoMusicas *repo, const char *hash) {
     FILE *fcsv = fopen(repo->musicasCsv, "r");
+    if (fcsv == NULL)
+        throwException("IOException",
+                       "RepositorioMusicas EncontraPeloHashRepoMusica "
+                       "musicasCsv file opening failed",
+                       EXIT_FAILURE);
 
     Musica *msc = NULL;
 
@@ -250,12 +267,18 @@ Musica *EncontraPeloHashRepoMusica(RepoMusicas *repo, const char *hash) {
 
 FILE *InicioIteradorRepoMsc(RepoMusicas *repo) {
     FILE *itr = fopen(repo->musicasCsv, "r");
+    if (itr == NULL)
+        throwException("IOException",
+                       "RepositorioMusicas InicioIteradorRepoMsc musicasCsv "
+                       "file opening failed",
+                       EXIT_FAILURE);
+
     return itr;
 }
 
 Musica *ProximoIteradorRepoMsc(FILE *itr) {
     Musica *msc = NULL;
-    while (!(msc = CarregaMusicaCsvRepo(itr) || feof(itr))) {
+    while (!((msc = CarregaMusicaCsvRepo(itr)) || feof(itr))) {
     };
 
     return msc;

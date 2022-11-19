@@ -4,6 +4,7 @@
 #include "procurador.h"
 
 #include "dicionario.h"
+#include "exception.h"
 #include "par_chave_valor.h"
 #include "playlist.h"
 
@@ -87,6 +88,9 @@ Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
                 GetValorDicionario(hashDistancia, hash, &strdup);
             if (*hshDistVal == NULL) {
                 *hshDistVal = malloc(sizeof(float));
+                if (*hshDistVal == NULL)
+                    throwOutOfMemoryException("Procurador internal hashDistancia Dicionario value malloc failed");
+
                 *((float *)*hshDistVal) = distanciaDaIdeal;
             }
 
@@ -110,6 +114,9 @@ Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
                 GetValorDicionario(hashDistancia, hash, &strdup);
             if (*hshDistVal == NULL) {
                 *hshDistVal = malloc(sizeof(float));
+                if (*hshDistVal == NULL)
+                    throwOutOfMemoryException("Procurador internal hashDistancia Dicionario value malloc failed");
+
                 *((float *)*hshDistVal) = distanciaDaIdeal;
 
                 LiberaParCV(maisDistante);

@@ -3,6 +3,8 @@
 
 #include "cpylib.h"
 
+#include "exception.h"
+
 // CODIGO ~roubado~ADAPTADO DAS INTERWEBS!!!!
 //     https://github.com/srjheam/ufes-snake/blob/master/JheamStorchRoss.c#L1361-L1416
 static void mesclaArr(void *base, int d, int m, int e, size_t __size,
@@ -11,7 +13,11 @@ static void mesclaArr(void *base, int d, int m, int e, size_t __size,
     int t2 = e - m;
     // cria vetores temporarios
     void *vetE = malloc(t1 * __size);
+    if (vetE == NULL)
+        throwOutOfMemoryException("Internal sorting algorithm malloc failed");
     void *vetD = malloc(t2 * __size);
+    if (vetD == NULL)
+        throwOutOfMemoryException("Internal sorting algorithm malloc failed");
 
     // copia as fatias para os vetores temporarios
     int i;

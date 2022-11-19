@@ -4,6 +4,7 @@
 
 #include "repositorio_playlists.h"
 
+#include "exception.h"
 #include "playlist.h"
 #include "repositorio_base.h"
 
@@ -95,7 +96,13 @@ static Playlist *CarregaPlaylistRepo(FILE *fbin) {
             return NULL;
         }
 
-        AdicionaElementoLista(musicas_id, strdup(msc_hash));
+        char *e = strdup(msc_hash);
+        if (e == NULL)
+            throwOutOfMemoryException(
+                "RepositorioPlaylist internal CarregaPlaylistRepo msc_hash "
+                "strdup failed");
+
+        AdicionaElementoLista(musicas_id, e);
     }
 
     Playlist *playlist = InicializaPlaylist(nome, musicas_id);
@@ -109,6 +116,14 @@ static Playlist *CarregaPlaylistRepo(FILE *fbin) {
 
 void SalvaTodasPlaylistsRepo(Lista *playlists) {
     FILE *fbin = fopen(REPO_PLAYLISTS_DEFAULT_PATH_SAVE, "wb");
+    if (fbin == NULL)
+        throwException(
+            "IOException",
+            "RepositorioPlaylists "
+            "SalvaTodasPlaylistsRepo " REPO_PLAYLISTS_DEFAULT_PATH_SAVE
+            " file opening failed",
+            EXIT_FAILURE);
+
     if (!fbin) {
         perror(
             "E08 Erro ao abrir arquivo (wb) " REPO_PLAYLISTS_DEFAULT_PATH_SAVE
@@ -128,6 +143,14 @@ Lista *CarregaTodasPlaylistsRepo() {
     Lista *playlists = InicializaLista();
 
     FILE *fbin = fopen(REPO_PLAYLISTS_DEFAULT_PATH_SAVE, "rb");
+    if (fbin == NULL)
+        throwException(
+            "IOException",
+            "RepositorioPlaylists "
+            "SalvaTodasPlaylistsRepo " REPO_PLAYLISTS_DEFAULT_PATH_SAVE
+            " file opening failed",
+            EXIT_FAILURE);
+
     if (!fbin) {
         return playlists;
     }

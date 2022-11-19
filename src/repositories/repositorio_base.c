@@ -1,8 +1,10 @@
+#include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 
 #include "repositorio_base.h"
+
+#include "exception.h"
 
 Lista *CarregaListaStringRepo(char *str) {
     Lista *lista = InicializaLista();
@@ -13,12 +15,19 @@ Lista *CarregaListaStringRepo(char *str) {
         if (token == NULL)
             break;
 
-        AdicionaElementoLista(lista, strdup(token));
+        char *e = strdup(token);
+        if (e == NULL)
+            throwOutOfMemoryException(
+                "RepositorioBase internal CarregaListaStringRepo token strdup "
+                "failed");
+
+        AdicionaElementoLista(lista, e);
     }
 
     return lista;
 }
 
 void NormalizaString(char *str) {
-    for ( ; *str; ++str) *str = tolower(*str);
+    for (; *str; ++str)
+        *str = tolower(*str);
 }

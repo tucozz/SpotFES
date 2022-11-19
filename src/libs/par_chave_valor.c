@@ -2,6 +2,8 @@
 
 #include "par_chave_valor.h"
 
+#include "exception.h"
+
 struct tParChaveValor {
     void *chave;
     void *valor;
@@ -13,6 +15,8 @@ ParChaveValor *InicializaParCV(void *chave, void *valor,
                                void (*liberaChave)(void *),
                                void (*liberaValor)(void *)) {
     ParChaveValor *par = malloc(sizeof *par);
+    if (par == NULL)
+        throwOutOfMemoryException("ParChaveValor malloc failed");
 
     par->chave = chave;
     par->valor = valor;
