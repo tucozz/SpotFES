@@ -65,12 +65,7 @@ void *LiberaApp(App *app) {
     return NULL;
 }
 
-static void EncontraMusicaMenu(App *app) {
-    system("@cls||clear");
-    // TODO: isso
-}
-
-static void ListarTodasPlaylistsMenu(App *app) {
+static void ListarTodasPlaylistsMenu(App *app, Musica *mscOrig) {
     while(true){
         int indice, i;
 
@@ -115,17 +110,6 @@ static void ListarTodasPlaylistsMenu(App *app) {
             continue;
         }
     }
-}
-
-static void GerarRelatorioMenu(App *app) {
-    system("@cls||clear");
-    // TODO: isso
-}
-
-static void SairAppMenu(App *app) {
-    system("@cls||clear");
-    printf("Volte sempre!\n");
-    SalvaTodasPlaylistsRepo(app->playlists);
 }
 
 void RodaApp(App *app) {
@@ -196,10 +180,6 @@ static void EncontraMusicaMenu(App *app, Playlist *playlistOrig) {
 static int TabelaMusicasMenu(App *app, Lista *musicas, int *n, int *m) {}
 
 static void DetalhaMusicaMenu(App *app, Musica *msc, Playlist *playlistOrig) {}
-
-static void ListarTodasPlaylistsMenu(App *app, Musica *mscOrig) {
-    system("@cls||clear");
-}
 
 static void GerarRelatorioMenu(App *app) {
     system("@cls||clear");
