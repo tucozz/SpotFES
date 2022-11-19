@@ -19,7 +19,7 @@
  */
 static void EncontraMusicaMenu(App *app, Playlist *playlistOrig);
 
-static int TabelaMusicasMenu(App *app, Lista *musicas, int *n, int *m);
+static int TabelaMusicasMenu(Lista *musicas, int *n, int *m);
 
 static void DetalhaMusicaMenu(App *app, Musica *msc, Playlist *playlistOrig);
 
@@ -168,7 +168,7 @@ static void EncontraMusicaMenu(App *app, Playlist *playlistOrig) {
     // Salva os range ao entre DetalhaMusicaMenu's
     int n = 0, m = 50;
     while (true) {
-        int i = TabelaMusicasMenu(resultado, resultado, &n, &m);
+        int i = TabelaMusicasMenu(resultado, &n, &m);
         if (i == -1)
             break;
 
@@ -177,7 +177,7 @@ static void EncontraMusicaMenu(App *app, Playlist *playlistOrig) {
     }
 }
 
-static int TabelaMusicasMenu(App *app, Lista *musicas, int *n, int *m) {}
+static int TabelaMusicasMenu(Lista *musicas, int *n, int *m) {}
 
 static void DetalhaMusicaMenu(App *app, Musica *msc, Playlist *playlistOrig) {}
 
