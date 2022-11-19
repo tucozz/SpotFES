@@ -19,7 +19,7 @@
  */
 static void EncontraMusicaMenu(App *app, Playlist *playlistOrig);
 
-static int TabelaMusicasMenu(App *app, Lista *musicas, int *n, int *m);
+static int TabelaMusicasMenu(Lista *musicas, int *n, int *m);
 
 static void DetalhaMusicaMenu(App *app, Musica *msc, Playlist *playlistOrig);
 
@@ -65,12 +65,7 @@ void *LiberaApp(App *app) {
     return NULL;
 }
 
-static void EncontraMusicaMenu(App *app) {
-    system("@cls||clear");
-    // TODO: isso
-}
-
-static void ListarTodasPlaylistsMenu(App *app) {
+static void ListarTodasPlaylistsMenu(App *app, Musica *mscOrig) {
     while(true){
         int indice, i;
 
@@ -149,17 +144,6 @@ static void ListarTodasPlaylistsMenu(App *app) {
     }
 }
 
-static void GerarRelatorioMenu(App *app) {
-    system("@cls||clear");
-    // TODO: isso
-}
-
-static void SairAppMenu(App *app) {
-    system("@cls||clear");
-    printf("Volte sempre!\n");
-    SalvaTodasPlaylistsRepo(app->playlists);
-}
-
 void RodaApp(App *app) {
     while (true) {
         system("@cls||clear");
@@ -216,7 +200,7 @@ static void EncontraMusicaMenu(App *app, Playlist *playlistOrig) {
     // Salva os range ao entre DetalhaMusicaMenu's
     int n = 0, m = 50;
     while (true) {
-        int i = TabelaMusicasMenu(resultado, resultado, &n, &m);
+        int i = TabelaMusicasMenu(resultado, &n, &m);
         if (i == -1)
             break;
 
@@ -225,13 +209,9 @@ static void EncontraMusicaMenu(App *app, Playlist *playlistOrig) {
     }
 }
 
-static int TabelaMusicasMenu(App *app, Lista *musicas, int *n, int *m) {}
+static int TabelaMusicasMenu(Lista *musicas, int *n, int *m) {}
 
 static void DetalhaMusicaMenu(App *app, Musica *msc, Playlist *playlistOrig) {}
-
-static void ListarTodasPlaylistsMenu(App *app, Musica *mscOrig) {
-    system("@cls||clear");
-}
 
 static void GerarRelatorioMenu(App *app) {
     system("@cls||clear");
