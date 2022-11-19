@@ -98,7 +98,7 @@ Musica *CriaMusicaMedia(const Playlist *play){
     valenceM = valenceM/GetQuantidadeLista(GetMusicasPlaylist(play));
     tempoM = tempoM/GetQuantidadeLista(GetMusicasPlaylist(play));
 
-    Musica *msc = InicializaMusica(NULL, "media", 0, 0, 0, NULL, NULL, danceabilityM, energyM, 0, loudnessM, 0, speechinessM, acousticnessM, instrumentalnessM, livenessM, valenceM, tempoM, 0);
+    Musica *msc = InicializaMusica(NULL, "media", 0, 0, 0, NULL, NULL, NULL, danceabilityM, energyM, 0, loudnessM, 0, speechinessM, acousticnessM, instrumentalnessM, livenessM, valenceM, tempoM, 0);
 
     return msc;
 }
