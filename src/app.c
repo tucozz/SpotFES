@@ -3,6 +3,7 @@
 
 #include "app.h"
 
+#include "exception.h"
 #include "repositorio_artistas.h"
 #include "repositorio_musicas.h"
 #include "repositorio_playlists.h"
@@ -36,6 +37,8 @@ struct tApp {
 
 App *InicializaApp(const char *artistascsv, const char *musicascsv) {
     App *app = malloc(sizeof *app);
+    if (app == NULL)
+        throwOutOfMemoryException("App malloc failed");
 
     app->repoMsc = InicializaRepoMusicas(musicascsv);
     app->repoArt = InicializaRepoArtistas(musicascsv);

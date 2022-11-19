@@ -5,6 +5,7 @@
 #include "relatorio.h"
 
 #include "dicionario.h"
+#include "exception.h"
 #include "par_chave_valor.h"
 #include "procurador.h"
 
@@ -56,7 +57,8 @@ static void SalvaArtistaCsv(FILE *fcsv, Artista *art) {
     fprintf(fcsv, ";%s;%d\n", GetArtName(art), GetArtPopularity(art));
 }
 
-static int OrdenaDescListaPCVPorValor(const ParChaveValor *a, const ParChaveValor *b) {
+static int OrdenaDescListaPCVPorValor(const ParChaveValor *a,
+                                      const ParChaveValor *b) {
     int lV = *(int *)GetValorParCV(a);
     int rV = *(int *)GetValorParCV(b);
 
@@ -92,6 +94,10 @@ void GerarRelatorio(RepoMusicas *repoMsc, RepoArtistas *repoArt,
                 GetValorDicionario(musicasQtd, currMscHash, &strdup);
             if (*dicValQtd == NULL) {
                 *dicValQtd = malloc(sizeof(int));
+                if (*dicValQtd == NULL)
+                    throwOutOfMemoryException("Relatorio internal musicasQtd "
+                                              "Dicionario value malloc failed");
+
                 *((int *)*dicValQtd) = 1;
             } else {
                 *((int *)*dicValQtd) += 1;
@@ -112,6 +118,11 @@ void GerarRelatorio(RepoMusicas *repoMsc, RepoArtistas *repoArt,
     OrdenaLista(paresMscQtd, &OrdenaDescListaPCVPorValor);
 
     FILE *fcsv = fopen(RELAT_MSC_FILE, "w");
+    if (fcsv == NULL)
+        throwException("IOException",
+                       "Relatorio "
+                       "GerarRelatorio " RELAT_MSC_FILE " file opening failed",
+                       EXIT_FAILURE);
 
     n = GetQuantidadeLista(paresMscQtd);
     for (int i = 0; i < n; i++) {
@@ -149,6 +160,10 @@ void GerarRelatorio(RepoMusicas *repoMsc, RepoArtistas *repoArt,
                 GetValorDicionario(artistasQtd, currArtHash, &strdup);
             if (*dicValQtd == NULL) {
                 *dicValQtd = malloc(sizeof(int));
+                if (*dicValQtd == NULL)
+                    throwOutOfMemoryException("Relatorio internal artistasQtd "
+                                              "Dicionario value malloc failed");
+
                 *((int *)*dicValQtd) = 1;
             } else {
                 *((int *)*dicValQtd) += 1;
@@ -168,6 +183,11 @@ void GerarRelatorio(RepoMusicas *repoMsc, RepoArtistas *repoArt,
     OrdenaLista(paresArtQtd, &OrdenaDescListaPCVPorValor);
 
     fcsv = fopen(RELAT_ART_FILE, "w");
+    if (fcsv == NULL)
+        throwException("IOException",
+                       "Relatorio "
+                       "GerarRelatorio " RELAT_ART_FILE " file opening failed",
+                       EXIT_FAILURE);
 
     n = GetQuantidadeLista(paresArtQtd);
     for (int i = 0; i < n; i++) {

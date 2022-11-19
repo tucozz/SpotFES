@@ -3,6 +3,8 @@
 
 #include "artista.h"
 
+#include "exception.h"
+
 struct tArtista {
     char *id;
     int seguidores;
@@ -15,11 +17,19 @@ Artista *InicializaArtista(const char *id, const int seguidores,
                            const Lista *generos, const char *name,
                            const int popularity) {
     Artista *art = malloc(sizeof *art);
+    if (art == NULL)
+        throwOutOfMemoryException("Artista malloc failed");
 
     art->id = strdup(id);
+    if (art->id == NULL)
+        throwOutOfMemoryException("Artista internal id strdup failed");
+
     art->seguidores = seguidores;
     art->generos = CopiaLista(generos, &strdup);
     art->name = strdup(name);
+    if (art->name == NULL)
+        throwOutOfMemoryException("Artista internal name strdup failed");
+
     art->popularity = popularity;
 
     return art;

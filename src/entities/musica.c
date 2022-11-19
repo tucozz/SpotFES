@@ -5,6 +5,7 @@
 #include "musica.h"
 
 #include "artista.h"
+#include "exception.h"
 
 struct tMusica {
     char *id;
@@ -41,16 +42,27 @@ Musica *InicializaMusica(const char *id, const char *name, const int popularity,
                          const float valence, const float tempo,
                          const int time_signature) {
     Musica *msc = malloc(sizeof *msc);
+    if (msc == NULL)
+        throwOutOfMemoryException("Musica malloc failed");
 
     msc->id = strdup(id);
+    if (msc->id == NULL)
+        throwOutOfMemoryException("Musica internal id strdup failed");
+
     msc->name = strdup(name);
+    if (msc->name == NULL)
+        throwOutOfMemoryException("Musica internal name strdup failed");
+
     msc->popularity = popularity;
     msc->duration_ms = duration_ms;
     msc->explicit = explicit;
     msc->artists = NULL;
     msc->name_artists = CopiaLista(name_artists, &strdup);
     msc->id_artists = CopiaLista(id_artists, &strdup);
-    msc->release_date = strdup(release_date);
+    msc->release_date = strdup(release_date);    
+    if (msc->release_date == NULL)
+        throwOutOfMemoryException("Musica internal release_date strdup failed");
+
     msc->danceability = danceability;
     msc->energy = energy;
     msc->key = key;

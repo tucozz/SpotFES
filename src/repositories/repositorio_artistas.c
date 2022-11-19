@@ -4,6 +4,7 @@
 
 #include "repositorio_artistas.h"
 
+#include "exception.h"
 #include "lista.h"
 #include "parser.h"
 #include "repositorio_base.h"
@@ -14,8 +15,13 @@ struct tRepoArtistas {
 
 RepoArtistas *InicializaRepoArtistas(const char *artistas_csv) {
     RepoArtistas *repo = malloc(sizeof *repo);
+    if (repo == NULL)
+        throwOutOfMemoryException("RepoArtistas malloc failed");
 
     repo->artistasCsv = strdup(artistas_csv);
+    if (repo->artistasCsv == NULL)
+        throwOutOfMemoryException(
+            "RepoArtistas internal artistasCsv strdup failed");
 
     return repo;
 }
@@ -95,6 +101,10 @@ static Artista *CarregaArtistaCsvRepo(FILE *csv) {
 
 Artista *EncontraPeloHashRepoArtistas(RepoArtistas *repo, const char *hash) {
     FILE *fcsv = fopen(repo->artistasCsv, "r");
+    if (fcsv == NULL)
+        throwException("IOException",
+                       "RepositorioArtistas EncontraPeloHashRepoArtistas artistasCsv file opening failed",
+                       EXIT_FAILURE);
 
     Artista *art = NULL;
 
