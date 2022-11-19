@@ -278,7 +278,7 @@ FILE *InicioIteradorRepoMsc(RepoMusicas *repo) {
 
 Musica *ProximoIteradorRepoMsc(FILE *itr) {
     Musica *msc = NULL;
-    while (!(msc = CarregaMusicaCsvRepo(itr) || feof(itr))) {
+    while (!((msc = CarregaMusicaCsvRepo(itr)) || feof(itr))) {
     };
 
     return msc;
