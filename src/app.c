@@ -46,13 +46,13 @@ struct tApp {
     Lista *playlists; // Lista<playlist>
 };
 
-App *InicializaApp(const char *artistascsv, const char *musicascsv) {
+App *InicializaApp(const char *musicascsv, const char *artistascsv) {
     App *app = malloc(sizeof *app);
     if (app == NULL)
         throwOutOfMemoryException("App malloc failed");
 
     app->repoMsc = InicializaRepoMusicas(musicascsv);
-    app->repoArt = InicializaRepoArtistas(musicascsv);
+    app->repoArt = InicializaRepoArtistas(artistascsv);
     app->playlists = CarregaTodasPlaylistsRepo();
 
     return app;
@@ -90,7 +90,7 @@ static void ListarTodasPlaylistsMenu(App *app, Musica *mscOrig) {
             char *nome;
 
             printf("Digite um nome para a playlist:\n");
-            scanf("%s", nome);
+            scanf("%s%*c", nome);
 
             Playlist *play = InicializaPlaylist(nome, NULL);
             AdicionaElementoLista(app->playlists, play);
@@ -152,24 +152,26 @@ void RodaApp(App *app) {
 }
 
 static void EncontraMusicaMenu(App *app, Playlist *playlistOrig) {
-    char *buffer = NULL;
-    do {
-        system("@cls||clear");
-        printf("(submeter uma entrada vazia abandona a busca e volta para o "
-               "último menu)\n"
-               "Digite o nome da música pela qual quer procurar: ");
-
-    } while (getline(&buffer, NULL, stdin) == -1);
+    char buffer[64] = "";
+    system("@cls||clear");
+    printf("(submeter uma entrada vazia abandona a busca e volta para o "
+           "último menu)\n"
+           "Digite o nome da música pela qual quer procurar: ");
+    scanf("%63[^\n]%*c", buffer);
     if (strlen(buffer) <= 1) {
-        free(buffer);
         return;
     }
 
     // Lista<Musica *>
     Lista *resultado = EncontraPeloNomeRepoMusica(app->repoMsc, buffer);
-    free(buffer);
+    if (GetQuantidadeLista(resultado) == 0) {
+        system("@cls||clear");
+        printf("Nenhuma música encontrada.\npressione ENTER para continuar");
+        scanf("%*c");
+    } else
+        ListarTodasMusicasMenu(app, resultado, playlistOrig);
 
-    ListarTodasMusicasMenu(app, resultado, playlistOrig);
+    LiberaLista(resultado, &LiberaMusica);
 }
 
 static void ListarTodasMusicasMenu(App *app, Lista *musicas,
@@ -200,6 +202,7 @@ static void ListarTodasMusicasMenu(App *app, Lista *musicas,
             int i = 0;
             do {
                 system("@cls||clear");
+                ListarTodasMusicas(musicas, n, m);
                 printf("\nInforme o indice da musica: ");
 
                 while (scanf("%d%*c", &i) != 1) {
@@ -207,8 +210,10 @@ static void ListarTodasMusicasMenu(App *app, Lista *musicas,
 
                 if (i < 1 || i > GetQuantidadeLista(musicas)) {
                     printf("Indice (%d) inválido.\npressione ENTER para "
-                           "continuar");
+                           "continuar",
+                           i);
                     scanf("%*c");
+
                 } else
                     break;
             } while (true);
@@ -236,50 +241,53 @@ static void ListarTodasMusicasMenu(App *app, Lista *musicas,
 static void DetalhaMusicaMenu(App *app, Musica *msc, Playlist *playlistOrig) {
     CompletaMusica(msc, app->repoArt);
 
-    system("@cls||clear");
-    DetalharMusica(msc);
+    do {
+        system("@cls||clear");
+        DetalharMusica(msc);
 
-    printf("[f] Escutar Música\n"
-           "[a] Adicionar Música à Playlist\n"
-           "[q] Voltar Menu\n");
+        printf("[f] Escutar Música\n"
+               "[a] Adicionar Música à Playlist\n"
+               "[q] Voltar Menu\n");
 
-    char curr;
-    scanf("%c%*c", &curr);
-    switch (curr) {
-    case 'f':;
-        AbrirMusicaNoNavegador(msc);
-        printf("Abrindo música no navegador...\npressione ENTER para voltar ao "
-               "SpotFES");
-        scanf("%*c");
-        break;
+        char curr;
+        scanf("%c%*c", &curr);
+        switch (curr) {
+        case 'f':;
+            AbrirMusicaNoNavegador(msc);
+            printf("Abrindo música no navegador...\npressione ENTER para "
+                   "voltar ao "
+                   "SpotFES");
+            scanf("%*c");
+            break;
 
-    case 'a':;
-        if (playlistOrig != NULL) {
-            bool status = AdicionaMusicaPlaylist(playlistOrig, msc);
-            if (status) {
-                printf("Música adicionada\npressione ENTER para continuar");
+        case 'a':;
+            if (playlistOrig != NULL) {
+                bool status = AdicionaMusicaPlaylist(playlistOrig, msc);
+                if (status) {
+                    printf("Música adicionada\npressione ENTER para continuar");
+                    scanf("%*c");
+                    return;
+                }
+
+                printf("Essa música já está na sua playlist\npressione ENTER "
+                       "para continuar");
                 scanf("%*c");
-                return;
+                break;
             }
 
-            printf("Essa música já está na sua playlist\npressione ENTER "
-                   "para continuar");
+            ListarTodasPlaylistsMenu(app, msc);
+            break;
+
+        case 'q':;
+            return;
+
+        default:
+            printf("Ops! Acao invalida. Favor especificar funcionalidade "
+                   "desejada\npressione ENTER para continuar");
             scanf("%*c");
             break;
         }
-
-        ListarTodasPlaylistsMenu(app, msc);
-        break;
-
-    case 'q':;
-        return;
-
-    default:
-        printf("Ops! Acao invalida. Favor especificar funcionalidade "
-               "desejada\npressione ENTER para continuar");
-        scanf("%*c");
-        break;
-    }
+    } while (true);
 }
 
 static void GerarRelatorioMenu(App *app) {
