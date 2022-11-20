@@ -101,10 +101,57 @@ static void ListarTodasPlaylistsMenu(App *app, Musica *mscOrig) {
         case 'd':;
             printf("Digite o Indice da playlist desejada:\n");
             scanf("%c%*c", &indice);
+            system("@cls||clear");
+            DetalharPlaylist(AdquireElementoLista(app->playlists, indice));
+
+            printf("[r] Recomendar Musicas Semelhantes\n"
+                   "[a] Adicionar Musica na Playlist\n"
+                   "[q] Sair\n");
+
+            char option;
+            scanf("%c%*c", &option);
+
+            switch (option) {
+            case 'r':;
+                printf("Quantas musicas recomendadas deseja?\n");
+                char k;
+                scanf("%c%*c", &k);
+
+                Lista *recomendadas = InicializaLista;
+                recomendadas = RecomendaMusicas(
+                    AdquireElementoLista(app->playlists, indice), k,
+                    app->repoMsc);
+
+                for (i = 0; i < k; i++) {
+                    ListarMusica(AdquireElementoLista(recomendadas, i), i);
+                }
+                break;
+
+            case 'a':;
+                if (mscOrig != NULL) {
+                    AdicionaElementoLista(
+                        AdquireElementoLista(app->playlists, indice), mscOrig);
+                    printf("Musica Adicionada!\n");
+                    break;
+                }
+
+                EncontraMusicaMenu(
+                    app, AdquireElementoLista(app->playlists, indice));
+                break;
+
+            case 'q':;
+                return;
+
+            default:
+                printf("Ops! Acao invalida. Favor especificar funcionalidade "
+                       "desejada\npressione ENTER para continuar");
+                scanf("%*c");
+                continue;
+            }
+
             break;
 
         case 'q':;
-            SairAppMenu(app);
             return;
 
         default:
