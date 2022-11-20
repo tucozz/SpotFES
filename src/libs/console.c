@@ -119,7 +119,7 @@ void DetalharPlaylist(Playlist *play) {
     printf("Nome: %s\n"
            "Numero de Musicas: %d\n"
            "Musicas:\n",
-           GetNomePlaylist(play), GetQuantidadeLista(GetMusicasPlaylist(play)));
+           GetNomePlaylist(play), GetQuantidadeLista(GetMusicasIdPlaylist(play)));
     for (i = 0; i < GetQuantidadeLista(GetMusicasIdPlaylist(play)); i++) {
         printf("%5d: %s\n", i,
                GetMscName(AdquireElementoLista(GetMusicasPlaylist(play), i)));

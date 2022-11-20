@@ -90,21 +90,25 @@ static void ListarTodasPlaylistsMenu(App *app, Musica *mscOrig) {
 
         switch (curr) {
         case 'c':;
-            char *nome;
+            char nome[30];
 
             printf("Digite um nome para a playlist:\n");
-            scanf("%s%*c", nome);
+            scanf("%29[^\n]%*c", nome);
+            if (strlen(nome) <= 1) {
+                return;
+            }
 
-            Playlist *play = InicializaPlaylist(nome, NULL);
+            Playlist *play = InicializaPlaylist(nome, InicializaLista());
             AdicionaElementoLista(app->playlists, play);
 
-            printf("Playlist %s Criada!\n");
+            printf("Playlist %s Criada!\n", nome);
             break;
 
         case 'd':;
             printf("Digite o Indice da playlist desejada:\n");
             scanf("%c%*c", &indice);
             system("@cls||clear");
+            CompletaPlaylist(AdquireElementoLista(app->playlists, indice), app->repoMsc);
             DetalharPlaylist(AdquireElementoLista(app->playlists, indice));
 
             printf("[r] Recomendar Musicas Semelhantes\n"
