@@ -19,7 +19,8 @@ void CompletaMusica(Musica *msc, RepoArtistas *repo) {
     for (int i = 0; i < n; i++) {
         char *hash = AdquireElementoLista(hashes, i);
         Artista *art = EncontraPeloHashRepoArtistas(repo, hash);
-        AdicionaElementoLista(artistas, art);
+        if (art != NULL)
+            AdicionaElementoLista(artistas, art);
     }
 
     IncluiMscArtistas(msc, artistas);
@@ -37,7 +38,8 @@ void CompletaPlaylist(Playlist *playlist, RepoMusicas *repo) {
     for (int i = 0; i < n; i++) {
         char *hash = AdquireElementoLista(hashes, i);
         Musica *msc = EncontraPeloHashRepoMusica(repo, hash);
-        AdicionaElementoLista(musicas, msc);
+        if (msc != NULL)
+            AdicionaElementoLista(musicas, msc);
     }
 
     IncluiMusicasPlaylist(playlist, musicas);
@@ -89,7 +91,9 @@ Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
             if (*hshDistVal == NULL) {
                 *hshDistVal = malloc(sizeof(float));
                 if (*hshDistVal == NULL)
-                    throwOutOfMemoryException("Procurador internal hashDistancia Dicionario value malloc failed");
+                    throwOutOfMemoryException(
+                        "Procurador internal hashDistancia Dicionario value "
+                        "malloc failed");
 
                 *((float *)*hshDistVal) = distanciaDaIdeal;
             }
@@ -115,7 +119,9 @@ Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
             if (*hshDistVal == NULL) {
                 *hshDistVal = malloc(sizeof(float));
                 if (*hshDistVal == NULL)
-                    throwOutOfMemoryException("Procurador internal hashDistancia Dicionario value malloc failed");
+                    throwOutOfMemoryException(
+                        "Procurador internal hashDistancia Dicionario value "
+                        "malloc failed");
 
                 *((float *)*hshDistVal) = distanciaDaIdeal;
 
