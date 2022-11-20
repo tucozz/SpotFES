@@ -7,6 +7,7 @@
 #include "console.h"
 #include "exception.h"
 #include "procurador.h"
+#include "relatorio.h"
 #include "repositorio_artistas.h"
 #include "repositorio_musicas.h"
 #include "repositorio_playlists.h"
@@ -34,7 +35,7 @@ static void DetalhaMusicaMenu(App *app, Musica *msc, Playlist *playlistOrig);
  */
 static void ListarTodasPlaylistsMenu(App *app, Musica *mscOrig);
 
-static void GerarRelatorioMenu(App *app);
+static void ExportarRelatorioMenu(App *app);
 
 static void SairAppMenu(App *app);
 
@@ -181,7 +182,7 @@ void RodaApp(App *app) {
 
         printf("[f] Encontrar Música\n"
                "[g] Listar suas Playlists\n"
-               "[r] Gerar Relatório\n"
+               "[r] Exportar Relatório\n"
                "[b] Sobre\n"
                "[q] Sair\n");
 
@@ -197,7 +198,7 @@ void RodaApp(App *app) {
             break;
 
         case 'r':;
-            GerarRelatorioMenu(app);
+            ExportarRelatorioMenu(app);
             break;
 
         case 'b':;
@@ -365,9 +366,12 @@ static void DetalhaMusicaMenu(App *app, Musica *msc, Playlist *playlistOrig) {
     } while (true);
 }
 
-static void GerarRelatorioMenu(App *app) {
+static void ExportarRelatorioMenu(App *app) {
     system("@cls||clear");
-    // TODO: isso
+    GerarRelatorio(app->repoMsc, app->repoArt, app->playlists);
+    printf(ANSI_COLOR_YELLOW "Relatório exportado." ANSI_COLOR_RESET
+                             "\npressione ENTER para continuar");
+    scanf("%*c");
 }
 
 static void SairAppMenu(App *app) {
