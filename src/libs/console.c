@@ -75,10 +75,10 @@ void DetalharMusica(Musica *msc) {
                "Id: %s\n"
                "Seguidores: %d\n"
                "Popularidade: %d\n",
-               GetArtName(AdquireElementoLista(GetMscArtists(msc), j)),
-               GetArtId(AdquireElementoLista(GetMscArtists(msc), j)),
-               GetArtSeguidores(AdquireElementoLista(GetMscArtists(msc), j)),
-               GetArtPopularity(AdquireElementoLista(GetMscArtists(msc), j)));
+               GetArtName(AdquireElementoLista(GetMscArtists(msc), i)),
+               GetArtId(AdquireElementoLista(GetMscArtists(msc), i)),
+               GetArtSeguidores(AdquireElementoLista(GetMscArtists(msc), i)),
+               GetArtPopularity(AdquireElementoLista(GetMscArtists(msc), i)));
 
         printf("Generos: ");
         for (j = 0; j < GetQuantidadeLista(GetArtGeneros(
