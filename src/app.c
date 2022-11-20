@@ -145,7 +145,9 @@ static void ListarTodasPlaylistsMenu(App *app, Musica *mscOrig) {
                 return;
 
             default:
-                printf("Ops! Acao invalida. Favor especificar funcionalidade "
+                printf(ANSI_COLOR_YELLOW
+                       "Ops! Acao invalida. Favor especificar "
+                       "funcionalidade " ANSI_COLOR_RESET
                        "desejada\npressione ENTER para continuar");
                 scanf("%*c");
                 continue;
@@ -157,8 +159,10 @@ static void ListarTodasPlaylistsMenu(App *app, Musica *mscOrig) {
             return;
 
         default:
-            printf("Ops! Acao invalida. Favor especificar funcionalidade "
-                   "desejada\n");
+            printf(ANSI_COLOR_YELLOW "Ops! Acao invalida. Favor especificar "
+                                     "funcionalidade " ANSI_COLOR_RESET
+                                     "desejada\n");
+            scanf("%*c");
             continue;
         }
     }
@@ -205,8 +209,9 @@ void RodaApp(App *app) {
             return;
 
         default:
-            printf("Ops! Acao invalida. Favor especificar funcionalidade "
-                   "desejada\npressione ENTER para continuar");
+            printf(ANSI_COLOR_YELLOW "Ops! Acao invalida. Favor especificar "
+                                     "funcionalidade desejada " ANSI_COLOR_RESET
+                                     "\npressione ENTER para continuar");
             scanf("%*c");
             continue;
         }
@@ -228,7 +233,8 @@ static void EncontraMusicaMenu(App *app, Playlist *playlistOrig) {
     Lista *resultado = EncontraPeloNomeRepoMusica(app->repoMsc, buffer);
     if (GetQuantidadeLista(resultado) == 0) {
         system("@cls||clear");
-        printf("Nenhuma música encontrada.\npressione ENTER para continuar");
+        printf(ANSI_COLOR_YELLOW "Nenhuma música encontrada." ANSI_COLOR_RESET
+                                 "\npressione ENTER para continuar");
         scanf("%*c");
     } else
         ListarTodasMusicasMenu(app, resultado, playlistOrig);
@@ -271,8 +277,9 @@ static void ListarTodasMusicasMenu(App *app, Lista *musicas,
                 }
 
                 if (i < 1 || i > GetQuantidadeLista(musicas)) {
-                    printf("Indice (%d) inválido.\npressione ENTER para "
-                           "continuar",
+                    printf(ANSI_COLOR_YELLOW
+                           "Indice (%d) inválido." ANSI_COLOR_RESET
+                           "\npressione ENTER para continuar",
                            i);
                     scanf("%*c");
 
@@ -293,8 +300,10 @@ static void ListarTodasMusicasMenu(App *app, Lista *musicas,
         } else if (curr == 'q') {
             return;
         } else {
-            printf("Ops! Acao invalida. Favor especificar funcionalidade "
-                   "desejada\npressione ENTER para continuar");
+            printf(ANSI_COLOR_YELLOW
+                   "Ops! Acao invalida. Favor especificar funcionalidade "
+                   "desejada" ANSI_COLOR_RESET
+                   "\npressione ENTER para continuar");
             scanf("%*c");
         }
     }
@@ -316,9 +325,9 @@ static void DetalhaMusicaMenu(App *app, Musica *msc, Playlist *playlistOrig) {
         switch (curr) {
         case 'f':;
             AbrirMusicaNoNavegador(msc);
-            printf("Abrindo música no navegador...\npressione ENTER para "
-                   "voltar ao "
-                   "SpotFES");
+            printf(ANSI_COLOR_YELLOW
+                   "Abrindo música no navegador..." ANSI_COLOR_RESET
+                   "\npressione ENTER para voltar ao SpotFES");
             scanf("%*c");
             break;
 
@@ -326,13 +335,16 @@ static void DetalhaMusicaMenu(App *app, Musica *msc, Playlist *playlistOrig) {
             if (playlistOrig != NULL) {
                 bool status = AdicionaMusicaPlaylist(playlistOrig, msc);
                 if (status) {
-                    printf("Música adicionada\npressione ENTER para continuar");
+                    printf(ANSI_COLOR_YELLOW
+                           "Música adicionada" ANSI_COLOR_RESET
+                           "\npressione ENTER para continuar");
                     scanf("%*c");
                     return;
                 }
 
-                printf("Essa música já está na sua playlist\npressione ENTER "
-                       "para continuar");
+                printf(ANSI_COLOR_YELLOW
+                       "Essa música já está na sua playlist" ANSI_COLOR_RESET
+                       "\npressione ENTER para continuar");
                 scanf("%*c");
                 break;
             }
@@ -344,8 +356,9 @@ static void DetalhaMusicaMenu(App *app, Musica *msc, Playlist *playlistOrig) {
             return;
 
         default:
-            printf("Ops! Acao invalida. Favor especificar funcionalidade "
-                   "desejada\npressione ENTER para continuar");
+            printf(ANSI_COLOR_YELLOW "Ops! Acao invalida. Favor especificar "
+                                     "funcionalidade desejada" ANSI_COLOR_RESET
+                                     "\npressione ENTER para continuar");
             scanf("%*c");
             break;
         }
