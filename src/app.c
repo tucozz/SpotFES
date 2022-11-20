@@ -40,6 +40,8 @@ static void SairAppMenu(App *app);
 
 static void AbrirMusicaNoNavegador(const Musica *msc);
 
+static void SobreMenu();
+
 struct tApp {
     RepoMusicas *repoMsc;
     RepoArtistas *repoArt;
@@ -176,6 +178,7 @@ void RodaApp(App *app) {
         printf("[f] Encontrar Música\n"
                "[g] Listar suas Playlists\n"
                "[r] Gerar Relatório\n"
+               "[b] Sobre\n"
                "[q] Sair\n");
 
         char curr;
@@ -191,6 +194,10 @@ void RodaApp(App *app) {
 
         case 'r':;
             GerarRelatorioMenu(app);
+            break;
+
+        case 'b':;
+            SobreMenu();
             break;
 
         case 'q':;
@@ -354,6 +361,12 @@ static void SairAppMenu(App *app) {
     system("@cls||clear");
     printf("Volte sempre!\n");
     SalvaTodasPlaylistsRepo(app->playlists);
+}
+
+static void SobreMenu() {
+    system("@cls||clear");
+    ImprimeSobre(true);
+    scanf("%*c");
 }
 
 static void AbrirMusicaNoNavegador(const Musica *msc) {

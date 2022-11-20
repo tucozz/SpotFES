@@ -61,4 +61,8 @@ void DetalharPlaylist(Playlist *playlist);
 
 void ImprimeMarca(bool animacao);
 
+void ImprimeSobre(bool animacao);
+
+void ImprimeDelay(char str[], bool en, int delay);
+
 #endif

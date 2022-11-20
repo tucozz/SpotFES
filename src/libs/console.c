@@ -135,6 +135,11 @@ void DetalharPlaylist(Playlist *play) {
     printf("\n");
 }
 
+void ImprimeDelay(char str[], bool en, int delay) {
+    for (int i = 0; i < strlen(str); i++, en && msleep(delay))
+        printf("%c", str[i]);
+}
+
 void ImprimeMarca(bool animacao) {
     const int len = 1216;
     char marca[] =
@@ -152,11 +157,49 @@ void ImprimeMarca(bool animacao) {
 
     printf(ANSI_COLOR_GREEN);
 
-    for (int i = 0; i < strlen(marca); i++, animacao && msleep(2))
-            printf("%c", marca[i]);
+    ImprimeDelay(marca, animacao, 2);
 
     printf(ANSI_COLOR_RESET);
     
     if (animacao)
         msleep(512);
+}
+
+void ImprimeSobre(bool animacao) {
+    int delay = 0;
+    if (animacao)
+        delay = 1;
+
+    char logo[] =
+        " ⠀⠀⠀⠀⠀⠀⠀⢀⣠⣤⣤⣶⣶⣶⣶⣤⣤⣄⡀⠀⠀⠀⠀⠀⠀⠀ \n"
+        " ⠀⠀⠀⠀⢀⣤⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣤⡀⠀⠀⠀⠀ \n"
+        " ⠀⠀⠀⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⠀⠀⠀ \n"
+        " ⠀⢀⣾⣿⡿⠿⠛⠛⠛⠉⠉⠉⠉⠛⠛⠛⠿⠿⣿⣿⣿⣿⣿⣷⡀⠀ \n"
+        " ⠀⣾⣿⣿⣇⠀⣀⣀⣠⣤⣤⣤⣤⣤⣀⣀⠀⠀⠀⠈⠙⠻⣿⣿⣷⠀ \n"
+        " ⢠⣿⣿⣿⣿⡿⠿⠟⠛⠛⠛⠛⠛⠛⠻⠿⢿⣿⣶⣤⣀⣠⣿⣿⣿⡄ \n"
+        " ⢸⣿⣿⣿⣿⣇⣀⣀⣤⣤⣤⣤⣤⣄⣀⣀⠀⠀⠉⠛⢿⣿⣿⣿⣿⡇ \n"
+        " ⠘⣿⣿⣿⣿⣿⠿⠿⠛⠛⠛⠛⠛⠛⠿⠿⣿⣶⣦⣤⣾⣿⣿⣿⣿⠃ \n"
+        " ⠀⢿⣿⣿⣿⣿⣤⣤⣤⣤⣶⣶⣦⣤⣤⣄⡀⠈⠙⣿⣿⣿⣿⣿⡿⠀ \n"
+        " ⠀⠈⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣾⣿⣿⣿⣿⡿⠁⠀ \n"
+        " ⠀⠀⠀⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠀⠀⠀ \n"
+        " ⠀⠀⠀⠀⠈⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠛⠁⠀⠀⠀⠀ \n"
+        " ⠀⠀⠀⠀⠀⠀⠀⠈⠙⠛⠛⠿⠿⠿⠿⠛⠛⠋⠁⠀⠀⠀⠀⠀⠀⠀ \n"
+        "\n";
+    char txt[] =
+        ANSI_COLOR_YELLOW
+        "          SpotFES\n"
+        ANSI_COLOR_RESET
+        "\n"
+        "  Arthur Estefanato Lopes\n"
+        "     Jheam Storch Ross\n"
+        "\n"
+        "🛇  Nenhum Direito Reservado\n";
+
+    printf(ANSI_COLOR_GREEN);
+
+    ImprimeDelay(logo, true, delay);
+
+    printf(ANSI_COLOR_RESET);
+
+    ImprimeDelay(txt, true, delay);
 }
