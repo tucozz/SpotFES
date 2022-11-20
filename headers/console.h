@@ -59,4 +59,6 @@ void ListarTodasPlaylists(Lista *playlists, int n, int m);
  */
 void DetalharPlaylist(Playlist *playlist);
 
+void ImprimeMarca(bool animacao);
+
 #endif

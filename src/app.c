@@ -163,8 +163,16 @@ static void ListarTodasPlaylistsMenu(App *app, Musica *mscOrig) {
 }
 
 void RodaApp(App *app) {
+    bool primeiraVez = true;
+
     while (true) {
         system("@cls||clear");
+
+        printf("%c", '\n');
+        ImprimeMarca(primeiraVez);
+        printf("%c", '\n');
+        primeiraVez = false;
+
         printf("[f] Encontrar Música\n"
                "[g] Listar suas Playlists\n"
                "[r] Gerar Relatório\n"

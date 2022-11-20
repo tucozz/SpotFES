@@ -2,9 +2,18 @@
 #include "artista.h"
 #include "musica.h"
 #include "playlist.h"
+#include "sleeper.h"
 
 #include <stdio.h>
 #include <string.h>
+
+#define ANSI_COLOR_RED     "\x1b[31m"
+#define ANSI_COLOR_GREEN   "\x1b[32m"
+#define ANSI_COLOR_YELLOW  "\x1b[33m"
+#define ANSI_COLOR_BLUE    "\x1b[34m"
+#define ANSI_COLOR_MAGENTA "\x1b[35m"
+#define ANSI_COLOR_CYAN    "\x1b[36m"
+#define ANSI_COLOR_RESET   "\x1b[0m"
 
 void ListarMusica(Musica *msc, int i) {
     int j;
@@ -124,4 +133,30 @@ void DetalharPlaylist(Playlist *play) {
                GetMscName(AdquireElementoLista(GetMusicasPlaylist(play), i)));
     }
     printf("\n");
+}
+
+void ImprimeMarca(bool animacao) {
+    const int len = 1216;
+    char marca[] =
+        " .d8888b.                                   888         8888888888      8888888888       .d8888b.          \n"
+        "d88P  Y88b                                  888         888             888             d88P  Y88b        \n"
+        "Y88b.                                       888         888             888             Y88b.             \n"
+        " \"Y888b.        88888b.        .d88b.       888888      8888888         8888888          \"Y888b.        \n"
+        "    \"Y88b.      888 \"88b      d88\"\"88b      888         888             888                 \"Y88b.   \n"
+        "      \"888      888  888      888  888      888         888             888                   \"888      \n"
+        "Y88b  d88P      888 d88P      Y88..88P      Y88b.       888             888             Y88b  d88P        \n"
+        " \"Y8888P\"       88888P\"        \"Y88P\"        \"Y888      888             8888888888       \"Y8888P\" \n"
+        "                888                                                                                       \n"
+        "                888                                                                                       \n"
+        "                888                                                                                       \n";
+
+    printf(ANSI_COLOR_GREEN);
+
+    for (int i = 0; i < strlen(marca); i++, animacao && msleep(2))
+            printf("%c", marca[i]);
+
+    printf(ANSI_COLOR_RESET);
+    
+    if (animacao)
+        msleep(512);
 }
