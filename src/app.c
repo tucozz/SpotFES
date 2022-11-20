@@ -106,7 +106,7 @@ static void ListarTodasPlaylistsMenu(App *app, Musica *mscOrig) {
 
         case 'd':;
             printf("Digite o Indice da playlist desejada:\n");
-            scanf("%c%*c", &indice);
+            scanf("%d%*c", &indice);
             system("@cls||clear");
             CompletaPlaylist(AdquireElementoLista(app->playlists, indice), app->repoMsc);
             DetalharPlaylist(AdquireElementoLista(app->playlists, indice));
@@ -132,6 +132,8 @@ static void ListarTodasPlaylistsMenu(App *app, Musica *mscOrig) {
                 for (i = 0; i < k; i++) {
                     ListarMusica(AdquireElementoLista(recomendadas, i), i);
                 }
+
+                LiberaLista(recomendadas, LiberaMusica);
                 break;
 
             case 'a':;
