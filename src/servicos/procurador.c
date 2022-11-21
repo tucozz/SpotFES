@@ -1,3 +1,4 @@
+#include <math.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -46,12 +47,15 @@ void CompletaPlaylist(Playlist *playlist, RepoMusicas *repo) {
     LiberaLista(musicas, &LiberaMusica);
 }
 
-static int intcmp(const int *a, const int *b) { return *a - *b; }
+static int parcvfloatvalcmp(const ParChaveValor *a, const ParChaveValor *b) {
+    float diff = *(float *)GetValorParCV(a) - *(float *)GetValorParCV(b);
+    return diff / fabsf(diff);
+}
 
 Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
     CompletaPlaylist(playlist, repo);
 
-    Musica *ideal = NULL; // TODO: CalculaMusicaIdeal(playlist);
+    Musica *ideal = CriaMusicaMedia(playlist);
 
     // Dicionario<string, float>
     Dicionario *hashDistancia = InicializaDicionario(&strcmp, &free, &free);
@@ -77,7 +81,7 @@ Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
     for (Musica *msc = ProximoIteradorRepoMsc(itr); !FimIteradorRepoMsc(itr);
          msc = ProximoIteradorRepoMsc(itr)) {
         if (EncontraLista(GetMusicasIdPlaylist(playlist), GetMscId(msc),
-                          &strcmp) == -1) {
+                          &strcmp) != -1) {
             LiberaMusica(msc);
             continue;
         }
@@ -104,9 +108,9 @@ Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
             else
                 LiberaMusica(msc);
 
-            OrdenaLista(hashDistanciaLista, &intcmp);
+            OrdenaLista(hashDistanciaLista, &parcvfloatvalcmp);
 
-            break;
+            continue;
         }
 
         // ParChaveValor<string, float>
@@ -132,7 +136,7 @@ Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
                 continue;
             }
 
-            OrdenaLista(hashDistanciaLista, &intcmp);
+            OrdenaLista(hashDistanciaLista, &parcvfloatvalcmp);
 
             void **hshMscVal = GetValorDicionario(hashMusica, hash, &strdup);
             if (*hshMscVal == NULL)
@@ -152,8 +156,9 @@ Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
         char *hash = GetChaveParCV(curr);
 
         void **hshMscVal = GetValorDicionario(hashMusica, hash, &strdup);
-        if (*hshMscVal != NULL)
-            AdicionaElementoLista(mscsRecomendadas, *hshMscVal);
+        if (*hshMscVal != NULL) {
+            AdicionaElementoLista(mscsRecomendadas, CopiaMusica(*hshMscVal));
+        }
     }
 
     LiberaDicionario(hashDistancia);

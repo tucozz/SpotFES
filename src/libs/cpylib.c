@@ -22,11 +22,11 @@ static void mesclaArr(void *base, int d, int m, int e, size_t __size,
     // copia as fatias para os vetores temporarios
     int i;
     for (i = 0; i < t1; i++)
-        memcpy(vetE + i * __size, base + d * __size + i * __size, __size);
+        memcpy(vetE + i * __size, base + (d + i) * __size, __size);
 
     int j;
     for (j = 0; j < t2; j++)
-        memcpy(vetD + j * __size, base + (m + 1) * __size + j * __size, __size);
+        memcpy(vetD + j * __size, base + (m + 1 + j) * __size, __size);
 
     // mescla os vetores temporarios em ordem crescente
     i = 0;
