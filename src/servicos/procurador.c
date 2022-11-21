@@ -1,3 +1,4 @@
+#include <math.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -19,7 +20,8 @@ void CompletaMusica(Musica *msc, RepoArtistas *repo) {
     for (int i = 0; i < n; i++) {
         char *hash = AdquireElementoLista(hashes, i);
         Artista *art = EncontraPeloHashRepoArtistas(repo, hash);
-        AdicionaElementoLista(artistas, art);
+        if (art != NULL)
+            AdicionaElementoLista(artistas, art);
     }
 
     IncluiMscArtistas(msc, artistas);
@@ -37,19 +39,23 @@ void CompletaPlaylist(Playlist *playlist, RepoMusicas *repo) {
     for (int i = 0; i < n; i++) {
         char *hash = AdquireElementoLista(hashes, i);
         Musica *msc = EncontraPeloHashRepoMusica(repo, hash);
-        AdicionaElementoLista(musicas, msc);
+        if (msc != NULL)
+            AdicionaElementoLista(musicas, msc);
     }
 
     IncluiMusicasPlaylist(playlist, musicas);
     LiberaLista(musicas, &LiberaMusica);
 }
 
-static int intcmp(const int *a, const int *b) { return *a - *b; }
+static int parcvfloatvalcmp(const ParChaveValor *a, const ParChaveValor *b) {
+    float diff = *(float *)GetValorParCV(a) - *(float *)GetValorParCV(b);
+    return diff / fabsf(diff);
+}
 
 Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
     CompletaPlaylist(playlist, repo);
 
-    Musica *ideal = NULL; // TODO: CalculaMusicaIdeal(playlist);
+    Musica *ideal = CriaMusicaMedia(playlist);
 
     // Dicionario<string, float>
     Dicionario *hashDistancia = InicializaDicionario(&strcmp, &free, &free);
@@ -72,13 +78,11 @@ Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
     //     Outrossim, o acesso pelo hash no laco for apos esse tambem e uma
     //     facilidade que o dicionario dispos
     FILE *itr = InicioIteradorRepoMsc(repo);
-    for (Musica *msc = ProximoIteradorRepoMsc(itr); !FimIteradorRepoMsc(itr);
-         msc = ProximoIteradorRepoMsc(itr)) {
+    for (Musica *msc = ProximoIteradorRepoMsc(itr); msc != NULL || !FimIteradorRepoMsc(itr);
+         LiberaMusica(msc), msc = ProximoIteradorRepoMsc(itr)) {
         if (EncontraLista(GetMusicasIdPlaylist(playlist), GetMscId(msc),
-                          &strcmp) == -1) {
-            LiberaMusica(msc);
+                          &strcmp) != -1)
             continue;
-        }
 
         float distanciaDaIdeal = SemelhancaMusicas(ideal, msc);
 
@@ -89,20 +93,20 @@ Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
             if (*hshDistVal == NULL) {
                 *hshDistVal = malloc(sizeof(float));
                 if (*hshDistVal == NULL)
-                    throwOutOfMemoryException("Procurador internal hashDistancia Dicionario value malloc failed");
+                    throwOutOfMemoryException(
+                        "Procurador internal hashDistancia Dicionario value "
+                        "malloc failed");
 
                 *((float *)*hshDistVal) = distanciaDaIdeal;
             }
 
             void **hshMscVal = GetValorDicionario(hashMusica, hash, &strdup);
             if (*hshMscVal == NULL)
-                *hshMscVal = msc;
-            else
-                LiberaMusica(msc);
+                *hshMscVal = CopiaMusica(msc);
 
-            OrdenaLista(hashDistanciaLista, &intcmp);
+            OrdenaLista(hashDistanciaLista, &parcvfloatvalcmp);
 
-            break;
+            continue;
         }
 
         // ParChaveValor<string, float>
@@ -115,27 +119,28 @@ Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
             if (*hshDistVal == NULL) {
                 *hshDistVal = malloc(sizeof(float));
                 if (*hshDistVal == NULL)
-                    throwOutOfMemoryException("Procurador internal hashDistancia Dicionario value malloc failed");
+                    throwOutOfMemoryException(
+                        "Procurador internal hashDistancia Dicionario value "
+                        "malloc failed");
 
                 *((float *)*hshDistVal) = distanciaDaIdeal;
 
                 LiberaParCV(maisDistante);
             } else {
                 AdicionaElementoLista(hashDistanciaLista, maisDistante);
-                LiberaMusica(msc);
                 continue;
             }
 
-            OrdenaLista(hashDistanciaLista, &intcmp);
+            OrdenaLista(hashDistanciaLista, &parcvfloatvalcmp);
 
             void **hshMscVal = GetValorDicionario(hashMusica, hash, &strdup);
             if (*hshMscVal == NULL)
-                *hshMscVal = msc;
-            else
-                LiberaMusica(msc);
+                *hshMscVal = CopiaMusica(msc);
         } else
             AdicionaElementoLista(hashDistanciaLista, maisDistante);
     }
+
+    LiberaMusica(ideal);
 
     Lista *mscsRecomendadas = InicializaLista(); // Lista<Musica *>
 
@@ -146,8 +151,9 @@ Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
         char *hash = GetChaveParCV(curr);
 
         void **hshMscVal = GetValorDicionario(hashMusica, hash, &strdup);
-        if (*hshMscVal != NULL)
-            AdicionaElementoLista(mscsRecomendadas, *hshMscVal);
+        if (*hshMscVal != NULL) {
+            AdicionaElementoLista(mscsRecomendadas, CopiaMusica(*hshMscVal));
+        }
     }
 
     LiberaDicionario(hashDistancia);

@@ -4,16 +4,73 @@
 #include "musica.h"
 #include "playlist.h"
 
-void ListarMusica(Musica *, int i);
+#define ANSI_COLOR_RED     "\x1b[31m"
+#define ANSI_COLOR_GREEN   "\x1b[32m"
+#define ANSI_COLOR_YELLOW  "\x1b[33m"
+#define ANSI_COLOR_BLUE    "\x1b[34m"
+#define ANSI_COLOR_MAGENTA "\x1b[35m"
+#define ANSI_COLOR_CYAN    "\x1b[36m"
+#define ANSI_COLOR_RESET   "\x1b[0m"
 
-void ListarTodasMusicas(Lista *, int n, int m);
+/**
+ * @brief Desenha na tela uma linha da @p musica de uma tabela de @ref Musica*
+ *
+ * @param msc A @ref Musica*
+ * @param i O indice baseado em 1 da linha
+ */
+void ListarMusica(Musica *msc, int i);
 
-void DetalharMusica(Musica *);
+/**
+ * @brief Desenha toda a tabela de @ref Musica*
+ *
+ * @param mscs A @ref Lista* de @ref Musica*
+ * @param n Limite inferior do indice interno baseado em zero das musicas em
+ * @p mscs
+ * @param m Limite superior do indice interno baseado em zero das musicas em
+ * @p mscs
+ */
+void ListarTodasMusicas(Lista *mscs, int n, int m);
 
-void ListarPlaylist(Playlist *, int I);
+/**
+ * @brief Desenha na tela todas as informações dessa @ref Musica* @p msc ;
+ * incluindo seus artista
+ *
+ * @param msc A @ref Musica*
+ */
+void DetalharMusica(Musica *msc);
 
-void ListarTodasPlaylists(Lista *, int n, int m);
+/**
+ * @brief Desenha na tela uma linha da @p playlist de uma tabela de
+ * @ref Playlist*
+ *
+ * @param playlist A @ref playlist*
+ * @param i O indice baseado em 1 da linha
+ */
+void ListarPlaylist(Playlist *playlist, int i);
 
-void DetalharPlaylist(Playlist *);
+/**
+ * @brief Desenha toda a tabela de @ref Playlist*
+ *
+ * @param mscs A @ref Lista* de @ref Playlist*
+ * @param n Limite inferior do indice interno baseado em zero das musicas em
+ * @p mscs
+ * @param m Limite superior do indice interno baseado em zero das musicas em
+ * @p mscs
+ */
+void ListarTodasPlaylists(Lista *playlists, int n, int m);
+
+/**
+ * @brief Desenha na tela todas as informações dessa @ref Playlist* @p playlist
+ * ; incluindo suas musicas
+ *
+ * @param msc A @ref Musica*
+ */
+void DetalharPlaylist(Playlist *playlist);
+
+void ImprimeMarca(bool animacao);
+
+void ImprimeSobre(bool animacao);
+
+void ImprimeDelay(char str[], bool en, int delay);
 
 #endif

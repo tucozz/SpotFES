@@ -3,31 +3,16 @@
 
 #include "app.h"
 
+#include "encontra_musica_menu.h"
+#include "erro_menu.h"
 #include "exception.h"
+#include "exportar_relatorio_menu.h"
+#include "listar_todas_playlists_menu.h"
 #include "repositorio_artistas.h"
 #include "repositorio_musicas.h"
 #include "repositorio_playlists.h"
-
-/** Funcao de Buscar Musicas */
-#define APP_FUNC_BUSCMUSC 1
-/** Funcao de Listar Musica */
-#define APP_FUNC_LISTMUSC 2
-/** Funcao de Criar Playlist */
-#define APP_FUNC_CRIAPLAY 3
-/** Funcao de Listar todas as Playlists */
-#define APP_FUNC_LSPLAYLS 4
-/** Funcao de Listar Playlist */
-#define APP_FUNC_LISTPLAY 5
-/** Funcao de Adicionar Musica a Playlist */
-#define APP_FUNC_ADDMSCPL 6
-/** Funcao de Recomendar Musicas dada uma Playlist */
-#define APP_FUNC_RECOPLAY 7
-/** Funcao de Gerar Relatorios */
-#define APP_FUNC_GENRELAT 8
-/** Acao de Voltar a Tras na Interface */
-#define APP_ACTN_VOOOLTAR 9
-/** Acao de Interagir com o contexto da interface */
-#define APP_ACTN_INTERAGE 0
+#include "sair_app_menu.h"
+#include "sobre_menu.h"
 
 struct tApp {
     RepoMusicas *repoMsc;
@@ -35,14 +20,13 @@ struct tApp {
     Lista *playlists; // Lista<playlist>
 };
 
-App *InicializaApp(const char *artistascsv, const char *musicascsv) {
+App *InicializaApp(const char *musicascsv, const char *artistascsv) {
     App *app = malloc(sizeof *app);
     if (app == NULL)
         throwOutOfMemoryException("App malloc failed");
 
     app->repoMsc = InicializaRepoMusicas(musicascsv);
-    app->repoArt = InicializaRepoArtistas(musicascsv);
-    app->playlists = CarregaTodasPlaylistsRepo();
+    app->repoArt = InicializaRepoArtistas(artistascsv);
 
     return app;
 }
@@ -58,57 +42,57 @@ void *LiberaApp(App *app) {
     return NULL;
 }
 
-void RodaApp() {
-    while (1) {
+RepoMusicas *GetRepoMusicasApp(App *app) { return app->repoMsc; }
+
+RepoArtistas *GetRepoArtistasApp(App *app) { return app->repoArt; }
+
+Lista *GetPlaylistsApp(App *app) { return app->playlists; }
+
+void RodaApp(App *app) {
+    app->playlists = CarregaTodasPlaylistsRepo();
+
+    bool primeiraVez = true;
+    while (true) {
         system("@cls||clear");
-        printf("Digite o numero relacionado a funcionalidade desejada\n\n"
-               "1. Encontrar Musica\n"
-               "2. Listar Musica\n"
-               "3. Criar Playlist\n"
-               "4. Listar Playlists\n"
-               "5. Listar Musicas da Playlist\n"
-               "6. Adicionar Musica a Playlist\n"
-               "7. Recomendar Musicas\n"
-               "8. Gerar Relatorios\n"
-               "9. Voltar\n");
 
-        int curr;
-        scanf("%d", &curr);
+        printf("%c", '\n');
+        ImprimeMarca(primeiraVez);
+        printf("%c", '\n');
+        primeiraVez = false;
+
+        printf("[f] Encontrar Música\n"
+               "[g] Listar suas Playlists\n"
+               "[r] Exportar Relatório\n"
+               "[b] Sobre\n"
+               "[q] Sair\n");
+
+        char curr;
+        scanf("%c%*c", &curr);
         switch (curr) {
-        case APP_FUNC_BUSCMUSC:;
-
+        case 'f':;
+            EncontraMusicaMenu(app, NULL);
             break;
 
-        case APP_FUNC_LISTMUSC:;
+        case 'g':;
+            ListarTodasPlaylistsMenu(app, NULL);
             break;
 
-        case APP_FUNC_CRIAPLAY:;
+        case 'r':;
+            ExportarRelatorioMenu(app);
             break;
 
-        case APP_FUNC_LSPLAYLS:;
+        case 'b':;
+            SobreMenu();
             break;
 
-        case APP_FUNC_LISTPLAY:;
-            break;
-
-        case APP_FUNC_ADDMSCPL:;
-            break;
-
-        case APP_FUNC_RECOPLAY:;
-            break;
-
-        case APP_FUNC_GENRELAT:;
-            break;
-
-        case APP_ACTN_VOOOLTAR:;
+        case 'q':;
+            SairAppMenu(app);
             return;
 
         default:
-            printf("Ops! Acao invalida. Favor especificar funcionalidade "
-                   "desejada\n");
+            ErroMenu("Ops! Acao invalida. Favor especificar funcionalidade "
+                     "desejada");
             continue;
         }
     }
 }
-
-void SairApp(App *app) { SalvaTodasPlaylistsRepo(app->playlists); }

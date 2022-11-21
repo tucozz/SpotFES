@@ -1,14 +1,22 @@
 #ifndef _APP_
 #define _APP_
 
+#include "lista.h"
+#include "repositorio_artistas.h"
+#include "repositorio_musicas.h"
+
 typedef struct tApp App;
 
 App *InicializaApp(const char *artistascsv, const char *musicascsv);
 
 void *LiberaApp(App *app);
 
-void RodaApp();
+RepoMusicas *GetRepoMusicasApp(App *app);
 
-void SairApp();
+RepoArtistas *GetRepoArtistasApp(App *app);
+
+Lista *GetPlaylistsApp(App *app);
+
+void RodaApp(App *app);
 
 #endif

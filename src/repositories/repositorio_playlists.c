@@ -143,14 +143,6 @@ Lista *CarregaTodasPlaylistsRepo() {
     Lista *playlists = InicializaLista();
 
     FILE *fbin = fopen(REPO_PLAYLISTS_DEFAULT_PATH_SAVE, "rb");
-    if (fbin == NULL)
-        throwException(
-            "IOException",
-            "RepositorioPlaylists "
-            "SalvaTodasPlaylistsRepo " REPO_PLAYLISTS_DEFAULT_PATH_SAVE
-            " file opening failed",
-            EXIT_FAILURE);
-
     if (!fbin) {
         return playlists;
     }
