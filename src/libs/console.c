@@ -10,12 +10,13 @@
 void ListarMusica(Musica *msc, int i) {
     int j;
 
-    printf("%5d   | %17s", i, GetMscId(msc));
-    if (strlen(GetMscId(msc)) > 17)
-        printf("...");
-    printf(" | %17s", GetMscName(msc));
-    if (strlen(GetMscName(msc)) > 17)
-        printf("...");
+    printf("%5d   | %s | ", i, GetMscId(msc));
+    if (strlen(GetMscName(msc)) > 30)
+        printf("%.27s...", GetMscName(msc));
+    if (strlen(GetMscName(msc)) < 30)
+        printf("%30s", GetMscName(msc));
+    if (strlen(GetMscName(msc)) == 30)
+        printf("%s", GetMscName(msc));
     printf(" | ");
     if (GetMscArtistsName(msc) == NULL)
         for (j = 0; j < (GetQuantidadeLista(GetMscArtists(msc))); j++)
@@ -33,7 +34,7 @@ void ListarMusica(Musica *msc, int i) {
 void ListarTodasMusicas(Lista *lista, int n, int m) {
     int i;
 
-    printf("Indice: | Id:                 | Nome:             | Artistas:\n");
+    printf("Indice: | Id:                    | Nome:                          | Artistas:\n");
 
     for (i = n; i < m; i++) {
         ListarMusica(AdquireElementoLista(lista, i), i + 1);
@@ -94,9 +95,13 @@ void DetalharMusica(Musica *msc) {
 }
 
 void ListarPlaylist(Playlist *play, int i) {
-    printf("%5d   | %17s", i, GetNomePlaylist(play));
-    if (strlen(GetNomePlaylist(play)) > 17)
-        printf("...");
+    printf("%5d   | ", i);
+    if (strlen(GetNomePlaylist(play)) > 27)
+        printf("%.27s...", GetNomePlaylist(play));
+    if (strlen(GetNomePlaylist(play)) < 27)
+        printf("%30s", GetNomePlaylist(play));
+    if (strlen(GetNomePlaylist(play)) == 27)
+        printf("%s", GetNomePlaylist(play));
     printf(" | %5d", GetQuantidadeLista(GetMusicasIdPlaylist(play)));
     printf("\n");
 }
@@ -104,7 +109,7 @@ void ListarPlaylist(Playlist *play, int i) {
 void ListarTodasPlaylists(Lista *lista, int n, int m) {
     int i;
 
-    printf("Indice: | Nome:               | Numero de Musicas:\n");
+    printf("Indice: | Nome:                          | Numero de Musicas:\n");
 
     for (i = n; i < m; i++) {
         ListarPlaylist(AdquireElementoLista(lista, i), i + 1);
