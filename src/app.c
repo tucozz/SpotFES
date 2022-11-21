@@ -106,8 +106,18 @@ static void ListarTodasPlaylistsMenu(App *app, Musica *mscOrig) {
 
         case 'd':;
             printf("Digite o Indice da playlist desejada:\n");
-            scanf("%d%*c", &indice);
+            while(true){
+                scanf("%d%*c", &indice);
+                indice--;
+
+                if(indice >= 0 && indice <GetQuantidadeLista(app->playlists))
+                break;
+
+                printf("Ops! Indique um indice valido para detalhar a playlist.\n");
+            }
+            
             system("@cls||clear");
+
             CompletaPlaylist(AdquireElementoLista(app->playlists, indice), app->repoMsc);
             DetalharPlaylist(AdquireElementoLista(app->playlists, indice));
 
@@ -122,26 +132,25 @@ static void ListarTodasPlaylistsMenu(App *app, Musica *mscOrig) {
             case 'r':;
                 printf("Quantas musicas recomendadas deseja?\n");
                 char k;
-                scanf("%c%*c", &k);
+                scanf("%d%*c", &k);
 
                 Lista *recomendadas = InicializaLista;
                 recomendadas = RecomendaMusicas(
                     AdquireElementoLista(app->playlists, indice), k,
                     app->repoMsc);
 
-                for (i = 0; i < k; i++) {
-                    ListarMusica(AdquireElementoLista(recomendadas, i), i);
-                }
+                ListarTodasMusicasMenu(app, recomendadas, AdquireElementoLista(app->playlists, indice));
 
-                LiberaLista(recomendadas, LiberaMusica);
+                LiberaLista(recomendadas, &LiberaMusica);
                 break;
 
             case 'a':;
                 if (mscOrig != NULL) {
-                    AdicionaElementoLista(
-                        AdquireElementoLista(app->playlists, indice), mscOrig);
-                    printf("Musica Adicionada!\n");
-                    break;
+                    if(AdicionaMusicaPlaylist(AdquireElementoLista(app->playlists, indice), mscOrig)){
+                        printf("Musica Adicionada!\n");
+                        break;
+                    }
+                    printf("Esta musica ja está na playlist!\n");
                 }
 
                 EncontraMusicaMenu(
