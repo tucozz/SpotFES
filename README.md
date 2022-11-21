@@ -1,3 +1,10 @@
+<div align="center">
+  <a href="https://github.com/tucozz/SpotFES">
+    <img src="img/logo.png" alt="Logo" width="160" height="160">
+  </a>
+
+  <h3 align="center">SpotFES</h3>
+</div>
 
 ## Sobre
 
