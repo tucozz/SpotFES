@@ -78,13 +78,11 @@ Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
     //     Outrossim, o acesso pelo hash no laco for apos esse tambem e uma
     //     facilidade que o dicionario dispos
     FILE *itr = InicioIteradorRepoMsc(repo);
-    for (Musica *msc = ProximoIteradorRepoMsc(itr); !FimIteradorRepoMsc(itr);
-         msc = ProximoIteradorRepoMsc(itr)) {
+    for (Musica *msc = ProximoIteradorRepoMsc(itr); msc != NULL || !FimIteradorRepoMsc(itr);
+         LiberaMusica(msc), msc = ProximoIteradorRepoMsc(itr)) {
         if (EncontraLista(GetMusicasIdPlaylist(playlist), GetMscId(msc),
-                          &strcmp) != -1) {
-            LiberaMusica(msc);
+                          &strcmp) != -1)
             continue;
-        }
 
         float distanciaDaIdeal = SemelhancaMusicas(ideal, msc);
 
@@ -104,9 +102,7 @@ Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
 
             void **hshMscVal = GetValorDicionario(hashMusica, hash, &strdup);
             if (*hshMscVal == NULL)
-                *hshMscVal = msc;
-            else
-                LiberaMusica(msc);
+                *hshMscVal = CopiaMusica(msc);
 
             OrdenaLista(hashDistanciaLista, &parcvfloatvalcmp);
 
@@ -132,7 +128,6 @@ Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
                 LiberaParCV(maisDistante);
             } else {
                 AdicionaElementoLista(hashDistanciaLista, maisDistante);
-                LiberaMusica(msc);
                 continue;
             }
 
@@ -140,12 +135,12 @@ Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
 
             void **hshMscVal = GetValorDicionario(hashMusica, hash, &strdup);
             if (*hshMscVal == NULL)
-                *hshMscVal = msc;
-            else
-                LiberaMusica(msc);
+                *hshMscVal = CopiaMusica(msc);
         } else
             AdicionaElementoLista(hashDistanciaLista, maisDistante);
     }
+
+    LiberaMusica(ideal);
 
     Lista *mscsRecomendadas = InicializaLista(); // Lista<Musica *>
 
