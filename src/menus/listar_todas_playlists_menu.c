@@ -36,8 +36,12 @@ void ListarTodasPlaylistsMenu(App *app, Musica *mscOrig) {
                 return;
             }
 
-            Playlist *play = InicializaPlaylist(nome, InicializaLista());
+            Lista *playMscs = InicializaLista(); // Lista<string>
+
+            Playlist *play = InicializaPlaylist(nome, playMscs);
             AdicionaElementoLista(GetPlaylistsApp(app), play);
+            
+            LiberaLista(playMscs, &free);
 
             printf("Playlist %s Criada!\n", nome);
             break;
