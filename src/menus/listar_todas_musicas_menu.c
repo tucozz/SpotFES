@@ -36,10 +36,10 @@ void ListarTodasMusicasMenu(App *app, Lista *musicas, Playlist *playlistOrig) {
                 ListarTodasMusicas(musicas, n, m);
                 printf("\nInforme o indice da musica: ");
 
-                while (scanf("%d%*c", &i) != 1) {
-                }
+                scanf("%d%*c", &i);
 
                 if (i < 1 || i > GetQuantidadeLista(musicas)) {
+                    system("@cls||clear");
                     printf(ANSI_COLOR_YELLOW
                            "Indice (%d) inválido." ANSI_COLOR_RESET
                            "\npressione ENTER para continuar",
