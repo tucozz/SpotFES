@@ -75,6 +75,14 @@ void GerarRelatorio(RepoMusicas *repoMsc, RepoArtistas *repoArt,
     // Associa o hash de uma musica com sua representacao
     Dicionario *musicas = InicializaDicionario(&strcmp, &free, &LiberaMusica);
 
+    // Dicionario<string, int>
+    // Associa o hash de um Artista * com o numero de
+    // vezes que ele se repete na playlist
+    Dicionario *artistasQtd = InicializaDicionario(&strcmp, &free, &free);
+    // Dicionario<string, Artista *>
+    // Associa o hash de um Artista * com sua representacao
+    Dicionario *artistas = InicializaDicionario(&strcmp, &free, &LiberaArtista);
+
     int n = GetQuantidadeLista(playlists);
     for (int i = 0; i < n; i++) {
         Playlist *currPlay = AdquireElementoLista(playlists, i);
@@ -103,11 +111,46 @@ void GerarRelatorio(RepoMusicas *repoMsc, RepoArtistas *repoArt,
                 *((int *)*dicValQtd) += 1;
             }
 
+            
             void **dicValMsc =
                 GetValorDicionario(musicas, currMscHash, &strdup);
             if (*dicValMsc == NULL) {
                 CompletaMusica(currMsc, repoArt);
                 *dicValMsc = CopiaMusica(currMsc);
+            }
+            else
+                currMsc = *dicValMsc;
+
+            Lista *currMscArts = GetMscArtists(currMsc); // Lista<Artista *>
+            int m = GetQuantidadeLista(currMscArts);
+            for (int j = 0; j < m; j++) {
+                Artista *currArt = AdquireElementoLista(currMscArts, j);
+                if (currArt == NULL)
+                    continue;
+
+                char *currArtHash = GetArtId(currArt);
+
+                // Ponteiro para o ponteiro do valor do
+                // ParChaveValor<string, int>
+                void **dicValQtd =
+                    GetValorDicionario(artistasQtd, currArtHash, &strdup);
+                if (*dicValQtd == NULL) {
+                    *dicValQtd = malloc(sizeof(int));
+                    if (*dicValQtd == NULL)
+                        throwOutOfMemoryException(
+                            "Relatorio internal artistasQtd "
+                            "Dicionario value malloc failed");
+
+                    *((int *)*dicValQtd) = 1;
+                } else {
+                    *((int *)*dicValQtd) += 1;
+                }
+
+                void **dicValArt =
+                    GetValorDicionario(artistas, currArtHash, &strdup);
+                if (*dicValArt == NULL) {
+                    *dicValArt = CopiaArtista(currArt);
+                }
             }
         }
     }
@@ -133,49 +176,6 @@ void GerarRelatorio(RepoMusicas *repoMsc, RepoArtistas *repoArt,
     }
 
     fclose(fcsv);
-
-    // Dicionario<string, int>
-    // Associa o hash de um Artista * com o numero de
-    // vezes que ele se repete na playlist
-    Dicionario *artistasQtd = InicializaDicionario(&strcmp, &free, &free);
-    // Dicionario<string, Artista *>
-    // Associa o hash de um Artista * com sua representacao
-    Dicionario *artistas = InicializaDicionario(&strcmp, &free, &LiberaArtista);
-
-    for (int i = 0; i < n; i++) {
-        Musica *currMsc = GetValorParCV(
-            AdquireElementoLista(GetTodosParesDicionario(musicas), i));
-
-        Lista *currMscArts = GetMscArtists(currMsc); // Lista<Artista *>
-        int m = GetQuantidadeLista(currMscArts);
-        for (int j = 0; j < m; j++) {
-            Artista *currArt = AdquireElementoLista(currMscArts, j);
-            if (currArt == NULL)
-                continue;
-
-            char *currArtHash = GetArtId(currArt);
-
-            // Ponteiro para o ponteiro do valor do ParChaveValor<string, int>
-            void **dicValQtd =
-                GetValorDicionario(artistasQtd, currArtHash, &strdup);
-            if (*dicValQtd == NULL) {
-                *dicValQtd = malloc(sizeof(int));
-                if (*dicValQtd == NULL)
-                    throwOutOfMemoryException("Relatorio internal artistasQtd "
-                                              "Dicionario value malloc failed");
-
-                *((int *)*dicValQtd) = 1;
-            } else {
-                *((int *)*dicValQtd) += 1;
-            }
-
-            void **dicValArt =
-                GetValorDicionario(artistas, currArtHash, &strdup);
-            if (*dicValArt == NULL) {
-                *dicValArt = CopiaArtista(currArt);
-            }
-        }
-    }
 
     // Lista<ParChaveValor<string, int>>
     Lista *paresArtQtd = GetTodosParesDicionario(artistasQtd);
