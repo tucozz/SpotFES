@@ -24,7 +24,7 @@ Com esse programa você pode encontrar músicas, criar playlists, receber recome
 1. Clone o repositório
 
     ```sh
-    git clone https://github.com/srjheam/ufes-mouth.git
+    git clone https://github.com/tucozz/SpotFES.git
     ```
 
 2. Dirija-se ao seu diretório
@@ -41,9 +41,9 @@ Com esse programa você pode encontrar músicas, criar playlists, receber recome
 
 ### Usando
 
-O executável precisa os caminhos para dois arquivos csv com a fonte para as músicas e artistas do programa, nessa ordem.
+O executável precisa dos caminhos para dois arquivos csv com a fonte para as músicas e artistas, nessa ordem.
 
-Esses arquivos podem ser adquiridos pelo [aqui](https://www.kaggle.com/datasets/yamaerenay/spotify-dataset-19212020-600k-tracks).
+Esses arquivos podem ser adquiridos por [aqui](https://www.kaggle.com/datasets/yamaerenay/spotify-dataset-19212020-600k-tracks).
 
 ```sh
 ./main data/tracks.csv data/artists.csv

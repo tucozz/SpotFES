@@ -44,7 +44,7 @@ pre-main:
 	@mkdir -p $(BUILDIR)/
 
 # Linka todos os .o no executável main
-main : $(LIB_TARGET)
+main : $(LIB_TARGET) main.c
 	$(CC) -o $@ main.c -L . -l$(LIB) $(CFLAGS)
 
 # Rode make clean para remover tudo que é gerado pelo deploy
