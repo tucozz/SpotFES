@@ -12,7 +12,7 @@
 
 void ListarTodasPlaylistsMenu(App *app, Musica *mscOrig) {
     while (true) {
-        int indice, i;
+        int indice;
 
         system("@cls||clear");
 
@@ -40,7 +40,7 @@ void ListarTodasPlaylistsMenu(App *app, Musica *mscOrig) {
 
             Playlist *play = InicializaPlaylist(nome, playMscs);
             AdicionaElementoLista(GetPlaylistsApp(app), play);
-            
+
             LiberaLista(playMscs, &free);
 
             printf("Playlist %s Criada!\n", nome);
@@ -77,11 +77,10 @@ void ListarTodasPlaylistsMenu(App *app, Musica *mscOrig) {
             switch (option) {
             case 'r':;
                 printf("Quantas musicas recomendadas deseja?\n");
-                char k;
+                int k;
                 scanf("%d%*c", &k);
 
-                Lista *recomendadas = InicializaLista;
-                recomendadas = RecomendaMusicas(
+                Lista *recomendadas = RecomendaMusicas(
                     AdquireElementoLista(GetPlaylistsApp(app), indice), k,
                     GetRepoMusicasApp(app));
 
