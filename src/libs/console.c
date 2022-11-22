@@ -127,10 +127,11 @@ void DetalharPlaylist(Playlist *play) {
     printf("Nome: %s\n"
            "Numero de Musicas: %d\n"
            "Musicas:\n",
-           GetNomePlaylist(play), GetQuantidadeLista(GetMusicasIdPlaylist(play)));
+           GetNomePlaylist(play),
+           GetQuantidadeLista(GetMusicasIdPlaylist(play)));
     for (i = 0; i < GetQuantidadeLista(GetMusicasIdPlaylist(play)); i++) {
-        printf("%5d: %s\n", i,
-               GetMscName(AdquireElementoLista(GetMusicasPlaylist(play), i)));
+        Musica *msc = AdquireElementoLista(GetMusicasPlaylist(play), i);
+        printf("%5d: %s\n", i, msc == NULL ? "-" : GetMscName(msc));
     }
     printf("\n");
 }
@@ -159,7 +160,7 @@ void ImprimeMarca(bool animacao) {
     ImprimeDelay(marca, animacao, 2);
 
     printf(ANSI_COLOR_RESET);
-    
+
     if (animacao)
         msleep(512);
 }
