@@ -32,20 +32,19 @@ void ListarMusica(Musica *msc, int i) {
     printf("\n");
 }
 
-void ListarTodasMusicas(Lista *lista, int n, int m) {
+void ListarTodasMusicas(Lista *lista, int n, int tamPag) {
     int i;
 
     printf("Indice: | Id:                    | Nome:                          | Artistas:\n");
 
-    for (i = n; i < m; i++) {
-        ListarMusica(AdquireElementoLista(lista, i), i + 1);
+    int qtd = GetQuantidadeLista(lista);
+    for (i = 0; i < tamPag && i + n < qtd; i++) {
+        ListarMusica(AdquireElementoLista(lista, i + n), i + n + 1);
     }
 
-    int qtd = GetQuantidadeLista(lista);
-    int tampag = m - n;
     printf("\nEncontrados %d resultados%50s", qtd, " ");
-    int currpag = n / tampag + 1;
-    printf("%d / %.0lf\n\n", currpag, ceilf((float)qtd / tampag));    
+    int currpag = n / tamPag + 1;
+    printf("%d / %.0lf\n\n", currpag, ceilf((float)qtd / tamPag));    
 }
 
 void DetalharMusica(Musica *msc) {

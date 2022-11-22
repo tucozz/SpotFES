@@ -26,10 +26,9 @@ void ListarMusica(Musica *msc, int i);
  * @param mscs A @ref Lista* de @ref Musica*
  * @param n Limite inferior do indice interno baseado em zero das musicas em
  * @p mscs
- * @param m Limite superior do indice interno baseado em zero das musicas em
- * @p mscs
+ * @param tamPag Tamanho de uma pagina
  */
-void ListarTodasMusicas(Lista *mscs, int n, int m);
+void ListarTodasMusicas(Lista *mscs, int n, int tamPag);
 
 /**
  * @brief Desenha na tela todas as informações dessa @ref Musica* @p msc ;
