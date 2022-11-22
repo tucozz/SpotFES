@@ -4,6 +4,7 @@
 #include "playlist.h"
 #include "sleeper.h"
 
+#include <math.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -38,9 +39,13 @@ void ListarTodasMusicas(Lista *lista, int n, int m) {
 
     for (i = n; i < m; i++) {
         ListarMusica(AdquireElementoLista(lista, i), i + 1);
-        printf("\n");
     }
-    printf("\n");
+
+    int qtd = GetQuantidadeLista(lista);
+    int tampag = m - n;
+    printf("\nEncontrados %d resultados%50s", qtd, " ");
+    int currpag = n / tampag + 1;
+    printf("%d / %.0lf\n\n", currpag, ceilf((float)qtd / tampag));    
 }
 
 void DetalharMusica(Musica *msc) {
@@ -113,7 +118,6 @@ void ListarTodasPlaylists(Lista *lista, int n, int m) {
 
     for (i = n; i < m; i++) {
         ListarPlaylist(AdquireElementoLista(lista, i), i + 1);
-        printf("\n");
     }
     printf("\n");
 }
@@ -138,7 +142,6 @@ void ImprimeDelay(char str[], bool en, int delay) {
 }
 
 void ImprimeMarca(bool animacao) {
-    const int len = 1216;
     char marca[] =
         " .d8888b.                                   888         8888888888      8888888888       .d8888b.          \n"
         "d88P  Y88b                                  888         888             888             d88P  Y88b        \n"
