@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "app.h"
 
@@ -30,7 +31,7 @@ App *InicializaApp(const char *musicascsv, const char *artistascsv) {
 
     app->repoMsc = InicializaRepoMusicas(musicascsv);
     app->repoArt = InicializaRepoArtistas(artistascsv);
-    app->musicas = NULL;
+    app->musicas = InicializaLista();
 
     return app;
 }
@@ -75,6 +76,7 @@ void RodaApp(App *app) {
 
         printf("[f] Buscar músicas\n"
                "[h] Listar uma música\n"
+               "[c] Criar uma playlist\n"
                "[g] Listar suas Playlists\n"
                "[r] Exportar Relatório\n"
                "[b] Sobre\n"
@@ -110,6 +112,27 @@ void RodaApp(App *app) {
                        i);
                 scanf("%*c");
             }
+            break;
+
+        case 'c':;
+            system("@cls||clear");
+            printf("Digite um nome para a playlist:\n");
+
+            char nome[30];
+            scanf("%29[^\n]%*c", nome);
+            if (strlen(nome) < 1) {
+                return;
+            }
+
+            Lista *playMscs = InicializaLista(); // Lista<string>
+
+            Playlist *play = InicializaPlaylist(nome, playMscs);
+            AdicionaElementoLista(app->playlists, play);
+
+            LiberaLista(playMscs, &free);
+
+            printf("Playlist %s Criada!\npressione ENTER para continuar", nome);
+            scanf("%*c");
             break;
 
         case 'g':;

@@ -27,25 +27,7 @@ void ListarTodasPlaylistsMenu(App *app, Musica *mscOrig) {
         char curr;
         scanf("%c%*c", &curr);
 
-        if (curr == 'c') {
-            char nome[30];
-
-            printf("Digite um nome para a playlist:\n");
-            scanf("%29[^\n]%*c", nome);
-            if (strlen(nome) <= 1) {
-                return;
-            }
-
-            Lista *playMscs = InicializaLista(); // Lista<string>
-
-            Playlist *play = InicializaPlaylist(nome, playMscs);
-            AdicionaElementoLista(GetPlaylistsApp(app), play);
-
-            LiberaLista(playMscs, &free);
-
-            printf("Playlist %s Criada!\n", nome);
-            scanf("%*c");
-        } else if (GetQuantidadeLista(GetPlaylistsApp(app)) > 0 &&
+        if (GetQuantidadeLista(GetPlaylistsApp(app)) > 0 &&
                    curr == 'd') {
             int indice;
             while (true) {
