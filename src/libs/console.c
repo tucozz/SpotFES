@@ -39,7 +39,7 @@ void ListarTodasMusicas(Lista *lista, int n, int tamPag) {
 
     int qtd = GetQuantidadeLista(lista);
     for (i = 0; i < tamPag && i + n < qtd; i++) {
-        ListarMusica(AdquireElementoLista(lista, i + n), i + n + 1);
+        ListarMusica(AdquireElementoLista(lista, i + n), i + n);
     }
 
     printf("\nEncontrados %d resultados%50s", qtd, " ");

@@ -22,7 +22,6 @@ void DetalhaMusicaMenu(App *app, Musica *msc, Playlist *playlistOrig) {
         DetalharMusica(msc);
 
         printf("[f] Escutar Música\n"
-               "[a] Adicionar Música à Playlist\n"
                "[q] Voltar Menu\n");
 
         char curr;
@@ -32,29 +31,8 @@ void DetalhaMusicaMenu(App *app, Musica *msc, Playlist *playlistOrig) {
             AbrirMusicaNoNavegador(msc);
             printf(ANSI_COLOR_YELLOW
                    "Abrindo música no navegador..." ANSI_COLOR_RESET
-                   "\npressione ENTER para voltar ao SpotFES");
+                   "\npressione ENTER para continuar");
             scanf("%*c");
-            break;
-
-        case 'a':;
-            if (playlistOrig != NULL) {
-                bool status = AdicionaMusicaPlaylist(playlistOrig, msc);
-                if (status) {
-                    printf(ANSI_COLOR_YELLOW
-                           "Música adicionada" ANSI_COLOR_RESET
-                           "\npressione ENTER para continuar");
-                    scanf("%*c");
-                    return;
-                }
-
-                printf(ANSI_COLOR_YELLOW
-                       "Essa música já está na sua playlist" ANSI_COLOR_RESET
-                       "\npressione ENTER para continuar");
-                scanf("%*c");
-                break;
-            }
-
-            ListarTodasPlaylistsMenu(app, msc);
             break;
 
         case 'q':;
