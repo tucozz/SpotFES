@@ -80,6 +80,7 @@ void RodaApp(App *app) {
                "[c] Criar uma playlist\n"
                "[g] Listar playlists\n"
                "[v] Listar uma playlist\n"
+               "[d] Adicionar uma música na playlist\n"
                "[r] Exportar Relatório\n"
                "[b] Sobre\n"
                "[q] Sair\n");
@@ -92,7 +93,7 @@ void RodaApp(App *app) {
             break;
 
         case 'h':;
-            if (app->musicas == NULL) {
+            if (GetQuantidadeLista(app->musicas) == 0) {
                 ErroMenu("Primeiro, busque por músicas na funcionalidade [f]");
                 break;
             }
@@ -149,20 +150,70 @@ void RodaApp(App *app) {
             system("@cls||clear");
             printf("Digite o Indice da playlist desejada:\n");
 
-            int indice;
-            scanf("%d%*c", &indice);
+            int iPlay;
+            scanf("%d%*c", &iPlay);
 
-            if (indice < 0 ||
-                indice >= GetQuantidadeLista(GetPlaylistsApp(app))) {
+            if (iPlay < 0 ||
+                iPlay >= GetQuantidadeLista(GetPlaylistsApp(app))) {
                 ErroMenu("Ops! Indique um indice valido para detalhar a "
                          "playlist.");
                 break;
             }
 
             Playlist *currPlay =
-                AdquireElementoLista(GetPlaylistsApp(app), indice);
+                AdquireElementoLista(GetPlaylistsApp(app), iPlay);
 
             DetalhaPlaylistMenu(app, currPlay, NULL);
+            break;
+
+        case 'd':;
+            if (GetQuantidadeLista(GetPlaylistsApp(app)) == 0) {
+                ErroMenu("Primeiro, crie uma playlist na funcionalidade [c]");
+                break;
+            }
+            if (GetQuantidadeLista(app->musicas) == 0) {
+                ErroMenu("Primeiro, busque por músicas na funcionalidade [f]");
+                break;
+            }
+
+            system("@cls||clear");
+            printf("\nInforme o indice da musica: ");
+
+            int iMsc;
+            scanf("%d%*c", &iMsc);
+
+            if (iMsc < 0 || iMsc >= GetQuantidadeLista(app->musicas)) {
+                system("@cls||clear");
+                printf(ANSI_COLOR_YELLOW
+                       "Indice (%d) inválido." ANSI_COLOR_RESET
+                       "\npressione ENTER para continuar",
+                       iMsc);
+                scanf("%*c");
+                break;
+            }
+
+            Musica *o = AdquireElementoLista(app->musicas, iMsc);
+
+            printf("Digite o Indice da playlist desejada:\n");
+            int selecPlay;
+            scanf("%d%*c", &selecPlay);
+
+            if (selecPlay < 0 ||
+                selecPlay >= GetQuantidadeLista(GetPlaylistsApp(app))) {
+                ErroMenu("Ops! Indique um indice valido.");
+                break;
+            }
+
+            Playlist *t =
+                AdquireElementoLista(GetPlaylistsApp(app), selecPlay);
+
+            if (AdicionaMusicaPlaylist(t, o))
+                printf("Musica Adicionada!\n");
+            else
+                printf("Esta musica ja está na playlist!\n");
+
+            printf("pressione ENTER para continuar...");
+            scanf("%*c");
             break;
 
         case 'r':;
