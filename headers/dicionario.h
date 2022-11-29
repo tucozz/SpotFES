@@ -2,17 +2,18 @@
 #define _DICIONARIO_
 
 #include "lista.h"
+#include "types.h"
 
 typedef struct tDicionario Dicionario;
 
-Dicionario *InicializaDicionario(int (*comparadorChaves)(void *, void *),
-                                 void (*liberaChaves)(void *),
-                                 void (*liberaValores)(void *));
+Dicionario *InicializaDicionario(compar_fn comparadorChaves,
+                                 free_fn liberaChaves,
+                                 free_fn liberaValores);
 
 void LiberaDicionario(Dicionario *dicio);
 
 void **GetValorDicionario(Dicionario *dicio, const void *chave,
-                          void *(*copiaChave)(void *));
+                          cpyval_fn copiaChave);
 
 Lista *GetTodosParesDicionario(Dicionario *dicio);
 

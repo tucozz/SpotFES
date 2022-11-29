@@ -6,6 +6,7 @@
 
 #include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 void ListarMusica(Musica *msc, int i) {
@@ -19,15 +20,23 @@ void ListarMusica(Musica *msc, int i) {
     if (strlen(GetMscName(msc)) == 30)
         printf("%s", GetMscName(msc));
     printf(" | ");
-    if (GetMscArtistsName(msc) == NULL)
-        for (j = 0; j < (GetQuantidadeLista(GetMscArtists(msc))); j++)
+    if (GetMscArtistsName(msc) == NULL) {
+        // Lista<Artista *>
+        Lista *arts = CopiaLista(GetMscArtists(msc), (cpyval_fn)&CopiaArtista);
+        for (j = 0; j < (GetQuantidadeLista(arts)); j++)
             printf("%s, ",
-                   GetArtName(AdquireElementoLista(GetMscArtists(msc), j)));
+                   GetArtName(AdquireElementoLista(arts, j)));
 
-    else
-        for (j = 0; j < (GetQuantidadeLista(GetMscArtistsName(msc))); j++)
+        LiberaLista(arts, (free_fn)&LiberaArtista);
+    } else {
+        // Lista<string>
+        Lista *names = CopiaLista(GetMscArtistsName(msc), (cpyval_fn)&strdup);
+        for (j = 0; j < (GetQuantidadeLista(names)); j++)
             printf("%s, ",
-                   (char *)AdquireElementoLista(GetMscArtistsName(msc), j));
+                   (char *)AdquireElementoLista(names, j));
+        
+        LiberaLista(names, &free);
+    }
 
     printf("\n");
 }
@@ -35,16 +44,17 @@ void ListarMusica(Musica *msc, int i) {
 void ListarTodasMusicas(Lista *lista, int n, int tamPag) {
     int i;
 
-    printf("Indice: | Id:                    | Nome:                          | Artistas:\n");
+    printf("Indice: | Id:                    | Nome:                          "
+           "| Artistas:\n");
 
     int qtd = GetQuantidadeLista(lista);
     for (i = 0; i < tamPag && i + n < qtd; i++) {
-        ListarMusica(AdquireElementoLista(lista, i + n), i + n + 1);
+        ListarMusica(AdquireElementoLista(lista, i + n), i + n);
     }
 
     printf("\nEncontrados %d resultados%50s", qtd, " ");
     int currpag = n / tamPag + 1;
-    printf("%d / %.0lf\n\n", currpag, ceilf((float)qtd / tamPag));    
+    printf("%d / %.0lf\n\n", currpag, ceilf((float)qtd / tamPag));
 }
 
 void DetalharMusica(Musica *msc) {
@@ -75,27 +85,25 @@ void DetalharMusica(Musica *msc) {
            GetMscInstrumentalness(msc), GetMscLiveness(msc), GetMscValence(msc),
            GetMscTempo(msc), GetMscTimeSig(msc));
 
+    Lista *cpyMscArts =
+        CopiaLista(GetMscArtists(msc), (cpyval_fn)&CopiaArtista);
     for (i = 0; i < (GetQuantidadeLista(GetMscArtists(msc))); i++) {
+        Artista *art = AdquireElementoLista(cpyMscArts, i);
+
         printf("Nome: %s\n"
                "Id: %s\n"
                "Seguidores: %d\n"
                "Popularidade: %d\n",
-               GetArtName(AdquireElementoLista(GetMscArtists(msc), i)),
-               GetArtId(AdquireElementoLista(GetMscArtists(msc), i)),
-               GetArtSeguidores(AdquireElementoLista(GetMscArtists(msc), i)),
-               GetArtPopularity(AdquireElementoLista(GetMscArtists(msc), i)));
+               GetArtName(art), GetArtId(art), GetArtSeguidores(art),
+               GetArtPopularity(art));
 
         printf("Generos: ");
-        for (j = 0; j < GetQuantidadeLista(GetArtGeneros(
-                            AdquireElementoLista(GetMscArtists(msc), i)));
-             j++) {
-            printf("%s, ", (char *)AdquireElementoLista(
-                               GetArtGeneros(
-                                   AdquireElementoLista(GetMscArtists(msc), i)),
-                               j));
+        for (j = 0; j < GetQuantidadeLista(GetArtGeneros(art)); j++) {
+            printf("%s, ", (char *)AdquireElementoLista(GetArtGeneros(art), j));
         }
         printf("\n\n");
     }
+    LiberaLista(cpyMscArts, (free_fn)&LiberaArtista);
 }
 
 void ListarPlaylist(Playlist *play, int i) {
@@ -116,7 +124,7 @@ void ListarTodasPlaylists(Lista *lista, int n, int m) {
     printf("Indice: | Nome:                          | Numero de Musicas:\n");
 
     for (i = n; i < m; i++) {
-        ListarPlaylist(AdquireElementoLista(lista, i), i + 1);
+        ListarPlaylist(AdquireElementoLista(lista, i), i);
     }
     printf("\n");
 }
@@ -129,10 +137,14 @@ void DetalharPlaylist(Playlist *play) {
            "Musicas:\n",
            GetNomePlaylist(play),
            GetQuantidadeLista(GetMusicasIdPlaylist(play)));
+
+    Lista *mscs = CopiaLista(GetMusicasPlaylist(play), (cpyval_fn)&CopiaMusica);
     for (i = 0; i < GetQuantidadeLista(GetMusicasIdPlaylist(play)); i++) {
-        Musica *msc = AdquireElementoLista(GetMusicasPlaylist(play), i);
+        Musica *msc = AdquireElementoLista(mscs, i);
         printf("%5d: %s\n", i, msc == NULL ? "-" : GetMscName(msc));
     }
+    LiberaLista(mscs, (free_fn)&LiberaMusica);
+
     printf("\n");
 }
 

@@ -6,6 +6,7 @@
 
 #include "artista.h"
 #include "exception.h"
+#include "types.h"
 
 struct tMusica {
     char *id;
@@ -57,9 +58,9 @@ Musica *InicializaMusica(const char *id, const char *name, const int popularity,
     msc->duration_ms = duration_ms;
     msc->explicit = explicit;
     msc->artists = NULL;
-    msc->name_artists = CopiaLista(name_artists, &strdup);
-    msc->id_artists = CopiaLista(id_artists, &strdup);
-    msc->release_date = strdup(release_date);    
+    msc->name_artists = CopiaLista(name_artists, (cpyval_fn)&strdup);
+    msc->id_artists = CopiaLista(id_artists, (cpyval_fn)&strdup);
+    msc->release_date = strdup(release_date);
     if (msc->release_date == NULL)
         throwOutOfMemoryException("Musica internal release_date strdup failed");
 
@@ -83,7 +84,7 @@ void LiberaMusica(Musica *msc) {
     free(msc->id);
     free(msc->name);
     if (msc->artists != NULL)
-        LiberaLista(msc->artists, &LiberaArtista);
+        LiberaLista(msc->artists, (free_fn)&LiberaArtista);
 
     LiberaLista(msc->name_artists, &free);
     LiberaLista(msc->id_artists, &free);
@@ -106,9 +107,9 @@ float SemelhancaMusicas(Musica *msc1, Musica *msc2) {
     return sqrt(SomaMedia);
 }
 
-char *GetMscId(Musica *msc) { return msc->id; }
+const char *GetMscId(const Musica *msc) { return msc->id; }
 
-char *GetMscName(Musica *msc) { return msc->name; }
+const char *GetMscName(const Musica *msc) { return msc->name; }
 
 int GetMscPopularity(const Musica *msc) { return msc->popularity; }
 
@@ -116,13 +117,13 @@ int GetMscDuration(const Musica *msc) { return msc->duration_ms; }
 
 bool IsExplicit(const Musica *msc) { return msc->explicit; }
 
-Lista *GetMscArtists(Musica *msc) { return msc->artists; }
+const Lista *GetMscArtists(const Musica *msc) { return msc->artists; }
 
-Lista *GetMscArtistsName(Musica *msc) { return msc->name_artists; }
+const Lista *GetMscArtistsName(const Musica *msc) { return msc->name_artists; }
 
-Lista *GetMscArtistsId(Musica *msc) { return msc->id_artists; }
+const Lista *GetMscArtistsId(const Musica *msc) { return msc->id_artists; }
 
-char *GetMscReleaseDate(Musica *msc) { return msc->release_date; }
+const char *GetMscReleaseDate(const Musica *msc) { return msc->release_date; }
 
 float GetMscDanceability(const Musica *msc) { return msc->danceability; }
 
@@ -154,7 +155,7 @@ bool IncluiMscArtistas(Musica *msc, const Lista *listart) {
     if (msc->artists != NULL || listart == NULL)
         return true;
 
-    msc->artists = CopiaLista(listart, &CopiaArtista);
+    msc->artists = CopiaLista(listart, (cpyval_fn)&CopiaArtista);
 
     return false;
 }

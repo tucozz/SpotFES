@@ -17,6 +17,8 @@ RepoArtistas *GetRepoArtistasApp(App *app);
 
 Lista *GetPlaylistsApp(App *app);
 
+void SetMusicasApp(App *app, Lista *mscs);
+
 void RodaApp(App *app);
 
 #endif

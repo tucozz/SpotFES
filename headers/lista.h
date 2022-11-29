@@ -41,6 +41,8 @@
 #ifndef _LISTA_
 #define _LISTA_
 
+#include "types.h"
+
 typedef struct tLista Lista;
 
 /**
@@ -57,7 +59,7 @@ Lista *InicializaLista();
  * @param lista Uma instancia de @ref Lista
  * @param liberaElem Uma funcao destrutora dos elementos da lista
  */
-void LiberaLista(Lista *lista, void (*liberaElem)(void *));
+void LiberaLista(Lista *lista, free_fn liberaElem);
 
 /**
  * @brief Adquire o tamanho dessa @p lista
@@ -105,8 +107,8 @@ void *PopLista(Lista *lista);
  * @param cmpElem Funcao comparadora de elementos da lista
  * @return void* Indice do elemento encontrado; -1, caso nao ache
  */
-int EncontraLista(Lista *lista, void *alvo,
-                  int (*cmpElem)(const void *, const void *));
+int EncontraLista(Lista *lista, const void *alvo,
+                  compar_fn cmpElem);
 
 /**
  * @brief Ordena em todos os ponteiros para elementos em ordem @p crescence da
@@ -116,7 +118,7 @@ int EncontraLista(Lista *lista, void *alvo,
  * @param cmpElem A funcao comparadora que definira a forma de ordenacao da
  * lista
  */
-void OrdenaLista(Lista *lista, int (*cmpElem)(const void *, const void *));
+void OrdenaLista(Lista *lista, compar_fn cmpElem);
 
 /**
  * @brief Efetua uma copia da @ref Lista* @p lista e de seus elementos
@@ -126,6 +128,6 @@ void OrdenaLista(Lista *lista, int (*cmpElem)(const void *, const void *));
  * instancia
  * @return Lista* Uma nova instancia de @ref Lista* identica a original
  */
-Lista *CopiaLista(const Lista *lista, void *(*cpyelem)(const void *));
+Lista *CopiaLista(const Lista *lista, cpyval_fn cpyelem);
 
 #endif

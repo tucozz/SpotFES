@@ -14,7 +14,7 @@ void EncontraMusicaMenu(App *app, Playlist *playlistOrig) {
            "último menu)\n"
            "Digite o nome da música pela qual quer procurar: ");
     scanf("%63[^\n]%*c", buffer);
-    if (strlen(buffer) <= 1) {
+    if (strlen(buffer) < 1) {
         return;
     }
 
@@ -26,8 +26,8 @@ void EncontraMusicaMenu(App *app, Playlist *playlistOrig) {
         printf(ANSI_COLOR_YELLOW "Nenhuma música encontrada." ANSI_COLOR_RESET
                                  "\npressione ENTER para continuar");
         scanf("%*c");
-    } else
+    } else {
+        SetMusicasApp(app, resultado);
         ListarTodasMusicasMenu(app, resultado, playlistOrig);
-
-    LiberaLista(resultado, &LiberaMusica);
+    }
 }

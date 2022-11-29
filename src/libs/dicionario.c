@@ -8,14 +8,14 @@
 
 struct tDicionario {
     Lista *pares; // Lista<ParChaveValor<void*, void*>>
-    int (*comparadorChaves)(void *, void *);
-    void (*liberaChaves)(void *);
-    void (*liberaValores)(void *);
+    compar_fn comparadorChaves;
+    free_fn liberaChaves;
+    free_fn liberaValores;
 };
 
-Dicionario *InicializaDicionario(int (*comparadorChaves)(void *, void *),
-                                 void (*liberaChaves)(void *),
-                                 void (*liberaValores)(void *)) {
+Dicionario *InicializaDicionario(compar_fn comparadorChaves,
+                                 free_fn liberaChaves,
+                                 free_fn liberaValores) {
     Dicionario *dicio = malloc(sizeof *dicio);
     if (dicio == NULL)
         throwOutOfMemoryException("Dicionario malloc failed");
@@ -29,13 +29,13 @@ Dicionario *InicializaDicionario(int (*comparadorChaves)(void *, void *),
 }
 
 void LiberaDicionario(Dicionario *dicio) {
-    LiberaLista(dicio->pares, &LiberaParCV);
+    LiberaLista(dicio->pares, (free_fn)&LiberaParCV);
 
     free(dicio);
 }
 
 void **GetValorDicionario(Dicionario *dicio, const void *chave,
-                          void *(*copiaChave)(void *)) {
+                          cpyval_fn copiaChave) {
     int n = GetQuantidadeLista(dicio->pares);
 
     void **val = NULL; // Ponteiro para o ponteiro do valor

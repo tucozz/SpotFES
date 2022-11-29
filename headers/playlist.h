@@ -12,7 +12,7 @@ void LiberaPLaylist(Playlist *playlist);
 
 char *GetNomePlaylist(Playlist *playlist);
 
-Lista *GetMusicasPlaylist(Playlist *playlist);
+const Lista *GetMusicasPlaylist(const Playlist *playlist);
 
 Lista *GetMusicasIdPlaylist(Playlist *playlist);
 
