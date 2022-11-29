@@ -8,6 +8,7 @@
 #include "exception.h"
 #include "par_chave_valor.h"
 #include "procurador.h"
+#include "types.h"
 
 #define RELAT_MSC_FILE "./relatorio_musicas.csv"
 #define RELAT_ART_FILE "./relatorio_artistas.csv"
@@ -73,7 +74,7 @@ void GerarRelatorio(RepoMusicas *repoMsc, RepoArtistas *repoArt,
     Dicionario *musicasQtd = InicializaDicionario(&strcmp, &free, &free);
     // Dicionario<string, Musica *>
     // Associa o hash de uma musica com sua representacao
-    Dicionario *musicas = InicializaDicionario(&strcmp, &free, &LiberaMusica);
+    Dicionario *musicas = InicializaDicionario(&strcmp, &free, (free_fn)&LiberaMusica);
 
     // Dicionario<string, int>
     // Associa o hash de um Artista * com o numero de
@@ -81,7 +82,7 @@ void GerarRelatorio(RepoMusicas *repoMsc, RepoArtistas *repoArt,
     Dicionario *artistasQtd = InicializaDicionario(&strcmp, &free, &free);
     // Dicionario<string, Artista *>
     // Associa o hash de um Artista * com sua representacao
-    Dicionario *artistas = InicializaDicionario(&strcmp, &free, &LiberaArtista);
+    Dicionario *artistas = InicializaDicionario(&strcmp, &free, (free_fn)&LiberaArtista);
 
     int n = GetQuantidadeLista(playlists);
     for (int i = 0; i < n; i++) {

@@ -4,6 +4,7 @@
 #include "playlist.h"
 
 #include "exception.h"
+#include "types.h"
 
 struct tPlaylist {
     char *nome;
@@ -30,7 +31,7 @@ void LiberaPLaylist(Playlist *playlist) {
     free(playlist->nome);
 
     if (playlist->musicas != NULL)
-        LiberaLista(playlist->musicas, &LiberaMusica);
+        LiberaLista(playlist->musicas, (free_fn)&LiberaMusica);
 
     LiberaLista(playlist->musicas_id, &free);
 

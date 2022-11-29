@@ -6,6 +6,7 @@
 
 #include "artista.h"
 #include "exception.h"
+#include "types.h"
 
 struct tMusica {
     char *id;
@@ -59,7 +60,7 @@ Musica *InicializaMusica(const char *id, const char *name, const int popularity,
     msc->artists = NULL;
     msc->name_artists = CopiaLista(name_artists, &strdup);
     msc->id_artists = CopiaLista(id_artists, &strdup);
-    msc->release_date = strdup(release_date);    
+    msc->release_date = strdup(release_date);
     if (msc->release_date == NULL)
         throwOutOfMemoryException("Musica internal release_date strdup failed");
 
@@ -83,7 +84,7 @@ void LiberaMusica(Musica *msc) {
     free(msc->id);
     free(msc->name);
     if (msc->artists != NULL)
-        LiberaLista(msc->artists, &LiberaArtista);
+        LiberaLista(msc->artists, (free_fn)&LiberaArtista);
 
     LiberaLista(msc->name_artists, &free);
     LiberaLista(msc->id_artists, &free);

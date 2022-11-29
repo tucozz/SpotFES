@@ -8,6 +8,7 @@
 #include "exception.h"
 #include "par_chave_valor.h"
 #include "playlist.h"
+#include "types.h"
 
 void CompletaMusica(Musica *msc, RepoArtistas *repo) {
     if (GetMscArtists(msc) != NULL)
@@ -25,7 +26,7 @@ void CompletaMusica(Musica *msc, RepoArtistas *repo) {
     }
 
     IncluiMscArtistas(msc, artistas);
-    LiberaLista(artistas, &LiberaArtista);
+    LiberaLista(artistas, (free_fn)&LiberaArtista);
 }
 
 void CompletaPlaylist(Playlist *playlist, RepoMusicas *repo) {
@@ -44,7 +45,7 @@ void CompletaPlaylist(Playlist *playlist, RepoMusicas *repo) {
     }
 
     IncluiMusicasPlaylist(playlist, musicas);
-    LiberaLista(musicas, &LiberaMusica);
+    LiberaLista(musicas, (free_fn)&LiberaMusica);
 }
 
 static int parcvfloatvalcmp(const ParChaveValor *a, const ParChaveValor *b) {
@@ -61,7 +62,7 @@ Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
     Dicionario *hashDistancia = InicializaDicionario(&strcmp, &free, &free);
     // Dicionario<string, Musica *>
     Dicionario *hashMusica =
-        InicializaDicionario(&strcmp, &free, &LiberaMusica);
+        InicializaDicionario(&strcmp, &free, (free_fn)&LiberaMusica);
 
     // Lista<ParChaveValor<string, float>
     Lista *hashDistanciaLista = GetTodosParesDicionario(hashDistancia);

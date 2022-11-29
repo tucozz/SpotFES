@@ -5,6 +5,7 @@
 
 #include "exception.h"
 #include "par_chave_valor.h"
+#include "types.h"
 
 struct tDicionario {
     Lista *pares; // Lista<ParChaveValor<void*, void*>>
@@ -29,7 +30,7 @@ Dicionario *InicializaDicionario(int (*comparadorChaves)(void *, void *),
 }
 
 void LiberaDicionario(Dicionario *dicio) {
-    LiberaLista(dicio->pares, &LiberaParCV);
+    LiberaLista(dicio->pares, (free_fn)&LiberaParCV);
 
     free(dicio);
 }
