@@ -10,6 +10,8 @@
 #include "erro_menu.h"
 #include "exception.h"
 #include "exportar_relatorio_menu.h"
+#include "listar_todas_musicas_menu.h"
+#include "procurador.h"
 #include "listar_todas_playlists_menu.h"
 #include "repositorio_artistas.h"
 #include "repositorio_musicas.h"
@@ -81,6 +83,7 @@ void RodaApp(App *app) {
                "[g] Listar playlists\n"
                "[v] Listar uma playlist\n"
                "[d] Adicionar uma música na playlist\n"
+               "[e] Recomendar músicas parecidas com uma playlist\n"
                "[r] Exportar Relatório\n"
                "[b] Sobre\n"
                "[q] Sair\n");
@@ -204,8 +207,7 @@ void RodaApp(App *app) {
                 break;
             }
 
-            Playlist *t =
-                AdquireElementoLista(GetPlaylistsApp(app), selecPlay);
+            Playlist *t = AdquireElementoLista(GetPlaylistsApp(app), selecPlay);
 
             if (AdicionaMusicaPlaylist(t, o))
                 printf("Musica Adicionada!\n");
@@ -214,6 +216,38 @@ void RodaApp(App *app) {
 
             printf("pressione ENTER para continuar...");
             scanf("%*c");
+            break;
+
+        case 'e':;
+            if (GetQuantidadeLista(GetPlaylistsApp(app)) == 0) {
+                ErroMenu("Primeiro, crie uma playlist na funcionalidade [c]");
+                break;
+            }
+
+            system("@cls||clear");
+            printf("Digite o Indice da playlist desejada:\n");
+            int recomPlay;
+            scanf("%d%*c", &recomPlay);
+
+            if (recomPlay < 0 ||
+                recomPlay >= GetQuantidadeLista(GetPlaylistsApp(app))) {
+                ErroMenu("Ops! Indique um indice valido.");
+                break;
+            }
+
+            Playlist *recomPlaylist =
+                AdquireElementoLista(GetPlaylistsApp(app), recomPlay);
+
+            printf("Quantas musicas recomendadas deseja?\n");
+            int k;
+            scanf("%d%*c", &k);
+
+            Lista *recomendadas =
+                RecomendaMusicas(recomPlaylist, k, GetRepoMusicasApp(app));
+
+            ListarTodasMusicasMenu(app, recomendadas, currPlay);
+
+            LiberaLista(recomendadas, (free_fn)&LiberaMusica);
             break;
 
         case 'r':;
