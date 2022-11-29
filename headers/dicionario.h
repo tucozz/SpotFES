@@ -2,10 +2,11 @@
 #define _DICIONARIO_
 
 #include "lista.h"
+#include "types.h"
 
 typedef struct tDicionario Dicionario;
 
-Dicionario *InicializaDicionario(int (*comparadorChaves)(void *, void *),
+Dicionario *InicializaDicionario(compar_fn comparadorChaves,
                                  void (*liberaChaves)(void *),
                                  void (*liberaValores)(void *));
 

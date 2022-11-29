@@ -3,6 +3,8 @@
 
 #include <stdlib.h>
 
+#include "types.h"
+
 // clonei a qsort 😎
 
 /**
@@ -10,6 +12,6 @@
  * using COMPAR to perform the comparisons.
  * 
  */
-void qsortcpy(void *__base, size_t __nmemb, size_t __size, __compar_fn_t __compar);
+void qsortcpy(void *__base, size_t __nmemb, size_t __size, compar_fn __compar);
 
 #endif

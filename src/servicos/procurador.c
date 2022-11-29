@@ -59,7 +59,8 @@ Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
     Musica *ideal = CriaMusicaMedia(playlist);
 
     // Dicionario<string, float>
-    Dicionario *hashDistancia = InicializaDicionario(&strcmp, &free, &free);
+    Dicionario *hashDistancia =
+        InicializaDicionario((compar_fn)&strcmp, &free, &free);
     // Dicionario<string, Musica *>
     Dicionario *hashMusica =
         InicializaDicionario(&strcmp, &free, (free_fn)&LiberaMusica);
@@ -84,7 +85,7 @@ Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
          msc != NULL || !FimIteradorRepoMsc(itr);
          LiberaMusica(msc), msc = ProximoIteradorRepoMsc(itr)) {
         if (EncontraLista(GetMusicasIdPlaylist(playlist), GetMscId(msc),
-                          &strcmp) != -1)
+                          (compar_fn)&strcmp) != -1)
             continue;
 
         float distanciaDaIdeal = SemelhancaMusicas(ideal, msc);

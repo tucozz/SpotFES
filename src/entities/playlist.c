@@ -57,7 +57,8 @@ bool AdicionaMusicaPlaylist(Playlist *playlist, const Musica *msc) {
     if (msc == NULL)
         return false;
 
-    if (EncontraLista(playlist->musicas_id, GetMscId(msc), &strcmp) != -1)
+    if (EncontraLista(playlist->musicas_id, GetMscId(msc),
+                      (compar_fn)&strcmp) != -1)
         return false;
 
     if (playlist->musicas != NULL)
@@ -121,9 +122,9 @@ Musica *CriaMusicaMedia(const Playlist *play) {
     Lista *mockIds = InicializaLista();   // Lista<string>
     Lista *mockNames = InicializaLista(); // Lista<string>
     Musica *msc = InicializaMusica(
-        "media", "media", 0, 0, false, mockNames, mockIds, "4242-12-21", danceabilityM, energyM, 0,
-        loudnessM, 0, speechinessM, acousticnessM, instrumentalnessM, livenessM,
-        valenceM, tempoM, 0);
+        "media", "media", 0, 0, false, mockNames, mockIds, "4242-12-21",
+        danceabilityM, energyM, 0, loudnessM, 0, speechinessM, acousticnessM,
+        instrumentalnessM, livenessM, valenceM, tempoM, 0);
 
     LiberaLista(mockIds, &free);
     LiberaLista(mockNames, &free);

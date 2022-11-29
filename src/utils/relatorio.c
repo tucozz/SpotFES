@@ -71,18 +71,18 @@ void GerarRelatorio(RepoMusicas *repoMsc, RepoArtistas *repoArt,
     // Dicionario<string, int>
     // Associa o hash de uma musica com o numero de
     // vezes que ela se repete na playlist
-    Dicionario *musicasQtd = InicializaDicionario(&strcmp, &free, &free);
+    Dicionario *musicasQtd = InicializaDicionario((compar_fn)&strcmp, &free, &free);
     // Dicionario<string, Musica *>
     // Associa o hash de uma musica com sua representacao
-    Dicionario *musicas = InicializaDicionario(&strcmp, &free, (free_fn)&LiberaMusica);
+    Dicionario *musicas = InicializaDicionario((compar_fn)&strcmp, &free, (free_fn)&LiberaMusica);
 
     // Dicionario<string, int>
     // Associa o hash de um Artista * com o numero de
     // vezes que ele se repete na playlist
-    Dicionario *artistasQtd = InicializaDicionario(&strcmp, &free, &free);
+    Dicionario *artistasQtd = InicializaDicionario((compar_fn)&strcmp, &free, &free);
     // Dicionario<string, Artista *>
     // Associa o hash de um Artista * com sua representacao
-    Dicionario *artistas = InicializaDicionario(&strcmp, &free, (free_fn)&LiberaArtista);
+    Dicionario *artistas = InicializaDicionario((compar_fn)&strcmp, &free, (free_fn)&LiberaArtista);
 
     int n = GetQuantidadeLista(playlists);
     for (int i = 0; i < n; i++) {

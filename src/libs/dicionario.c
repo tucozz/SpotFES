@@ -5,16 +5,15 @@
 
 #include "exception.h"
 #include "par_chave_valor.h"
-#include "types.h"
 
 struct tDicionario {
     Lista *pares; // Lista<ParChaveValor<void*, void*>>
-    int (*comparadorChaves)(void *, void *);
+    compar_fn comparadorChaves;
     void (*liberaChaves)(void *);
     void (*liberaValores)(void *);
 };
 
-Dicionario *InicializaDicionario(int (*comparadorChaves)(void *, void *),
+Dicionario *InicializaDicionario(compar_fn comparadorChaves,
                                  void (*liberaChaves)(void *),
                                  void (*liberaValores)(void *)) {
     Dicionario *dicio = malloc(sizeof *dicio);

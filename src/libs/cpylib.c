@@ -8,7 +8,7 @@
 // CODIGO ~roubado~ADAPTADO DAS INTERWEBS!!!!
 //     https://github.com/srjheam/ufes-snake/blob/master/JheamStorchRoss.c#L1361-L1416
 static void mesclaArr(void *base, int d, int m, int e, size_t __size,
-                      __compar_fn_t __compar) {
+                      compar_fn __compar) {
     int t1 = m - d + 1;
     int t2 = e - m;
     // cria vetores temporarios
@@ -60,7 +60,7 @@ static void mesclaArr(void *base, int d, int m, int e, size_t __size,
 }
 
 static void ordenaMesclando(void *base, int d, int e, size_t __size,
-                            __compar_fn_t __compar) {
+                            compar_fn __compar) {
     if (d >= e)
         return;
 
@@ -72,6 +72,6 @@ static void ordenaMesclando(void *base, int d, int e, size_t __size,
 // FIM DO CODIGO ~roubado~ADAPTADO DAS INTERWEBS!!!!
 
 void qsortcpy(void *__base, size_t __nmemb, size_t __size,
-              __compar_fn_t __compar) {
+              compar_fn __compar) {
     ordenaMesclando(__base, 0, __nmemb - 1, __size, __compar);
 }
