@@ -78,7 +78,9 @@ Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
     //     Outrossim, o acesso pelo hash no laco for apos esse tambem e uma
     //     facilidade que o dicionario dispos
     FILE *itr = InicioIteradorRepoMsc(repo);
-    for (Musica *msc = ProximoIteradorRepoMsc(itr); msc != NULL || !FimIteradorRepoMsc(itr);
+    bool preencheu = false;
+    for (Musica *msc = ProximoIteradorRepoMsc(itr);
+         msc != NULL || !FimIteradorRepoMsc(itr);
          LiberaMusica(msc), msc = ProximoIteradorRepoMsc(itr)) {
         if (EncontraLista(GetMusicasIdPlaylist(playlist), GetMscId(msc),
                           &strcmp) != -1)
@@ -104,9 +106,12 @@ Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
             if (*hshMscVal == NULL)
                 *hshMscVal = CopiaMusica(msc);
 
-            OrdenaLista(hashDistanciaLista, &parcvfloatvalcmp);
-
             continue;
+        }
+
+        if (!preencheu) {
+            OrdenaLista(hashDistanciaLista, &parcvfloatvalcmp);
+            preencheu = true;
         }
 
         // ParChaveValor<string, float>
@@ -139,6 +144,9 @@ Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
         } else
             AdicionaElementoLista(hashDistanciaLista, maisDistante);
     }
+
+    if (GetQuantidadeLista(hashDistanciaLista) < k)
+        OrdenaLista(hashDistanciaLista, &parcvfloatvalcmp);
 
     LiberaMusica(ideal);
 
