@@ -108,7 +108,7 @@ void *PopLista(Lista *lista);
  * @return void* Indice do elemento encontrado; -1, caso nao ache
  */
 int EncontraLista(Lista *lista, void *alvo,
-                  int (*cmpElem)(const void *, const void *));
+                  compar_fn cmpElem);
 
 /**
  * @brief Ordena em todos os ponteiros para elementos em ordem @p crescence da
@@ -118,7 +118,7 @@ int EncontraLista(Lista *lista, void *alvo,
  * @param cmpElem A funcao comparadora que definira a forma de ordenacao da
  * lista
  */
-void OrdenaLista(Lista *lista, int (*cmpElem)(const void *, const void *));
+void OrdenaLista(Lista *lista, compar_fn cmpElem);
 
 /**
  * @brief Efetua uma copia da @ref Lista* @p lista e de seus elementos

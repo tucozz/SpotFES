@@ -38,7 +38,7 @@ void LiberaLista(Lista *lista, free_fn liberaElem) {
     free(lista);
 }
 
-static int (*gcmpval)(const void *, const void *) = NULL;
+static compar_fn gcmpval = NULL;
 
 static inline int ptrvalcmp(const void **ptr1, const void **ptr2) {
     if (gcmpval == NULL)
@@ -85,7 +85,7 @@ void *PopLista(Lista *lista) {
 }
 
 int EncontraLista(Lista *lista, void *alvo,
-                  int (*cmpElem)(const void *, const void *)) {
+                  compar_fn cmpElem) {
     int n = GetQuantidadeLista(lista);
     for (int i = 0; i < n; i++)
         if (cmpElem(lista->arr[i], alvo) == 0)
@@ -94,9 +94,9 @@ int EncontraLista(Lista *lista, void *alvo,
     return -1;
 }
 
-void OrdenaLista(Lista *lista, int (*cmpElem)(const void *, const void *)) {
+void OrdenaLista(Lista *lista, compar_fn cmpElem) {
     gcmpval = cmpElem;
-    qsortcpy(lista->arr, lista->qtd, __SIZEOF_POINTER__, &ptrvalcmp);
+    qsortcpy(lista->arr, lista->qtd, __SIZEOF_POINTER__, (compar_fn)&ptrvalcmp);
     gcmpval = NULL;
 }
 

@@ -112,7 +112,7 @@ Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
         }
 
         if (!preencheu) {
-            OrdenaLista(hashDistanciaLista, &parcvfloatvalcmp);
+            OrdenaLista(hashDistanciaLista, (compar_fn)&parcvfloatvalcmp);
             preencheu = true;
         }
 
@@ -138,7 +138,7 @@ Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
                 continue;
             }
 
-            OrdenaLista(hashDistanciaLista, &parcvfloatvalcmp);
+            OrdenaLista(hashDistanciaLista, (compar_fn)&parcvfloatvalcmp);
 
             void **hshMscVal = GetValorDicionario(hashMusica, hash, (cpyval_fn)&strdup);
             if (*hshMscVal == NULL)
@@ -148,7 +148,7 @@ Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
     }
 
     if (GetQuantidadeLista(hashDistanciaLista) < k)
-        OrdenaLista(hashDistanciaLista, &parcvfloatvalcmp);
+        OrdenaLista(hashDistanciaLista, (compar_fn)&parcvfloatvalcmp);
 
     LiberaMusica(ideal);
 

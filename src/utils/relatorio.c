@@ -159,7 +159,7 @@ void GerarRelatorio(RepoMusicas *repoMsc, RepoArtistas *repoArt,
     // Lista<ParChaveValor<string, int>>
     Lista *paresMscQtd = GetTodosParesDicionario(musicasQtd);
 
-    OrdenaLista(paresMscQtd, &OrdenaDescListaPCVPorValor);
+    OrdenaLista(paresMscQtd, (compar_fn)&OrdenaDescListaPCVPorValor);
 
     FILE *fcsv = fopen(RELAT_MSC_FILE, "w");
     if (fcsv == NULL)
@@ -181,7 +181,7 @@ void GerarRelatorio(RepoMusicas *repoMsc, RepoArtistas *repoArt,
     // Lista<ParChaveValor<string, int>>
     Lista *paresArtQtd = GetTodosParesDicionario(artistasQtd);
 
-    OrdenaLista(paresArtQtd, &OrdenaDescListaPCVPorValor);
+    OrdenaLista(paresArtQtd, (compar_fn)&OrdenaDescListaPCVPorValor);
 
     fcsv = fopen(RELAT_ART_FILE, "w");
     if (fcsv == NULL)
