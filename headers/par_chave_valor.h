@@ -12,7 +12,7 @@ void LiberaParCV(ParChaveValor *par);
 
 void *GetChaveParCV(ParChaveValor *par);
 
-void *GetValorParCV(ParChaveValor *par);
+const void *GetValorParCV(const ParChaveValor *par);
 
 void *SetValorParCV(ParChaveValor *par, void *val);
 

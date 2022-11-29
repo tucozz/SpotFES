@@ -107,9 +107,9 @@ float SemelhancaMusicas(Musica *msc1, Musica *msc2) {
     return sqrt(SomaMedia);
 }
 
-char *GetMscId(Musica *msc) { return msc->id; }
+const char *GetMscId(const Musica *msc) { return msc->id; }
 
-char *GetMscName(Musica *msc) { return msc->name; }
+const char *GetMscName(const Musica *msc) { return msc->name; }
 
 int GetMscPopularity(const Musica *msc) { return msc->popularity; }
 
@@ -117,13 +117,13 @@ int GetMscDuration(const Musica *msc) { return msc->duration_ms; }
 
 bool IsExplicit(const Musica *msc) { return msc->explicit; }
 
-Lista *GetMscArtists(Musica *msc) { return msc->artists; }
+const Lista *GetMscArtists(const Musica *msc) { return msc->artists; }
 
-Lista *GetMscArtistsName(Musica *msc) { return msc->name_artists; }
+const Lista *GetMscArtistsName(const Musica *msc) { return msc->name_artists; }
 
-Lista *GetMscArtistsId(Musica *msc) { return msc->id_artists; }
+const Lista *GetMscArtistsId(const Musica *msc) { return msc->id_artists; }
 
-char *GetMscReleaseDate(Musica *msc) { return msc->release_date; }
+const char *GetMscReleaseDate(const Musica *msc) { return msc->release_date; }
 
 float GetMscDanceability(const Musica *msc) { return msc->danceability; }
 

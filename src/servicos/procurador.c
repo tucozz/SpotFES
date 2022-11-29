@@ -14,8 +14,9 @@ void CompletaMusica(Musica *msc, RepoArtistas *repo) {
     if (GetMscArtists(msc) != NULL)
         return;
 
-    Lista *artistas = InicializaLista();  // Lista<artista>
-    Lista *hashes = GetMscArtistsId(msc); // Lista<string>
+    Lista *artistas = InicializaLista(); // Lista<artista>
+    Lista *hashes =
+        CopiaLista(GetMscArtistsId(msc), (cpyval_fn)&strdup); // Lista<string>
 
     int n = GetQuantidadeLista(hashes);
     for (int i = 0; i < n; i++) {
@@ -27,6 +28,7 @@ void CompletaMusica(Musica *msc, RepoArtistas *repo) {
 
     IncluiMscArtistas(msc, artistas);
     LiberaLista(artistas, (free_fn)&LiberaArtista);
+    LiberaLista(hashes, &free);
 }
 
 void CompletaPlaylist(Playlist *playlist, RepoMusicas *repo) {
@@ -63,7 +65,7 @@ Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
         InicializaDicionario((compar_fn)&strcmp, &free, &free);
     // Dicionario<string, Musica *>
     Dicionario *hashMusica =
-        InicializaDicionario(&strcmp, &free, (free_fn)&LiberaMusica);
+        InicializaDicionario((compar_fn)&strcmp, &free, (free_fn)&LiberaMusica);
 
     // Lista<ParChaveValor<string, float>
     Lista *hashDistanciaLista = GetTodosParesDicionario(hashDistancia);
@@ -91,7 +93,7 @@ Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
         float distanciaDaIdeal = SemelhancaMusicas(ideal, msc);
 
         if (GetQuantidadeLista(hashDistanciaLista) < k) {
-            char *hash = GetMscId(msc);
+            const char *hash = GetMscId(msc);
             void **hshDistVal =
                 GetValorDicionario(hashDistancia, hash, (cpyval_fn)&strdup);
             if (*hshDistVal == NULL) {
@@ -104,7 +106,8 @@ Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
                 *((float *)*hshDistVal) = distanciaDaIdeal;
             }
 
-            void **hshMscVal = GetValorDicionario(hashMusica, hash, (cpyval_fn)&strdup);
+            void **hshMscVal =
+                GetValorDicionario(hashMusica, hash, (cpyval_fn)&strdup);
             if (*hshMscVal == NULL)
                 *hshMscVal = CopiaMusica(msc);
 
@@ -120,7 +123,7 @@ Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
         ParChaveValor *maisDistante = PopLista(hashDistanciaLista);
         if (*(float *)GetValorParCV(maisDistante) > distanciaDaIdeal) {
 
-            char *hash = GetMscId(msc);
+            const char *hash = GetMscId(msc);
             void **hshDistVal =
                 GetValorDicionario(hashDistancia, hash, (cpyval_fn)&strdup);
             if (*hshDistVal == NULL) {
@@ -140,7 +143,8 @@ Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
 
             OrdenaLista(hashDistanciaLista, (compar_fn)&parcvfloatvalcmp);
 
-            void **hshMscVal = GetValorDicionario(hashMusica, hash, (cpyval_fn)&strdup);
+            void **hshMscVal =
+                GetValorDicionario(hashMusica, hash, (cpyval_fn)&strdup);
             if (*hshMscVal == NULL)
                 *hshMscVal = CopiaMusica(msc);
         } else
@@ -157,7 +161,8 @@ Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
         ParChaveValor *curr = AdquireElementoLista(hashDistanciaLista, i);
         char *hash = GetChaveParCV(curr);
 
-        void **hshMscVal = GetValorDicionario(hashMusica, hash, (cpyval_fn)&strdup);
+        void **hshMscVal =
+            GetValorDicionario(hashMusica, hash, (cpyval_fn)&strdup);
         if (*hshMscVal != NULL) {
             AdicionaElementoLista(mscsRecomendadas, CopiaMusica(*hshMscVal));
         }

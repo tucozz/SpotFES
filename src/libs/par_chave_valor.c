@@ -34,6 +34,6 @@ void LiberaParCV(ParChaveValor *par) {
 
 void *GetChaveParCV(ParChaveValor *par) { return par->chave; }
 
-void *GetValorParCV(ParChaveValor *par) { return par->valor; }
+const void *GetValorParCV(const ParChaveValor *par) { return par->valor; }
 
 void **GetPtrValorParCV(ParChaveValor *par) { return &(par->valor); }

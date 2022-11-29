@@ -13,11 +13,12 @@
 #define RELAT_MSC_FILE "./relatorio_musicas.csv"
 #define RELAT_ART_FILE "./relatorio_artistas.csv"
 
-static void SalvaMusicaCsv(FILE *fcsv, Musica *msc) {
+static void SalvaMusicaCsv(FILE *fcsv, const Musica *msc) {
     fprintf(fcsv, "%s;%s;%d;%d;%d;", GetMscId(msc), GetMscName(msc),
             GetMscPopularity(msc), GetMscDuration(msc), IsExplicit(msc));
 
-    Lista *artistas = GetMscArtists(msc); // Lista<Artista *>
+    // Lista<Artista *>
+    Lista *artistas = CopiaLista(GetMscArtists(msc), (cpyval_fn)&CopiaArtista);
     int n = GetQuantidadeLista(artistas);
 
     for (int i = 0; i < n; i++) {
@@ -36,6 +37,8 @@ static void SalvaMusicaCsv(FILE *fcsv, Musica *msc) {
         if ((i + 1) < n)
             fprintf(fcsv, "%c", '|');
     }
+
+    LiberaLista(artistas, (free_fn)&LiberaArtista);
 
     fprintf(fcsv, ";%s;%g;%g;%d;%g;%d;%g;%g;%g;%g;%g;%g;%d\n",
             GetMscReleaseDate(msc), GetMscDanceability(msc), GetMscEnergy(msc),
@@ -71,32 +74,38 @@ void GerarRelatorio(RepoMusicas *repoMsc, RepoArtistas *repoArt,
     // Dicionario<string, int>
     // Associa o hash de uma musica com o numero de
     // vezes que ela se repete na playlist
-    Dicionario *musicasQtd = InicializaDicionario((compar_fn)&strcmp, &free, &free);
+    Dicionario *musicasQtd =
+        InicializaDicionario((compar_fn)&strcmp, &free, &free);
     // Dicionario<string, Musica *>
     // Associa o hash de uma musica com sua representacao
-    Dicionario *musicas = InicializaDicionario((compar_fn)&strcmp, &free, (free_fn)&LiberaMusica);
+    Dicionario *musicas =
+        InicializaDicionario((compar_fn)&strcmp, &free, (free_fn)&LiberaMusica);
 
     // Dicionario<string, int>
     // Associa o hash de um Artista * com o numero de
     // vezes que ele se repete na playlist
-    Dicionario *artistasQtd = InicializaDicionario((compar_fn)&strcmp, &free, &free);
+    Dicionario *artistasQtd =
+        InicializaDicionario((compar_fn)&strcmp, &free, &free);
     // Dicionario<string, Artista *>
     // Associa o hash de um Artista * com sua representacao
-    Dicionario *artistas = InicializaDicionario((compar_fn)&strcmp, &free, (free_fn)&LiberaArtista);
+    Dicionario *artistas = InicializaDicionario((compar_fn)&strcmp, &free,
+                                                (free_fn)&LiberaArtista);
 
     int n = GetQuantidadeLista(playlists);
     for (int i = 0; i < n; i++) {
         Playlist *currPlay = AdquireElementoLista(playlists, i);
         CompletaPlaylist(currPlay, repoMsc);
 
-        Lista *currPlayMscs = GetMusicasPlaylist(currPlay); // Lista<Musica *>
+        // Lista<Musica *>
+        Lista *currPlayMscs =
+            CopiaLista(GetMusicasPlaylist(currPlay), (cpyval_fn)&CopiaMusica);
         int m = GetQuantidadeLista(currPlayMscs);
         for (int j = 0; j < m; j++) {
             Musica *currMsc = AdquireElementoLista(currPlayMscs, j);
             if (currMsc == NULL)
                 continue;
 
-            char *currMscHash = GetMscId(currMsc);
+            const char *currMscHash = GetMscId(currMsc);
 
             // Ponteiro para o ponteiro do valor do ParChaveValor<string, int>
             void **dicValQtd =
@@ -112,17 +121,17 @@ void GerarRelatorio(RepoMusicas *repoMsc, RepoArtistas *repoArt,
                 *((int *)*dicValQtd) += 1;
             }
 
-            
             void **dicValMsc =
                 GetValorDicionario(musicas, currMscHash, (cpyval_fn)&strdup);
             if (*dicValMsc == NULL) {
                 CompletaMusica(currMsc, repoArt);
                 *dicValMsc = CopiaMusica(currMsc);
-            }
-            else
+            } else
                 currMsc = *dicValMsc;
 
-            Lista *currMscArts = GetMscArtists(currMsc); // Lista<Artista *>
+            // Lista<Artista *>
+            Lista *currMscArts =
+                CopiaLista(GetMscArtists(currMsc), (cpyval_fn)&CopiaArtista);
             int m = GetQuantidadeLista(currMscArts);
             for (int j = 0; j < m; j++) {
                 Artista *currArt = AdquireElementoLista(currMscArts, j);
@@ -133,8 +142,8 @@ void GerarRelatorio(RepoMusicas *repoMsc, RepoArtistas *repoArt,
 
                 // Ponteiro para o ponteiro do valor do
                 // ParChaveValor<string, int>
-                void **dicValQtd =
-                    GetValorDicionario(artistasQtd, currArtHash, (cpyval_fn)&strdup);
+                void **dicValQtd = GetValorDicionario(artistasQtd, currArtHash,
+                                                      (cpyval_fn)&strdup);
                 if (*dicValQtd == NULL) {
                     *dicValQtd = malloc(sizeof(int));
                     if (*dicValQtd == NULL)
@@ -147,13 +156,16 @@ void GerarRelatorio(RepoMusicas *repoMsc, RepoArtistas *repoArt,
                     *((int *)*dicValQtd) += 1;
                 }
 
-                void **dicValArt =
-                    GetValorDicionario(artistas, currArtHash, (cpyval_fn)&strdup);
+                void **dicValArt = GetValorDicionario(artistas, currArtHash,
+                                                      (cpyval_fn)&strdup);
                 if (*dicValArt == NULL) {
                     *dicValArt = CopiaArtista(currArt);
                 }
             }
+
+            LiberaLista(currMscArts, (free_fn)&LiberaArtista);
         }
+        LiberaLista(currPlayMscs, (free_fn)&LiberaMusica);
     }
 
     // Lista<ParChaveValor<string, int>>

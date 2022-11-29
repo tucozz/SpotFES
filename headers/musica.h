@@ -58,9 +58,9 @@ Musica *InicializaMusica(const char *id, const char *name, const int popularity,
  */
 void LiberaMusica(Musica *msc);
 
-char *GetMscId(Musica *msc);
+const char *GetMscId(const Musica *msc);
 
-char *GetMscName(Musica *msc);
+const char *GetMscName(const Musica *msc);
 
 int GetMscPopularity(const Musica *msc);
 
@@ -68,13 +68,13 @@ int GetMscDuration(const Musica *msc);
 
 bool IsExplicit(const Musica *msc);
 
-Lista *GetMscArtists(Musica *msc);
+const Lista *GetMscArtists(const Musica *msc);
 
-Lista *GetMscArtistsName(Musica *msc);
+const Lista *GetMscArtistsName(const Musica *msc);
 
-Lista *GetMscArtistsId(Musica *msc);
+const Lista *GetMscArtistsId(const Musica *msc);
 
-char *GetMscReleaseDate(Musica *msc);
+const char *GetMscReleaseDate(const Musica *msc);
 
 float GetMscDanceability(const Musica *msc);
 

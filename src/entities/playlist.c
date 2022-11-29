@@ -40,7 +40,7 @@ void LiberaPLaylist(Playlist *playlist) {
 
 char *GetNomePlaylist(Playlist *playlist) { return playlist->nome; }
 
-Lista *GetMusicasPlaylist(Playlist *playlist) { return playlist->musicas; }
+const Lista *GetMusicasPlaylist(const Playlist *playlist) { return playlist->musicas; }
 
 Lista *GetMusicasIdPlaylist(Playlist *playlist) { return playlist->musicas_id; }
 
@@ -93,7 +93,8 @@ Musica *CriaMusicaMedia(const Playlist *play) {
     float valenceM = 0;
     float tempoM = 0;
 
-    Lista *mscs = GetMusicasPlaylist(play);
+    // Lista<Musica *>
+    Lista *mscs = CopiaLista(GetMusicasPlaylist(play), (cpyval_fn)&CopiaMusica);
     int n = GetQuantidadeLista(mscs);
     for (i = 0; i < n; i++) {
         Musica *curr = AdquireElementoLista(mscs, i);
@@ -108,6 +109,7 @@ Musica *CriaMusicaMedia(const Playlist *play) {
         valenceM += GetMscValence(curr);
         tempoM += GetMscTempo(curr);
     }
+    LiberaLista(mscs, (free_fn)&LiberaMusica);
 
     danceabilityM /= n;
     energyM /= n;
