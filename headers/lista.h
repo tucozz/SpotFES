@@ -107,7 +107,7 @@ void *PopLista(Lista *lista);
  * @param cmpElem Funcao comparadora de elementos da lista
  * @return void* Indice do elemento encontrado; -1, caso nao ache
  */
-int EncontraLista(Lista *lista, void *alvo,
+int EncontraLista(Lista *lista, const void *alvo,
                   compar_fn cmpElem);
 
 /**

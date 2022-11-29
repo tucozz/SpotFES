@@ -84,7 +84,7 @@ void *PopLista(Lista *lista) {
     return r;
 }
 
-int EncontraLista(Lista *lista, void *alvo,
+int EncontraLista(Lista *lista, const void *alvo,
                   compar_fn cmpElem) {
     int n = GetQuantidadeLista(lista);
     for (int i = 0; i < n; i++)
