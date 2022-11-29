@@ -35,7 +35,7 @@ void LiberaDicionario(Dicionario *dicio) {
 }
 
 void **GetValorDicionario(Dicionario *dicio, const void *chave,
-                          void *(*copiaChave)(void *)) {
+                          cpyval_fn copiaChave) {
     int n = GetQuantidadeLista(dicio->pares);
 
     void **val = NULL; // Ponteiro para o ponteiro do valor

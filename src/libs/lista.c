@@ -100,7 +100,7 @@ void OrdenaLista(Lista *lista, int (*cmpElem)(const void *, const void *)) {
     gcmpval = NULL;
 }
 
-Lista *CopiaLista(const Lista *lista, void *(*cpyelem)(const void *)) {
+Lista *CopiaLista(const Lista *lista, cpyval_fn cpyelem) {
     Lista *cpy = InicializaLista();
 
     int i;

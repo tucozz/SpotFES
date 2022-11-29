@@ -128,6 +128,6 @@ void OrdenaLista(Lista *lista, int (*cmpElem)(const void *, const void *));
  * instancia
  * @return Lista* Uma nova instancia de @ref Lista* identica a original
  */
-Lista *CopiaLista(const Lista *lista, void *(*cpyelem)(const void *));
+Lista *CopiaLista(const Lista *lista, cpyval_fn cpyelem);
 
 #endif

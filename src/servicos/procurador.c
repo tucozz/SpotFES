@@ -93,7 +93,7 @@ Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
         if (GetQuantidadeLista(hashDistanciaLista) < k) {
             char *hash = GetMscId(msc);
             void **hshDistVal =
-                GetValorDicionario(hashDistancia, hash, &strdup);
+                GetValorDicionario(hashDistancia, hash, (cpyval_fn)&strdup);
             if (*hshDistVal == NULL) {
                 *hshDistVal = malloc(sizeof(float));
                 if (*hshDistVal == NULL)
@@ -104,7 +104,7 @@ Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
                 *((float *)*hshDistVal) = distanciaDaIdeal;
             }
 
-            void **hshMscVal = GetValorDicionario(hashMusica, hash, &strdup);
+            void **hshMscVal = GetValorDicionario(hashMusica, hash, (cpyval_fn)&strdup);
             if (*hshMscVal == NULL)
                 *hshMscVal = CopiaMusica(msc);
 
@@ -122,7 +122,7 @@ Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
 
             char *hash = GetMscId(msc);
             void **hshDistVal =
-                GetValorDicionario(hashDistancia, hash, &strdup);
+                GetValorDicionario(hashDistancia, hash, (cpyval_fn)&strdup);
             if (*hshDistVal == NULL) {
                 *hshDistVal = malloc(sizeof(float));
                 if (*hshDistVal == NULL)
@@ -140,7 +140,7 @@ Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
 
             OrdenaLista(hashDistanciaLista, &parcvfloatvalcmp);
 
-            void **hshMscVal = GetValorDicionario(hashMusica, hash, &strdup);
+            void **hshMscVal = GetValorDicionario(hashMusica, hash, (cpyval_fn)&strdup);
             if (*hshMscVal == NULL)
                 *hshMscVal = CopiaMusica(msc);
         } else
@@ -160,7 +160,7 @@ Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
         ParChaveValor *curr = AdquireElementoLista(hashDistanciaLista, i);
         char *hash = GetChaveParCV(curr);
 
-        void **hshMscVal = GetValorDicionario(hashMusica, hash, &strdup);
+        void **hshMscVal = GetValorDicionario(hashMusica, hash, (cpyval_fn)&strdup);
         if (*hshMscVal != NULL) {
             AdicionaElementoLista(mscsRecomendadas, CopiaMusica(*hshMscVal));
         }

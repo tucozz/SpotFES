@@ -22,7 +22,7 @@ Playlist *InicializaPlaylist(const char *nome, const Lista *musicas_id) {
         throwOutOfMemoryException("Playlist internal nome strdup failed");
 
     playlist->musicas = NULL;
-    playlist->musicas_id = CopiaLista(musicas_id, &strdup);
+    playlist->musicas_id = CopiaLista(musicas_id, (cpyval_fn)&strdup);
 
     return playlist;
 }
@@ -48,7 +48,7 @@ bool IncluiMusicasPlaylist(Playlist *playlist, const Lista *musicas) {
     if (playlist->musicas != NULL || musicas == NULL)
         return false;
 
-    playlist->musicas = CopiaLista(musicas, &CopiaMusica);
+    playlist->musicas = CopiaLista(musicas, (cpyval_fn)&CopiaMusica);
 
     return true;
 }

@@ -58,8 +58,8 @@ Musica *InicializaMusica(const char *id, const char *name, const int popularity,
     msc->duration_ms = duration_ms;
     msc->explicit = explicit;
     msc->artists = NULL;
-    msc->name_artists = CopiaLista(name_artists, &strdup);
-    msc->id_artists = CopiaLista(id_artists, &strdup);
+    msc->name_artists = CopiaLista(name_artists, (cpyval_fn)&strdup);
+    msc->id_artists = CopiaLista(id_artists, (cpyval_fn)&strdup);
     msc->release_date = strdup(release_date);
     if (msc->release_date == NULL)
         throwOutOfMemoryException("Musica internal release_date strdup failed");
@@ -155,7 +155,7 @@ bool IncluiMscArtistas(Musica *msc, const Lista *listart) {
     if (msc->artists != NULL || listart == NULL)
         return true;
 
-    msc->artists = CopiaLista(listart, &CopiaArtista);
+    msc->artists = CopiaLista(listart, (cpyval_fn)&CopiaArtista);
 
     return false;
 }

@@ -25,7 +25,7 @@ Artista *InicializaArtista(const char *id, const int seguidores,
         throwOutOfMemoryException("Artista internal id strdup failed");
 
     art->seguidores = seguidores;
-    art->generos = CopiaLista(generos, &strdup);
+    art->generos = CopiaLista(generos, (cpyval_fn)&strdup);
     art->name = strdup(name);
     if (art->name == NULL)
         throwOutOfMemoryException("Artista internal name strdup failed");

@@ -13,7 +13,7 @@ Dicionario *InicializaDicionario(compar_fn comparadorChaves,
 void LiberaDicionario(Dicionario *dicio);
 
 void **GetValorDicionario(Dicionario *dicio, const void *chave,
-                          void *(*copiaChave)(void *));
+                          cpyval_fn copiaChave);
 
 Lista *GetTodosParesDicionario(Dicionario *dicio);
 

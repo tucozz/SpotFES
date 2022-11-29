@@ -100,7 +100,7 @@ void GerarRelatorio(RepoMusicas *repoMsc, RepoArtistas *repoArt,
 
             // Ponteiro para o ponteiro do valor do ParChaveValor<string, int>
             void **dicValQtd =
-                GetValorDicionario(musicasQtd, currMscHash, &strdup);
+                GetValorDicionario(musicasQtd, currMscHash, (cpyval_fn)&strdup);
             if (*dicValQtd == NULL) {
                 *dicValQtd = malloc(sizeof(int));
                 if (*dicValQtd == NULL)
@@ -114,7 +114,7 @@ void GerarRelatorio(RepoMusicas *repoMsc, RepoArtistas *repoArt,
 
             
             void **dicValMsc =
-                GetValorDicionario(musicas, currMscHash, &strdup);
+                GetValorDicionario(musicas, currMscHash, (cpyval_fn)&strdup);
             if (*dicValMsc == NULL) {
                 CompletaMusica(currMsc, repoArt);
                 *dicValMsc = CopiaMusica(currMsc);
@@ -134,7 +134,7 @@ void GerarRelatorio(RepoMusicas *repoMsc, RepoArtistas *repoArt,
                 // Ponteiro para o ponteiro do valor do
                 // ParChaveValor<string, int>
                 void **dicValQtd =
-                    GetValorDicionario(artistasQtd, currArtHash, &strdup);
+                    GetValorDicionario(artistasQtd, currArtHash, (cpyval_fn)&strdup);
                 if (*dicValQtd == NULL) {
                     *dicValQtd = malloc(sizeof(int));
                     if (*dicValQtd == NULL)
@@ -148,7 +148,7 @@ void GerarRelatorio(RepoMusicas *repoMsc, RepoArtistas *repoArt,
                 }
 
                 void **dicValArt =
-                    GetValorDicionario(artistas, currArtHash, &strdup);
+                    GetValorDicionario(artistas, currArtHash, (cpyval_fn)&strdup);
                 if (*dicValArt == NULL) {
                     *dicValArt = CopiaArtista(currArt);
                 }
@@ -172,7 +172,7 @@ void GerarRelatorio(RepoMusicas *repoMsc, RepoArtistas *repoArt,
     for (int i = 0; i < n; i++) {
         ParChaveValor *curr = AdquireElementoLista(paresMscQtd, i);
         char *hash = GetChaveParCV(curr);
-        void **ptrmsc = GetValorDicionario(musicas, hash, &strdup);
+        void **ptrmsc = GetValorDicionario(musicas, hash, (cpyval_fn)&strdup);
         SalvaMusicaCsv(fcsv, *ptrmsc);
     }
 
@@ -194,7 +194,7 @@ void GerarRelatorio(RepoMusicas *repoMsc, RepoArtistas *repoArt,
     for (int i = 0; i < n; i++) {
         ParChaveValor *curr = AdquireElementoLista(paresArtQtd, i);
         char *hash = GetChaveParCV(curr);
-        void **ptrmsc = GetValorDicionario(artistas, hash, &strdup);
+        void **ptrmsc = GetValorDicionario(artistas, hash, (cpyval_fn)&strdup);
         SalvaArtistaCsv(fcsv, *ptrmsc);
     }
 
