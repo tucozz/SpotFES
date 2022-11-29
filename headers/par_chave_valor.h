@@ -1,11 +1,12 @@
 #ifndef _PAR_CHAVE_VALOR_
 #define _PAR_CHAVE_VALOR_
 
+#include "types.h"
+
 typedef struct tParChaveValor ParChaveValor;
 
-ParChaveValor *InicializaParCV(void *chave, void *valor,
-                               void (*liberaChave)(void *),
-                               void (*liberaValor)(void *));
+ParChaveValor *InicializaParCV(void *chave, void *valor, free_fn liberaChave,
+                               free_fn liberaValor);
 
 void LiberaParCV(ParChaveValor *par);
 

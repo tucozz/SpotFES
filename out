@@ -1,0 +1,342 @@
+src/libs/cpylib.c: In function ‘mesclaArr’:
+src/libs/cpylib.c:25:21: warning: pointer of type ‘void *’ used in arithmetic [-Wpointer-arith]
+   25 |         memcpy(vetE + i * __size, base + (d + i) * __size, __size);
+      |                     ^
+src/libs/cpylib.c:25:40: warning: pointer of type ‘void *’ used in arithmetic [-Wpointer-arith]
+   25 |         memcpy(vetE + i * __size, base + (d + i) * __size, __size);
+      |                                        ^
+src/libs/cpylib.c:29:21: warning: pointer of type ‘void *’ used in arithmetic [-Wpointer-arith]
+   29 |         memcpy(vetD + j * __size, base + (m + 1 + j) * __size, __size);
+      |                     ^
+src/libs/cpylib.c:29:40: warning: pointer of type ‘void *’ used in arithmetic [-Wpointer-arith]
+   29 |         memcpy(vetD + j * __size, base + (m + 1 + j) * __size, __size);
+      |                                        ^
+src/libs/cpylib.c:36:27: warning: pointer of type ‘void *’ used in arithmetic [-Wpointer-arith]
+   36 |         if (__compar(vetE + i * __size, vetD + j * __size) <= 0) {
+      |                           ^
+src/libs/cpylib.c:36:46: warning: pointer of type ‘void *’ used in arithmetic [-Wpointer-arith]
+   36 |         if (__compar(vetE + i * __size, vetD + j * __size) <= 0) {
+      |                                              ^
+src/libs/cpylib.c:37:25: warning: pointer of type ‘void *’ used in arithmetic [-Wpointer-arith]
+   37 |             memcpy(base + k * __size, vetE + i * __size, __size);
+      |                         ^
+src/libs/cpylib.c:37:44: warning: pointer of type ‘void *’ used in arithmetic [-Wpointer-arith]
+   37 |             memcpy(base + k * __size, vetE + i * __size, __size);
+      |                                            ^
+src/libs/cpylib.c:40:25: warning: pointer of type ‘void *’ used in arithmetic [-Wpointer-arith]
+   40 |             memcpy(base + k * __size, vetD + j * __size, __size);
+      |                         ^
+src/libs/cpylib.c:40:44: warning: pointer of type ‘void *’ used in arithmetic [-Wpointer-arith]
+   40 |             memcpy(base + k * __size, vetD + j * __size, __size);
+      |                                            ^
+src/libs/cpylib.c:47:21: warning: pointer of type ‘void *’ used in arithmetic [-Wpointer-arith]
+   47 |         memcpy(base + k * __size, vetE + i * __size, __size);
+      |                     ^
+src/libs/cpylib.c:47:40: warning: pointer of type ‘void *’ used in arithmetic [-Wpointer-arith]
+   47 |         memcpy(base + k * __size, vetE + i * __size, __size);
+      |                                        ^
+src/libs/cpylib.c:53:21: warning: pointer of type ‘void *’ used in arithmetic [-Wpointer-arith]
+   53 |         memcpy(base + k * __size, vetD + j * __size, __size);
+      |                     ^
+src/libs/cpylib.c:53:40: warning: pointer of type ‘void *’ used in arithmetic [-Wpointer-arith]
+   53 |         memcpy(base + k * __size, vetD + j * __size, __size);
+      |                                        ^
+src/libs/lista.c: In function ‘OrdenaLista’:
+src/libs/lista.c:99:58: warning: passing argument 4 of ‘qsortcpy’ from incompatible pointer type [-Wincompatible-pointer-types]
+   99 |     qsortcpy(lista->arr, lista->qtd, __SIZEOF_POINTER__, &ptrvalcmp);
+      |                                                          ^~~~~~~~~~
+      |                                                          |
+      |                                                          int (*)(const void **, const void **)
+In file included from src/libs/lista.c:5:
+headers/cpylib.h:15:70: note: expected ‘compar_fn’ {aka ‘int (*)(const void *, const void *)’} but argument is of type ‘int (*)(const void **, const void **)’
+   15 | void qsortcpy(void *__base, size_t __nmemb, size_t __size, compar_fn __compar);
+      |                                                            ~~~~~~~~~~^~~~~~~~
+src/libs/dicionario.c: In function ‘GetValorDicionario’:
+src/libs/dicionario.c:56:41: warning: passing argument 1 of ‘copiaChave’ discards ‘const’ qualifier from pointer target type [-Wdiscarded-qualifiers]
+   56 |         char *cpy_chave = (*copiaChave)(chave);
+      |                                         ^~~~~
+src/libs/dicionario.c:56:41: note: expected ‘void *’ but argument is of type ‘const void *’
+src/servicos/procurador.c: In function ‘parcvfloatvalcmp’:
+src/servicos/procurador.c:52:42: warning: passing argument 1 of ‘GetValorParCV’ discards ‘const’ qualifier from pointer target type [-Wdiscarded-qualifiers]
+   52 |     float diff = *(float *)GetValorParCV(a) - *(float *)GetValorParCV(b);
+      |                                          ^
+In file included from src/servicos/procurador.c:9:
+headers/par_chave_valor.h:14:7: note: expected ‘ParChaveValor *’ {aka ‘struct tParChaveValor *’} but argument is of type ‘const ParChaveValor *’ {aka ‘const struct tParChaveValor *’}
+   14 | void *GetValorParCV(ParChaveValor *par);
+      |       ^~~~~~~~~~~~~
+src/servicos/procurador.c:52:71: warning: passing argument 1 of ‘GetValorParCV’ discards ‘const’ qualifier from pointer target type [-Wdiscarded-qualifiers]
+   52 |     float diff = *(float *)GetValorParCV(a) - *(float *)GetValorParCV(b);
+      |                                                                       ^
+In file included from src/servicos/procurador.c:9:
+headers/par_chave_valor.h:14:7: note: expected ‘ParChaveValor *’ {aka ‘struct tParChaveValor *’} but argument is of type ‘const ParChaveValor *’ {aka ‘const struct tParChaveValor *’}
+   14 | void *GetValorParCV(ParChaveValor *par);
+      |       ^~~~~~~~~~~~~
+src/servicos/procurador.c: In function ‘RecomendaMusicas’:
+src/servicos/procurador.c:66:30: warning: passing argument 1 of ‘InicializaDicionario’ from incompatible pointer type [-Wincompatible-pointer-types]
+   66 |         InicializaDicionario(&strcmp, &free, (free_fn)&LiberaMusica);
+      |                              ^~~~~~~
+      |                              |
+      |                              int (*)(const char *, const char *)
+In file included from src/servicos/procurador.c:7:
+headers/dicionario.h:9:13: note: expected ‘compar_fn’ {aka ‘int (*)(const void *, const void *)’} but argument is of type ‘int (*)(const char *, const char *)’
+    9 | Dicionario *InicializaDicionario(compar_fn comparadorChaves,
+      |             ^~~~~~~~~~~~~~~~~~~~
+src/servicos/procurador.c:96:57: warning: passing argument 3 of ‘GetValorDicionario’ from incompatible pointer type [-Wincompatible-pointer-types]
+   96 |                 GetValorDicionario(hashDistancia, hash, &strdup);
+      |                                                         ^~~~~~~
+      |                                                         |
+      |                                                         char * (*)(const char *)
+In file included from src/servicos/procurador.c:7:
+headers/dicionario.h:15:8: note: expected ‘void * (*)(void *)’ but argument is of type ‘char * (*)(const char *)’
+   15 | void **GetValorDicionario(Dicionario *dicio, const void *chave,
+      |        ^~~~~~~~~~~~~~~~~~
+src/servicos/procurador.c:107:69: warning: passing argument 3 of ‘GetValorDicionario’ from incompatible pointer type [-Wincompatible-pointer-types]
+  107 |             void **hshMscVal = GetValorDicionario(hashMusica, hash, &strdup);
+      |                                                                     ^~~~~~~
+      |                                                                     |
+      |                                                                     char * (*)(const char *)
+In file included from src/servicos/procurador.c:7:
+headers/dicionario.h:15:8: note: expected ‘void * (*)(void *)’ but argument is of type ‘char * (*)(const char *)’
+   15 | void **GetValorDicionario(Dicionario *dicio, const void *chave,
+      |        ^~~~~~~~~~~~~~~~~~
+src/servicos/procurador.c:115:45: warning: passing argument 2 of ‘OrdenaLista’ from incompatible pointer type [-Wincompatible-pointer-types]
+  115 |             OrdenaLista(hashDistanciaLista, &parcvfloatvalcmp);
+      |                                             ^~~~~~~~~~~~~~~~~
+      |                                             |
+      |                                             int (*)(const ParChaveValor *, const ParChaveValor *) {aka int (*)(const struct tParChaveValor *, const struct tParChaveValor *)}
+In file included from headers/playlist.h:4,
+                 from headers/procurador.h:4,
+                 from src/servicos/procurador.c:5:
+headers/lista.h:119:38: note: expected ‘int (*)(const void *, const void *)’ but argument is of type ‘int (*)(const ParChaveValor *, const ParChaveValor *)’ {aka ‘int (*)(const struct tParChaveValor *, const struct tParChaveValor *)’}
+  119 | void OrdenaLista(Lista *lista, int (*cmpElem)(const void *, const void *));
+      |                                ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/servicos/procurador.c:125:57: warning: passing argument 3 of ‘GetValorDicionario’ from incompatible pointer type [-Wincompatible-pointer-types]
+  125 |                 GetValorDicionario(hashDistancia, hash, &strdup);
+      |                                                         ^~~~~~~
+      |                                                         |
+      |                                                         char * (*)(const char *)
+In file included from src/servicos/procurador.c:7:
+headers/dicionario.h:15:8: note: expected ‘void * (*)(void *)’ but argument is of type ‘char * (*)(const char *)’
+   15 | void **GetValorDicionario(Dicionario *dicio, const void *chave,
+      |        ^~~~~~~~~~~~~~~~~~
+src/servicos/procurador.c:141:45: warning: passing argument 2 of ‘OrdenaLista’ from incompatible pointer type [-Wincompatible-pointer-types]
+  141 |             OrdenaLista(hashDistanciaLista, &parcvfloatvalcmp);
+      |                                             ^~~~~~~~~~~~~~~~~
+      |                                             |
+      |                                             int (*)(const ParChaveValor *, const ParChaveValor *) {aka int (*)(const struct tParChaveValor *, const struct tParChaveValor *)}
+In file included from headers/playlist.h:4,
+                 from headers/procurador.h:4,
+                 from src/servicos/procurador.c:5:
+headers/lista.h:119:38: note: expected ‘int (*)(const void *, const void *)’ but argument is of type ‘int (*)(const ParChaveValor *, const ParChaveValor *)’ {aka ‘int (*)(const struct tParChaveValor *, const struct tParChaveValor *)’}
+  119 | void OrdenaLista(Lista *lista, int (*cmpElem)(const void *, const void *));
+      |                                ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/servicos/procurador.c:143:69: warning: passing argument 3 of ‘GetValorDicionario’ from incompatible pointer type [-Wincompatible-pointer-types]
+  143 |             void **hshMscVal = GetValorDicionario(hashMusica, hash, &strdup);
+      |                                                                     ^~~~~~~
+      |                                                                     |
+      |                                                                     char * (*)(const char *)
+In file included from src/servicos/procurador.c:7:
+headers/dicionario.h:15:8: note: expected ‘void * (*)(void *)’ but argument is of type ‘char * (*)(const char *)’
+   15 | void **GetValorDicionario(Dicionario *dicio, const void *chave,
+      |        ^~~~~~~~~~~~~~~~~~
+src/servicos/procurador.c:151:41: warning: passing argument 2 of ‘OrdenaLista’ from incompatible pointer type [-Wincompatible-pointer-types]
+  151 |         OrdenaLista(hashDistanciaLista, &parcvfloatvalcmp);
+      |                                         ^~~~~~~~~~~~~~~~~
+      |                                         |
+      |                                         int (*)(const ParChaveValor *, const ParChaveValor *) {aka int (*)(const struct tParChaveValor *, const struct tParChaveValor *)}
+In file included from headers/playlist.h:4,
+                 from headers/procurador.h:4,
+                 from src/servicos/procurador.c:5:
+headers/lista.h:119:38: note: expected ‘int (*)(const void *, const void *)’ but argument is of type ‘int (*)(const ParChaveValor *, const ParChaveValor *)’ {aka ‘int (*)(const struct tParChaveValor *, const struct tParChaveValor *)’}
+  119 | void OrdenaLista(Lista *lista, int (*cmpElem)(const void *, const void *));
+      |                                ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/servicos/procurador.c:163:65: warning: passing argument 3 of ‘GetValorDicionario’ from incompatible pointer type [-Wincompatible-pointer-types]
+  163 |         void **hshMscVal = GetValorDicionario(hashMusica, hash, &strdup);
+      |                                                                 ^~~~~~~
+      |                                                                 |
+      |                                                                 char * (*)(const char *)
+In file included from src/servicos/procurador.c:7:
+headers/dicionario.h:15:8: note: expected ‘void * (*)(void *)’ but argument is of type ‘char * (*)(const char *)’
+   15 | void **GetValorDicionario(Dicionario *dicio, const void *chave,
+      |        ^~~~~~~~~~~~~~~~~~
+src/entities/musica.c: In function ‘InicializaMusica’:
+src/entities/musica.c:61:50: warning: passing argument 2 of ‘CopiaLista’ from incompatible pointer type [-Wincompatible-pointer-types]
+   61 |     msc->name_artists = CopiaLista(name_artists, &strdup);
+      |                                                  ^~~~~~~
+      |                                                  |
+      |                                                  char * (*)(const char *)
+In file included from headers/musica.h:6,
+                 from src/entities/musica.c:5:
+headers/lista.h:129:8: note: expected ‘void * (*)(const void *)’ but argument is of type ‘char * (*)(const char *)’
+  129 | Lista *CopiaLista(const Lista *lista, void *(*cpyelem)(const void *));
+      |        ^~~~~~~~~~
+src/entities/musica.c:62:46: warning: passing argument 2 of ‘CopiaLista’ from incompatible pointer type [-Wincompatible-pointer-types]
+   62 |     msc->id_artists = CopiaLista(id_artists, &strdup);
+      |                                              ^~~~~~~
+      |                                              |
+      |                                              char * (*)(const char *)
+In file included from headers/musica.h:6,
+                 from src/entities/musica.c:5:
+headers/lista.h:129:8: note: expected ‘void * (*)(const void *)’ but argument is of type ‘char * (*)(const char *)’
+  129 | Lista *CopiaLista(const Lista *lista, void *(*cpyelem)(const void *));
+      |        ^~~~~~~~~~
+src/entities/musica.c: In function ‘IncluiMscArtistas’:
+src/entities/musica.c:158:40: warning: passing argument 2 of ‘CopiaLista’ from incompatible pointer type [-Wincompatible-pointer-types]
+  158 |     msc->artists = CopiaLista(listart, &CopiaArtista);
+      |                                        ^~~~~~~~~~~~~
+      |                                        |
+      |                                        Artista * (*)(const Artista *) {aka struct tArtista * (*)(const struct tArtista *)}
+In file included from headers/musica.h:6,
+                 from src/entities/musica.c:5:
+headers/lista.h:129:8: note: expected ‘void * (*)(const void *)’ but argument is of type ‘Artista * (*)(const Artista *)’ {aka ‘struct tArtista * (*)(const struct tArtista *)’}
+  129 | Lista *CopiaLista(const Lista *lista, void *(*cpyelem)(const void *));
+      |        ^~~~~~~~~~
+src/entities/artista.c: In function ‘InicializaArtista’:
+src/entities/artista.c:28:40: warning: passing argument 2 of ‘CopiaLista’ from incompatible pointer type [-Wincompatible-pointer-types]
+   28 |     art->generos = CopiaLista(generos, &strdup);
+      |                                        ^~~~~~~
+      |                                        |
+      |                                        char * (*)(const char *)
+In file included from headers/artista.h:4,
+                 from src/entities/artista.c:4:
+headers/lista.h:129:8: note: expected ‘void * (*)(const void *)’ but argument is of type ‘char * (*)(const char *)’
+  129 | Lista *CopiaLista(const Lista *lista, void *(*cpyelem)(const void *));
+      |        ^~~~~~~~~~
+src/entities/playlist.c: In function ‘InicializaPlaylist’:
+src/entities/playlist.c:25:51: warning: passing argument 2 of ‘CopiaLista’ from incompatible pointer type [-Wincompatible-pointer-types]
+   25 |     playlist->musicas_id = CopiaLista(musicas_id, &strdup);
+      |                                                   ^~~~~~~
+      |                                                   |
+      |                                                   char * (*)(const char *)
+In file included from headers/playlist.h:4,
+                 from src/entities/playlist.c:4:
+headers/lista.h:129:8: note: expected ‘void * (*)(const void *)’ but argument is of type ‘char * (*)(const char *)’
+  129 | Lista *CopiaLista(const Lista *lista, void *(*cpyelem)(const void *));
+      |        ^~~~~~~~~~
+src/entities/playlist.c: In function ‘IncluiMusicasPlaylist’:
+src/entities/playlist.c:51:45: warning: passing argument 2 of ‘CopiaLista’ from incompatible pointer type [-Wincompatible-pointer-types]
+   51 |     playlist->musicas = CopiaLista(musicas, &CopiaMusica);
+      |                                             ^~~~~~~~~~~~
+      |                                             |
+      |                                             Musica * (*)(const Musica *) {aka struct tMusica * (*)(const struct tMusica *)}
+In file included from headers/playlist.h:4,
+                 from src/entities/playlist.c:4:
+headers/lista.h:129:8: note: expected ‘void * (*)(const void *)’ but argument is of type ‘Musica * (*)(const Musica *)’ {aka ‘struct tMusica * (*)(const struct tMusica *)’}
+  129 | Lista *CopiaLista(const Lista *lista, void *(*cpyelem)(const void *));
+      |        ^~~~~~~~~~
+src/entities/playlist.c: In function ‘AdicionaMusicaPlaylist’:
+src/entities/playlist.c:60:54: warning: passing argument 1 of ‘GetMscId’ discards ‘const’ qualifier from pointer target type [-Wdiscarded-qualifiers]
+   60 |     if (EncontraLista(playlist->musicas_id, GetMscId(msc),
+      |                                                      ^~~
+In file included from headers/playlist.h:5,
+                 from src/entities/playlist.c:4:
+headers/musica.h:61:7: note: expected ‘Musica *’ {aka ‘struct tMusica *’} but argument is of type ‘const Musica *’ {aka ‘const struct tMusica *’}
+   61 | char *GetMscId(Musica *msc);
+      |       ^~~~~~~~
+src/entities/playlist.c:67:36: warning: passing argument 1 of ‘GetMscId’ discards ‘const’ qualifier from pointer target type [-Wdiscarded-qualifiers]
+   67 |     char *msc_id = strdup(GetMscId(msc));
+      |                                    ^~~
+In file included from headers/playlist.h:5,
+                 from src/entities/playlist.c:4:
+headers/musica.h:61:7: note: expected ‘Musica *’ {aka ‘struct tMusica *’} but argument is of type ‘const Musica *’ {aka ‘const struct tMusica *’}
+   61 | char *GetMscId(Musica *msc);
+      |       ^~~~~~~~
+src/entities/playlist.c: In function ‘CriaMusicaMedia’:
+src/entities/playlist.c:96:38: warning: passing argument 1 of ‘GetMusicasPlaylist’ discards ‘const’ qualifier from pointer target type [-Wdiscarded-qualifiers]
+   96 |     Lista *mscs = GetMusicasPlaylist(play);
+      |                                      ^~~~
+src/entities/playlist.c:43:37: note: expected ‘Playlist *’ {aka ‘struct tPlaylist *’} but argument is of type ‘const Playlist *’ {aka ‘const struct tPlaylist *’}
+   43 | Lista *GetMusicasPlaylist(Playlist *playlist) { return playlist->musicas; }
+      |                           ~~~~~~~~~~^~~~~~~~
+src/utils/relatorio.c: In function ‘OrdenaDescListaPCVPorValor’:
+src/utils/relatorio.c:63:36: warning: passing argument 1 of ‘GetValorParCV’ discards ‘const’ qualifier from pointer target type [-Wdiscarded-qualifiers]
+   63 |     int lV = *(int *)GetValorParCV(a);
+      |                                    ^
+In file included from src/utils/relatorio.c:9:
+headers/par_chave_valor.h:14:7: note: expected ‘ParChaveValor *’ {aka ‘struct tParChaveValor *’} but argument is of type ‘const ParChaveValor *’ {aka ‘const struct tParChaveValor *’}
+   14 | void *GetValorParCV(ParChaveValor *par);
+      |       ^~~~~~~~~~~~~
+src/utils/relatorio.c:64:36: warning: passing argument 1 of ‘GetValorParCV’ discards ‘const’ qualifier from pointer target type [-Wdiscarded-qualifiers]
+   64 |     int rV = *(int *)GetValorParCV(b);
+      |                                    ^
+In file included from src/utils/relatorio.c:9:
+headers/par_chave_valor.h:14:7: note: expected ‘ParChaveValor *’ {aka ‘struct tParChaveValor *’} but argument is of type ‘const ParChaveValor *’ {aka ‘const struct tParChaveValor *’}
+   14 | void *GetValorParCV(ParChaveValor *par);
+      |       ^~~~~~~~~~~~~
+src/utils/relatorio.c: In function ‘GerarRelatorio’:
+src/utils/relatorio.c:103:61: warning: passing argument 3 of ‘GetValorDicionario’ from incompatible pointer type [-Wincompatible-pointer-types]
+  103 |                 GetValorDicionario(musicasQtd, currMscHash, &strdup);
+      |                                                             ^~~~~~~
+      |                                                             |
+      |                                                             char * (*)(const char *)
+In file included from src/utils/relatorio.c:7:
+headers/dicionario.h:15:8: note: expected ‘void * (*)(void *)’ but argument is of type ‘char * (*)(const char *)’
+   15 | void **GetValorDicionario(Dicionario *dicio, const void *chave,
+      |        ^~~~~~~~~~~~~~~~~~
+src/utils/relatorio.c:117:58: warning: passing argument 3 of ‘GetValorDicionario’ from incompatible pointer type [-Wincompatible-pointer-types]
+  117 |                 GetValorDicionario(musicas, currMscHash, &strdup);
+      |                                                          ^~~~~~~
+      |                                                          |
+      |                                                          char * (*)(const char *)
+In file included from src/utils/relatorio.c:7:
+headers/dicionario.h:15:8: note: expected ‘void * (*)(void *)’ but argument is of type ‘char * (*)(const char *)’
+   15 | void **GetValorDicionario(Dicionario *dicio, const void *chave,
+      |        ^~~~~~~~~~~~~~~~~~
+src/utils/relatorio.c:137:66: warning: passing argument 3 of ‘GetValorDicionario’ from incompatible pointer type [-Wincompatible-pointer-types]
+  137 |                     GetValorDicionario(artistasQtd, currArtHash, &strdup);
+      |                                                                  ^~~~~~~
+      |                                                                  |
+      |                                                                  char * (*)(const char *)
+In file included from src/utils/relatorio.c:7:
+headers/dicionario.h:15:8: note: expected ‘void * (*)(void *)’ but argument is of type ‘char * (*)(const char *)’
+   15 | void **GetValorDicionario(Dicionario *dicio, const void *chave,
+      |        ^~~~~~~~~~~~~~~~~~
+src/utils/relatorio.c:151:63: warning: passing argument 3 of ‘GetValorDicionario’ from incompatible pointer type [-Wincompatible-pointer-types]
+  151 |                     GetValorDicionario(artistas, currArtHash, &strdup);
+      |                                                               ^~~~~~~
+      |                                                               |
+      |                                                               char * (*)(const char *)
+In file included from src/utils/relatorio.c:7:
+headers/dicionario.h:15:8: note: expected ‘void * (*)(void *)’ but argument is of type ‘char * (*)(const char *)’
+   15 | void **GetValorDicionario(Dicionario *dicio, const void *chave,
+      |        ^~~~~~~~~~~~~~~~~~
+src/utils/relatorio.c:162:30: warning: passing argument 2 of ‘OrdenaLista’ from incompatible pointer type [-Wincompatible-pointer-types]
+  162 |     OrdenaLista(paresMscQtd, &OrdenaDescListaPCVPorValor);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |                              |
+      |                              int (*)(const ParChaveValor *, const ParChaveValor *) {aka int (*)(const struct tParChaveValor *, const struct tParChaveValor *)}
+In file included from headers/playlist.h:4,
+                 from headers/relatorio.h:4,
+                 from src/utils/relatorio.c:5:
+headers/lista.h:119:38: note: expected ‘int (*)(const void *, const void *)’ but argument is of type ‘int (*)(const ParChaveValor *, const ParChaveValor *)’ {aka ‘int (*)(const struct tParChaveValor *, const struct tParChaveValor *)’}
+  119 | void OrdenaLista(Lista *lista, int (*cmpElem)(const void *, const void *));
+      |                                ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/utils/relatorio.c:175:59: warning: passing argument 3 of ‘GetValorDicionario’ from incompatible pointer type [-Wincompatible-pointer-types]
+  175 |         void **ptrmsc = GetValorDicionario(musicas, hash, &strdup);
+      |                                                           ^~~~~~~
+      |                                                           |
+      |                                                           char * (*)(const char *)
+In file included from src/utils/relatorio.c:7:
+headers/dicionario.h:15:8: note: expected ‘void * (*)(void *)’ but argument is of type ‘char * (*)(const char *)’
+   15 | void **GetValorDicionario(Dicionario *dicio, const void *chave,
+      |        ^~~~~~~~~~~~~~~~~~
+src/utils/relatorio.c:184:30: warning: passing argument 2 of ‘OrdenaLista’ from incompatible pointer type [-Wincompatible-pointer-types]
+  184 |     OrdenaLista(paresArtQtd, &OrdenaDescListaPCVPorValor);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |                              |
+      |                              int (*)(const ParChaveValor *, const ParChaveValor *) {aka int (*)(const struct tParChaveValor *, const struct tParChaveValor *)}
+In file included from headers/playlist.h:4,
+                 from headers/relatorio.h:4,
+                 from src/utils/relatorio.c:5:
+headers/lista.h:119:38: note: expected ‘int (*)(const void *, const void *)’ but argument is of type ‘int (*)(const ParChaveValor *, const ParChaveValor *)’ {aka ‘int (*)(const struct tParChaveValor *, const struct tParChaveValor *)’}
+  119 | void OrdenaLista(Lista *lista, int (*cmpElem)(const void *, const void *));
+      |                                ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/utils/relatorio.c:197:60: warning: passing argument 3 of ‘GetValorDicionario’ from incompatible pointer type [-Wincompatible-pointer-types]
+  197 |         void **ptrmsc = GetValorDicionario(artistas, hash, &strdup);
+      |                                                            ^~~~~~~
+      |                                                            |
+      |                                                            char * (*)(const char *)
+In file included from src/utils/relatorio.c:7:
+headers/dicionario.h:15:8: note: expected ‘void * (*)(void *)’ but argument is of type ‘char * (*)(const char *)’
+   15 | void **GetValorDicionario(Dicionario *dicio, const void *chave,
+      |        ^~~~~~~~~~~~~~~~~~

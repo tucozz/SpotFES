@@ -7,13 +7,12 @@
 struct tParChaveValor {
     void *chave;
     void *valor;
-    void (*liberaChave)(void *);
-    void (*liberaValor)(void *);
+    free_fn liberaChave;
+    free_fn liberaValor;
 };
 
-ParChaveValor *InicializaParCV(void *chave, void *valor,
-                               void (*liberaChave)(void *),
-                               void (*liberaValor)(void *)) {
+ParChaveValor *InicializaParCV(void *chave, void *valor, free_fn liberaChave,
+                               free_fn liberaValor) {
     ParChaveValor *par = malloc(sizeof *par);
     if (par == NULL)
         throwOutOfMemoryException("ParChaveValor malloc failed");

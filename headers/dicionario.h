@@ -7,8 +7,8 @@
 typedef struct tDicionario Dicionario;
 
 Dicionario *InicializaDicionario(compar_fn comparadorChaves,
-                                 void (*liberaChaves)(void *),
-                                 void (*liberaValores)(void *));
+                                 free_fn liberaChaves,
+                                 free_fn liberaValores);
 
 void LiberaDicionario(Dicionario *dicio);
 

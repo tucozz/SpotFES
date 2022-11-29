@@ -9,13 +9,13 @@
 struct tDicionario {
     Lista *pares; // Lista<ParChaveValor<void*, void*>>
     compar_fn comparadorChaves;
-    void (*liberaChaves)(void *);
-    void (*liberaValores)(void *);
+    free_fn liberaChaves;
+    free_fn liberaValores;
 };
 
 Dicionario *InicializaDicionario(compar_fn comparadorChaves,
-                                 void (*liberaChaves)(void *),
-                                 void (*liberaValores)(void *)) {
+                                 free_fn liberaChaves,
+                                 free_fn liberaValores) {
     Dicionario *dicio = malloc(sizeof *dicio);
     if (dicio == NULL)
         throwOutOfMemoryException("Dicionario malloc failed");

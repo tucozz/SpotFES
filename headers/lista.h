@@ -41,6 +41,8 @@
 #ifndef _LISTA_
 #define _LISTA_
 
+#include "types.h"
+
 typedef struct tLista Lista;
 
 /**
@@ -57,7 +59,7 @@ Lista *InicializaLista();
  * @param lista Uma instancia de @ref Lista
  * @param liberaElem Uma funcao destrutora dos elementos da lista
  */
-void LiberaLista(Lista *lista, void (*liberaElem)(void *));
+void LiberaLista(Lista *lista, free_fn liberaElem);
 
 /**
  * @brief Adquire o tamanho dessa @p lista

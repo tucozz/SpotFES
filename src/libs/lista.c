@@ -29,7 +29,7 @@ Lista *InicializaLista() {
     return lista;
 }
 
-void LiberaLista(Lista *lista, void (*liberaElem)(void *)) {
+void LiberaLista(Lista *lista, free_fn liberaElem) {
     for (int i = 0; i < lista->qtd; i++)
         (*liberaElem)(lista->arr[i]);
 
