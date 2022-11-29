@@ -116,7 +116,7 @@ void ListarTodasPlaylists(Lista *lista, int n, int m) {
     printf("Indice: | Nome:                          | Numero de Musicas:\n");
 
     for (i = n; i < m; i++) {
-        ListarPlaylist(AdquireElementoLista(lista, i), i + 1);
+        ListarPlaylist(AdquireElementoLista(lista, i), i);
     }
     printf("\n");
 }

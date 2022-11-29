@@ -5,6 +5,7 @@
 #include "app.h"
 
 #include "detalha_musica_menu.h"
+#include "detalha_playlist_menu.h"
 #include "encontra_musica_menu.h"
 #include "erro_menu.h"
 #include "exception.h"
@@ -77,7 +78,8 @@ void RodaApp(App *app) {
         printf("[f] Buscar músicas\n"
                "[h] Listar uma música\n"
                "[c] Criar uma playlist\n"
-               "[g] Listar suas Playlists\n"
+               "[g] Listar playlists\n"
+               "[v] Listar uma playlist\n"
                "[r] Exportar Relatório\n"
                "[b] Sobre\n"
                "[q] Sair\n");
@@ -137,6 +139,30 @@ void RodaApp(App *app) {
 
         case 'g':;
             ListarTodasPlaylistsMenu(app, NULL);
+            break;
+
+        case 'v':;
+            if (GetQuantidadeLista(GetPlaylistsApp(app)) == 0) {
+                ErroMenu("Primeiro, crie uma playlist na funcionalidade [c]");
+                break;
+            }
+            system("@cls||clear");
+            printf("Digite o Indice da playlist desejada:\n");
+
+            int indice;
+            scanf("%d%*c", &indice);
+
+            if (indice < 0 ||
+                indice >= GetQuantidadeLista(GetPlaylistsApp(app))) {
+                ErroMenu("Ops! Indique um indice valido para detalhar a "
+                         "playlist.");
+                break;
+            }
+
+            Playlist *currPlay =
+                AdquireElementoLista(GetPlaylistsApp(app), indice);
+
+            DetalhaPlaylistMenu(app, currPlay, NULL);
             break;
 
         case 'r':;

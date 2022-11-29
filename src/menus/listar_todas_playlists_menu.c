@@ -13,50 +13,11 @@
 #include "procurador.h"
 
 void ListarTodasPlaylistsMenu(App *app, Musica *mscOrig) {
-    while (true) {
-        system("@cls||clear");
+    system("@cls||clear");
 
-        ListarTodasPlaylists(GetPlaylistsApp(app), 0,
-                             GetQuantidadeLista(GetPlaylistsApp(app)));
+    ListarTodasPlaylists(GetPlaylistsApp(app), 0,
+                         GetQuantidadeLista(GetPlaylistsApp(app)));
 
-        printf("[c] Criar Playlist\n");
-        if (GetQuantidadeLista(GetPlaylistsApp(app)) > 0)
-            printf("[d] Detalhar Playlist\n");
-        printf("[q] Sair\n");
-
-        char curr;
-        scanf("%c%*c", &curr);
-
-        if (GetQuantidadeLista(GetPlaylistsApp(app)) > 0 &&
-                   curr == 'd') {
-            int indice;
-            while (true) {
-                system("@cls||clear");
-                ListarTodasPlaylists(GetPlaylistsApp(app), 0,
-                                     GetQuantidadeLista(GetPlaylistsApp(app)));
-
-                printf("Digite o Indice da playlist desejada:\n");
-                scanf("%d%*c", &indice);
-                indice--;
-
-                if (indice >= 0 &&
-                    indice < GetQuantidadeLista(GetPlaylistsApp(app)))
-                    break;
-
-                ErroMenu("Ops! Indique um indice valido para detalhar a "
-                         "playlist.");
-            }
-
-            Playlist *currPlay =
-                AdquireElementoLista(GetPlaylistsApp(app), indice);
-
-            DetalhaPlaylistMenu(app, currPlay, mscOrig);
-        } else if (curr == 'q')
-            return;
-
-        else {
-            ErroMenu("Ops! Acao invalida. Favor especificar funcionalidade "
-                     "desejada");
-        }
-    }
+    printf("pressione ENTER para continuar...");
+    scanf("%*c");
 }
