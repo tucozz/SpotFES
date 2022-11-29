@@ -147,9 +147,6 @@ Lista *RecomendaMusicas(Playlist *playlist, int k, RepoMusicas *repo) {
             AdicionaElementoLista(hashDistanciaLista, maisDistante);
     }
 
-    if (GetQuantidadeLista(hashDistanciaLista) < k)
-        OrdenaLista(hashDistanciaLista, (compar_fn)&parcvfloatvalcmp);
-
     LiberaMusica(ideal);
 
     Lista *mscsRecomendadas = InicializaLista(); // Lista<Musica *>
